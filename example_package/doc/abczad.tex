@@ -1,0 +1,100 @@
+\documentclass[zad,zawodnik]{sinol}
+\title{Tytuł}
+\id{abc}
+\signature{abc0001}
+\pagestyle{fancy}
+\iomode{stdin} % Hint: stdin / interactive
+% HINT: Pola konkurs, etap, day, date uzupelnia kierownik konkursu.
+\konkurs{SKN 2022/23}
+\day{Dzień 1}
+\date{}
+\group{A} % HINT: Sama literka
+\Time{10} % HINT: Nie dodawać "s"
+\RAM{256} % HINT: Nie dodawać "MB"
+
+\history{01.01.2000}{usr, utworzono zadnaie}{1.0} 
+% uzupełnić, w przypadku zmian dodać nową linijkę, nie usuwać starej
+
+\start{}
+\ \ Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
+Donec rhoncus torstor vitae lorem luctus maximus.
+Donec bibendum, dui eget diganissim viverra, lectus leo scelerisque metus, ut sagittis ligula nisl ut purus.
+Etiam imperdiet luctus leo, et molestie diam congue auctor. Sed sapien eros, imperdiet in fermentum $\tc{a}$, faucibus ut ex cośtam. 
+%pusta linijka, by zacząć akapit od wcięcia
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Donec rhoncus tortor vitae lorem luctus maximus.
+
+\tSection{Wejście}
+
+W pierwszym i jedynym wierszu wejścia znajduje się jedna liczba $\tc{n}$, ($1\leq \tc{n}\leq 1\ 000\ 000$)
+
+\tSection{Wyjście}
+
+Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
+Donec rhoncus torstor vitae lorem luctus maximus.
+Donec bibendum, dui eget diganissim viverra, lectus leo scelerisque metus, ut sagittis ligula nisl ut purus.
+
+W pierwszym i jedynym wierszu wyjścia powinna znajdować się jedna liczba $z$, wynik zadania.
+
+\tSection{Przykład}
+\makecompactexample{a}  % abc0.in -> \makecompactexample{}
+                        % abc0a.in -> \makecompactexample{a}
+                        % abc0b.in -> \makecompactexample{b}
+
+                        % Alternatywny sposób wypiswania przykładu                    
+
+
+\makecompactexample{a}  % abc0.in -> \makecompactexample{}
+                        % abc0a.in -> \makecompactexample{a}
+                        % abc0b.in -> \makecompactexample{b}
+
+                        % Alternatywny sposób wypiswania przykładu                    
+
+
+\makecompactexample{a}
+
+% \tSmallSection{Wyjaśnienie}
+% X D P
+% \makestandardexample{a} 
+\noSkiptSection{Wyjaśnienie przykładów:}
+
+\tSmallSection{Przykład 1}
+
+Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
+Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
+Donec rhoncus torstor vitae lorem luctus maximus.
+Donec bibendum, dui eget diganissim viverra, lectus leo scelerisque metus, ut sagittis ligula nisl ut purus.
+
+\tSmallSection{Przykład 2}
+
+Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
+Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
+
+
+
+\tSection{Testy przykładowe:}
+\begin{enumerate}
+  \setlength\itemindent{-13pt}
+  \item[] \tc{1ocen:}
+  $\tc{n} = 69$, Założenie
+  \item[] \tc{2ocen:}
+  $\tc{n} = 420$, założenie 2
+\end{enumerate}
+
+\tSection{Ocenianie}
+
+Zestaw testów dzieli się na następujące podzadania.
+Testy do każdego podzadania składają~się z~jednej lub~większej liczby osobnych grup testów.
+
+  \begin{center}
+  \begin{tabular}{|c|c|c|}
+    \hline
+      \tc{Nr} & \tc{Ograniczenia} & \tc{Punkty} \\
+    \hline
+      1 & $\tc{n} \leq 1000$ & 30 \\ \hline
+      2 & $\tc{n} \leq 1\,000\,000$ & 70 \\ \hline
+  \end{tabular}
+  \end{center}
+
+\finish{}
