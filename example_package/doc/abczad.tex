@@ -1,19 +1,37 @@
-\documentclass[zad,zawodnik]{sinol}
-\title{Tytuł}
+\documentclass[zad]{talentTex}
+\title{Na ile części podzielić?}
 \id{abc}
-\signature{abc0001}
-\pagestyle{fancy}
 \iomode{stdin} % Hint: stdin / interactive
 % HINT: Pola konkurs, etap, day, date uzupelnia kierownik konkursu.
 \konkurs{SKN 2022/23}
 \day{Dzień 1}
-\date{}
 \group{A} % HINT: Sama literka
-\Time{10} % HINT: Nie dodawać "s"
+\Time{10,5} % HINT: Nie dodawać "s"
 \RAM{256} % HINT: Nie dodawać "MB"
 
-\history{01.01.2000}{usr, utworzono zadnaie}{1.0} 
-% uzupełnić, w przypadku zmian dodać nową linijkę, nie usuwać starej
+%%%%%%%%%%%%%%%%%%
+% Przydatne komendy:
+% \pagebreak % zacznij nową stronę 
+% $text$ % pozwala na pisanie wyrażeń matematycznych
+% Dokumentacja:
+%   https://www.overleaf.com/learn
+
+%%%%%%%%%%%%%%%%%%
+% Komendy talentowe
+% \start{}  % Początek i koniec treści zadani
+% \finish{} % Cała treść powinna być między tymi znacznikami
+% \tSection{text} % nagłówek w stylu talentu
+% \noSkiptSection{text} % Jak wyżej, tylko bez uskoku
+% \tSmallSection{text} % Mały nagłówek w stylu talentu
+% \tc{text} % styl używany do oznaczania zmiennych
+% \makecompactexample{}   % 2 style dodawania testów "0". 
+% \makestandardexample{}  
+%     Przy kompilacji testy są automatycznie czytanie z folderów ./in i ./out
+% \ocen{text} % lista wszystkich testów ocen
+% \testOcen{text}{text2} % Pojedyńczy test ocen z opisem
+% \ocenTable{text} % Tabela z podzadaniami
+% \ocenRow{text} % Pojedyńczy wiersz tabeli: kolejne komórki powinne być rodzielone znakiem &
+% \ocenElement{text} % Jeśli chcesz mieć 2 linie w pojedyńczej komórce tableli
 
 \start{}
 \ \ Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
@@ -35,29 +53,14 @@ Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 Donec rhoncus torstor vitae lorem luctus maximus.
 Donec bibendum, dui eget diganissim viverra, lectus leo scelerisque metus, ut sagittis ligula nisl ut purus.
 
-W pierwszym i jedynym wierszu wyjścia powinna znajdować się jedna liczba $z$, wynik zadania.
+W pierwszym i jedynym wierszu wyjścia powinna znajdować się jedna liczba $\tc{z}$, wynik zadania.
 
 \tSection{Przykład}
 \makecompactexample{a}  % abc0.in -> \makecompactexample{}
                         % abc0a.in -> \makecompactexample{a}
                         % abc0b.in -> \makecompactexample{b}
 
-                        % Alternatywny sposób wypiswania przykładu                    
-
-
-\makecompactexample{a}  % abc0.in -> \makecompactexample{}
-                        % abc0a.in -> \makecompactexample{a}
-                        % abc0b.in -> \makecompactexample{b}
-
-                        % Alternatywny sposób wypiswania przykładu                    
-
-
-\makecompactexample{a}
-
-% \tSmallSection{Wyjaśnienie}
-% X D P
-% \makestandardexample{a} 
-\noSkiptSection{Wyjaśnienie przykładów:}
+\noSkiptSection{Wyjaśnienie przykładów:}{0pt}
 
 \tSmallSection{Przykład 1}
 
@@ -72,29 +75,22 @@ Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 
 
-
-\tSection{Testy przykładowe:}
-\begin{enumerate}
-  \setlength\itemindent{-13pt}
-  \item[] \tc{1ocen:}
-  $\tc{n} = 69$, Założenie
-  \item[] \tc{2ocen:}
-  $\tc{n} = 420$, założenie 2
-\end{enumerate}
+\tSection{Testy ocen:}
+\ocen{
+  \testOcen{1ocen}{$\tc{n} = 69$, Założenie}
+  \testOcen{2ocen}{$\tc{n} = 420$, założenie 2}
+}
 
 \tSection{Ocenianie}
 
 Zestaw testów dzieli się na następujące podzadania.
 Testy do każdego podzadania składają~się z~jednej lub~większej liczby osobnych grup testów.
 
-  \begin{center}
-  \begin{tabular}{|c|c|c|}
-    \hline
-      \tc{Nr} & \tc{Ograniczenia} & \tc{Punkty} \\
-    \hline
-      1 & $\tc{n} \leq 1000$ & 30 \\ \hline
-      2 & $\tc{n} \leq 1\,000\,000$ & 70 \\ \hline
-  \end{tabular}
-  \end{center}
+% Alternatywnie \customOcenTable{|c|c|c|}{\tc{Nr} & \tc{Ograniczenia} & \tc{Punkty}}{reszta tabeli}
+
+\ocenTable{
+  \ocenRow{1 & \ocenElement{$\tc{n} \leq 1000$  Dwie \\ Linie} & 30}
+  \ocenRow{2 & $\tc{n} \leq 1\,000\,000$ & 70}
+}
 
 \finish{}

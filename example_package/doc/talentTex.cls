@@ -1,14 +1,18 @@
-% Plik stylu treści talentowej
+% Latex style for Talent (https://talent.edu.pl) statemnts
+% 
+% Copyright (c) Stanisław Czech 2024
+% Provided under MIT licence 
 %
 % Based on sinol.cls made by:
 % Grzegorz Jakacki, Tomasz Waleń, Marcin Kubica, Jakub Pawlewicz
 % Adam Iwanicki, Szymon Acedanski, Tomasz Idziaszek, Jakub Radoszewski
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\sinolVersion{0.0.1}
-\ProvidesClass{sinol}[Stowarzyszenie Talent \sinolVersion]
+\def\sinolVersion{0.0.2}
+\ProvidesClass{talentTex}[Stowarzyszenie Talent \sinolVersion]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -20,26 +24,17 @@
 \RequirePackage[latin2,utf8]{inputenc}
 \RequirePackage{verbatim}
 \RequirePackage{xcolor}
-% \RequirePackage{titlesec}
-% \raggedbottom
-% \RequirePackage{auto-pst-pdf}
-% \RequirePackage{titlesec}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Opcje dotyczace kodowania
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\sinolInputEncoding{utf8}
-\frenchspacing
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% rozmiar papieru
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % zmienne logiczne
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newif\ifsinolshortages \sinolshortagesfalse % niedoprecyzowania
 \newif\ifsinolerrors  \sinolerrorsfalse % bledy
 \newif\ifmetric  \metrictrue  % czy drukowac metryke
-\newif\ifzawodnik \zawodnikfalse  % czy wersja dla zawodnika
 \newif\ifsignaturedefed \signaturedefedfalse % czy zdefiniowano sygnature
 \newif\ifdatedefed \datedefedfalse  % czy podano date
 \newif\ifetapdefed \etapdefedfalse  % czy podano etap
@@ -48,56 +43,22 @@
 \newif\ifgroupdefed \groupdefedfalse  % czy podano dzien
 \newif\ifRAMdefed \RAMdefedfalse  % czy podano dost�pn� pami��
 \newif\iftimedefed \timedefedfalse % czy podano czas dzia�ania
-\newif\ifDocVersiondefed % czy zdefiniowano wersj� dokumentu
-\DocVersiondefedfalse    % (domy�lnie nie)
 \newif\ifCountrydefed \Countrydefedfalse % Czy zdefiniowano kraj
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\newcommand\?[1]{%
-% w zaleznosci od wybranego stylu, komentarze moga sie pojawiac
-% tuz po niejasnosci, jako przypis lub na koncu
-  \def\@tempf{footnote}\def\@tempa{appendix}\def\@tempm{margin}%%
-  \edef\@tempcstyle{\cstyle}%
-  \if@minipage\def\@tempcstyle{inline}\fi%
-  \ifx\@tempcstyle\@tempf%
-%%%% uwagi jako przypisy
-    \footnote{#1}% 
-  \else%
-    \ifx\@tempcstyle\@tempm%
-%%%% uwagi na marginiesie
-       \stepcounter{sinolCommentNumber}%
-       $^\thesinolCommentNumber$%
-       \marginpar{\raggedright \footnotesize $^\thesinolCommentNumber$#1}%
-    \else%
-       \ifx\@tempcstyle\@tempa%
-%%%% tradycyjna uwaga bezpo�rednio w tek�cie
-         \addComment{#1}%
-       \else%
-         {
-         \tt
-         [[[#1]]]
-         }
-       \fi%
-    \fi%
-  \fi%
-  \global\sinolshortagestrue%
+\newcommand\?[1]{
+  [[#1]]
 }
-% komentarze do treści zadań
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \def\cstyle{inline}
+
 \newcounter{sinolCommentNumber}
 \global\def\comments{}
 \newcommand\commentStyle[1]{
   \edef\cstyle{#1}%
 }
-%
-\newcommand\addComment[1]{%
-\stepcounter{sinolCommentNumber}%
-$^\thesinolCommentNumber$%
-\edef\comments{\comments\par $^\thesinolCommentNumber$ #1}
-}
-% 
+
 \newcommand\showComments{
   \def\@empty{}
   \ifx\comments\@empty\else
@@ -105,11 +66,7 @@ $^\thesinolCommentNumber$%
     \comments
   \fi
 }
-% uwaga do tre�ci zadania
-\renewcommand\comment[2]{%
-  {\it \underline{#1}}
-  \?{#2}
-}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % rozwijajace \uppercase
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -158,7 +115,7 @@ $^\thesinolCommentNumber$%
 }
 
 
-\definecolor{talentBlue}{RGB}{22, 63, 119} % logo
+\definecolor{talentBlue}{RGB}{0, 57, 117} % logo
 % \definecolor{talentBlue}{RGB}{31, 101, 157} % środek
 % \definecolor{talentBlue}{RGB}{31, 129, 189} % Jasny (SZU)
 % \definecolor{talentBlue}{RGB}{31, 73, 125} % Ciemny
@@ -192,8 +149,6 @@ $^\thesinolCommentNumber$%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \infoutput{<tekst>} --- wyprowadza do pliku informacyjnego
 % \erroutput{<tekst>} --- wyprowadza do pliku z bledami
-% \erroutputWrongSection{<jest>}{<winno byc>} --- wyprowadza
-%   informacje o blednej nazwie rodzialu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\infoutput}[1]{
   \immediate\write\inffile{#1}
@@ -205,38 +160,33 @@ $^\thesinolCommentNumber$%
 }
 
 \newcommand{\tSection}[1]{
-  {
-    \setlength\parindent{0pt}
-    \setlength\parskip{15pt}
-    \color{talentBlue}
-    \Large
-    \textbf{#1}
-    \color{black}
-  }
-  \setlength\parskip{2pt}
+  \noSkiptSection{#1}{15pt}
 }
 
 \newcommand{\tSmallSection}[1]{
   {
     \setlength\parindent{0pt}
     \setlength\parskip{5pt}
-    \color{talentBlue}
-    % \Large
-    \textbf{#1}
-    \color{black}
+    {
+      \fontfamily{ptm}
+      \color{talentBlue}
+      \textbf{#1}
+    }
   }
   \setlength\parskip{2pt}
 }
 
 
-\newcommand{\noSkiptSection}[1]{
+\newcommand{\noSkiptSection}[2]{
   {
     \setlength\parindent{0pt}
-    \setlength\parskip{0pt}
-    \color{talentBlue}
-    \Large
-    \textbf{#1}
-    \color{black}
+    \setlength\parskip{#2}
+    {
+      \fontfamily{ptm}
+      \color{talentBlue}
+      \Large
+      \textbf{#1}
+    }
   }
   \setlength\parskip{2pt}
 }
@@ -246,10 +196,6 @@ $^\thesinolCommentNumber$%
   \color{talentBlue}
   \textbf{#1}
   \color{black}
-}
-
-\newcommand{\erroutputWrongSection}[2]{%
-  \erroutput{bledna nazwa lub lokalizacja rozdzialu '#1', spodziewane '#2'}%
 }
 
 \newlength{\imgwidth}
@@ -327,11 +273,6 @@ $^\thesinolCommentNumber$%
   \infoutput{[uses][#1]}%
 }
 
-\renewcommand{\date}[1]{%
-  \def\sinolDate{#1}%
-  \global\datedefedtrue
-}
-
 \newcommand{\etap}[1]{%
   \def\sinolEtap{#1}%
   \global\etapdefedtrue
@@ -377,13 +318,7 @@ $^\thesinolCommentNumber$%
 \def\sinolSolNameCPP{.cpp}
 \def\sinolSolNamePAS{.pas}
 
-\def\sinolTitlePomysl{Pomysł}
 \def\sinolTitleZadanie{Zadanie}
-\def\sinolTitleRecenzja{Recenzja}
-\def\sinolTitleSpecyfikacja{Specyfikacja}
-\def\sinolTitleOpracowanie{Opracowanie}
-\def\sinolTitleWeryfikacja{Weryfikacja}
-\def\sinolTitleCountry{Country}
 
 \def\sinolSNamePrzyklad{Przykład}
 \def\sinolSNameZadanie{Zadanie}
@@ -423,57 +358,6 @@ $^\thesinolCommentNumber$%
   }    
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Angielska wersja napisw                                % 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\DeclareOption{en}{%
-\def\sinolLang{english}
-%\selectlanguage{english}
-
-\def\sinolTitlePomysl{Idea}
-\def\sinolTitleZadanie{Task}
-\def\sinolTitleRecenzja{Review}
-\def\sinolTitleSpecyfikacja{Specification}
-\def\sinolTitleOpracowanie{Analysis}
-\def\sinolTitleWeryfikacja{Verification}
-
-\def\sinolSNamePrzyklad{Example}
-\def\sinolSNameZadanie{Task}
-\def\sinolSNameWejscie{Input}
-\def\sinolSNameWyjscie{Output}
-\def\sinolSNameUwagi{Comments}
-\def\sinolSNameRozwiazanieWzorcowe{Model solution}
-\def\sinolSNameTesty{Tests}
-\def\sinolSNameHistory{HISTORY}
-
-\def\sinolEtapText{Stage}
-\def\sinolKonkursText{}
-\def\sinolDayText{}
-\def\sinolSourceText{Source file}
-\def\sinolRAMText{Available memory}
-\def\sinolTimeText{Maximum running time}
-
-\renewcommand{\iomode}[1]{
-  \def\sinolIOmode{#1}
-  \ifeq{#1}{files}{
-    \gdef\sinolExampleInputText{For the input file \infile:}
-    \gdef\sinolExampleOutputText{the correct result is the output file \outfile{}:}    
-  }
-  \ifeq{#1}{stdin}{
-    \gdef\sinolExampleInputText{For the input data:}
-    \gdef\sinolExampleOutputText{the correct result is:}
-  }    
-  \ifeq{#1}{outputonly}{
-    \gdef\sinolExampleInputText{For the input data:}
-    \gdef\sinolExampleOutputText{the correct result is:}
-  }    
-  \ifeq{#1}{interactive}{
-    \gdef\sinolExampleInputText{For the input data:}
-    \gdef\sinolExampleOutputText{the correct result is:}
-  }    
-}
-}
-
 \iomode{stdin}
 
 \newcommand{\iffileexists}[3]{%
@@ -503,63 +387,10 @@ $^\thesinolCommentNumber$%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\DeclareOption{pom}{%
-  \def\sinolcat{pom}
-  \def\xsinolcat{\sinolTitlePomysl}
-  \newcommand{\source}[1]{%
-    \def\sinolSource{#1}%
-    \infoutput{[source][#1]}%
-  }
-  \renewcommand{\author}[1]{%
-    \def\sinolAuthor{#1}%
-    \infoutput{[author][#1]}%
-  }
-  \renewcommand{\title}[1]{%
-    \def\sinolTitle{#1}%
-    \infoutput{[title][#1]}%
-  }
-  \newcommand{\makemetric}{%
-    {
-      \footnotesize
-      {\noindent\bfseries \sinolSourceText:}
-        \ifundef{sinolSource}{\?{brak}}{\sinolSource}\par
-      {\noindent\bfseries \sinolSNameHistory:}\par
-      \sinolHistory
-    }
-  }
-  \renewcommand{\concludedecls}{%
-    \edef\sinolIdSignature{\sinolSignature}%
-  }%
-}
-
-\DeclareOption{spe}{%
-  \def\sinolcat{spe}
-  \def\xsinolcat{\sinolTitleSpecyfikacja}
-  \renewcommand{\title}[1]{%
-    \def\sinolTitle{#1}%
-    \infoutput{[title][#1]}%
-  }
-  \newcommand{\id}[1]{%
-    \edef\ID{#1}%
-    \infoutput{[id][#1]}%
-  }
-  \newcommand{\makemetric}{%
-    {
-      \footnotesize
-      {\noindent\bfseries \sinolSNameHistory:}\par
-      \sinolHistory
-    }
-  }
-  \renewcommand{\concludedecls}{%
-    \edef\sinolIdSignature{\sinolSignature}%
-  }%
-}
-
 \newcommand\includefile[1]{
 \vspace{-0.7em}
 \verbatiminput{#1}
 }
-
 
 \def\sinolCatNameZad{zad}
 \DeclareOption{zad}{%
@@ -602,7 +433,7 @@ $^\thesinolCommentNumber$%
           \includefile{\ID0#1.in}
        }{
          \smallskip
-         \?{brak pliku {\ttfamily\ID0#1.in}}\par
+         \bf{brak pliku {\ttfamily\ID0#1.in}}\par
          \erroutput{brak pliku '\ID0#1.in'}
          \smallskip
        }
@@ -670,17 +501,17 @@ $^\thesinolCommentNumber$%
   \newcommand{\@makestandardexampletext}[1]{%
     \@exampleputtogethertext{%
       \makestandardexampleinput{#1}
-    }{%
+    }{
       \makestandardexampleoutput{#1}
     }
   }
 
-  \newcommand{\@makeexample}[1]{%
+  \newcommand{\@makeexample}[1]{
     \loadtestdir   
-    \ifundef{exampleImg}{%
+    \ifundef{exampleImg}{
       \@makestandardexampletext{#1}
-    }{%
-      \@exampleputtogetherimg{%
+    }{
+      \@exampleputtogetherimg{
         \@makestandardexampletext{#1}
       }{
         \plainimg{\exampleImg}
@@ -709,274 +540,34 @@ $^\thesinolCommentNumber$%
     \setlength\parskip{-15pt}
   }
 
-  \renewcommand{\concludedecls}{%
-    \ifundef{ID}{%
+  \renewcommand{\concludedecls}{
+    % Sprawdzanie istnienia definicji
+    \ifundef{ID}{
       \erroutput{brak 3-literowego identyfikatora (klauzula \string\id)}%
-      \def\ID{XXX}%
-    }{}%
+      \def\ID{XXX}
+    }{}
+    %
     \def\infile{{\ttfamily \lcase{\ID}.in}}%
     \def\outfile{{\ttfamily \lcase{\ID}.out}}%
-    \ifundef{sinolTitle}{%
-      \erroutput{brak tytulu (klauzula \string\title)}%
-      \def\sinolTitle{\?{brak tytu^^b3u}}%
-    }{}%
-    \ifzawodnik%
-      \def\sinolIdSignature{\ucase{\ID}}%
-    \else%
-      \def\sinolIdSignature{\ID/\sinolSignature}%
-    \fi%
-    \let\oldsection\section%
-    \renewcommand{\section}[1]{%
-      \def\@tmparg{##1}%
-      \oldsection*{##1}%
-      \ifnum\sinolSectionNumber=0%
-        \ifeq{\@tmparg}{\sinolSNameZadanie}{%
-          \sinolSectionNumber=1%
-        }%
-      \fi%
-      \ifcase\sinolSectionNumber%
-        \ifneq{\@tmparg}{\sinolSNamePrzyklad}{%
-          \erroutputWrongSection{\@tmparg}{\sinolSNamePrzyklad}%
-        }%
-      \or%
-        \ifneq{\@tmparg}{\sinolSNameZadanie}{%
-          \erroutputWrongSection{##1}{\sinolSNameZadanie}%
-        }%
-      \or%
-        \ifneq{\@tmparg}{\sinolSNameWejscie}{%
-          \erroutputWrongSection{##1}{\sinolSNameWejscie}%
-        }%
-      \or%
-        \ifneq{\@tmparg}{\sinolSNameWyjscie}{%
-          \erroutputWrongSection{##1}{\sinolSNameWyjscie}%
-        }%
-      \or%
-        \ifneq{\@tmparg}{\sinolSNamePrzyklad}{%
-          \erroutputWrongSection{\@tmparg}{\sinolSNamePrzyklad}%
-        }%
-      \else%
-        \ifneq{\@tmparg}{\sinolSNameUwagi}{%
-          \erroutput{nadmiarowy rozdzial '##1'}%
-        }%
-      \fi%
-      \advance\sinolSectionNumber+1%
-    }%
-  }%
+    %
+    \ifundef{sinolTitle}{
+      \erroutput{brak tytułu (klauzula \string\title)}
+      \def\sinolTitle{\?{brak tytułu}}
+    }{}
+    %
+    \def\sinolIdSignature{\ucase{\ID}}
+    \let\oldsection\section
+  }
 
   \renewcommand{\concludetext}{
-    \ifnum\sinolSectionNumber=5\else
-      \erroutput{niewlasciwa liczba rozdzialow}
-    \fi
     \ifeq{\cstyle}{appendix}{\showComments}
   }
-}
-
-\DeclareOption{rec}{%
-  \def\sinolcat{rec}
-  \def\xsinolcat{\sinolTitleRecenzja}
-  \renewcommand{\title}[1]{%
-    \def\sinolTitle{#1}%
-    \infoutput{[title][#1]}%
-  }
-  \newcommand{\id}[1]{%
-    \edef\ID{#1}%
-    \infoutput{[id][#1]}%
-  }
-  \newcommand{\makemetric}{%
-    {
-      \footnotesize
-      {\noindent\bfseries \sinolSNameHistory:}\par
-      \sinolHistory
-    }
-  }
-  \renewcommand{\title}[1]{%
-    \def\sinolTitle{#1}%
-    \infoutput{[title][#1]}%
-  }
-
-  \renewcommand{\concludedecls}{%
-    \ifundef{ID}{%
-      \def\ID{XXX}%
-    }{}%
-    \ifundef{sinolTitle}{%
-      \def\sinolTitle{\?{tytu^^b3 zostanie wygenerowany}}%
-    }{}%
-    \def\sinolIdSignature{\ID/\sinolSignature}%
-  }%
-}
-
-\DeclareOption{opr}{%
-  \def\sinolcat{opr}
-  \def\xsinolcat{\sinolTitleOpracowanie}
-  \renewcommand{\title}[1]{%
-    \def\sinolTitle{#1}%
-    \infoutput{[title][#1]}%
-  }
-  \newcommand{\id}[1]{%
-    \edef\ID{#1}%
-    \infoutput{[id][#1]}%
-  }
-  \newcommand{\makemetric}{%
-    {
-      \footnotesize
-      {\noindent\bfseries \sinolSNameHistory:}\par
-      \sinolHistory
-    }
-  }
-  \renewcommand{\title}[1]{%
-    \def\sinolTitle{#1}%
-    \infoutput{[title][#1]}%
-  }
-
-  \renewcommand{\concludedecls}{%
-    \ifundef{ID}{%
-      \def\ID{XXX}%
-    }{}%
-    \def\infile{{\ttfamily \lcase{\ID}.in}}%
-    \def\outfile{{\ttfamily \lcase{\ID}.out}}%
-    \ifundef{sinolTitle}{%
-      \def\sinolTitle{\?{tytu^^b3 zostanie wygenerowany}}%
-    }{}%
-    \def\sinolIdSignature{\ucase{\ID}}%
-    %
-    \newif\ifsectionPresentTesty \sectionPresentTestyfalse%
-    \newif\ifsectionPresentRozwiazanieWzorcowe%
-         \sectionPresentRozwiazanieWzorcowefalse%
-    %
-    \let\oldsection\section%
-    \renewcommand{\section}[1]{%
-      \def\@tmparg{##1}%
-      \oldsection{##1}%
-      \ifx\@tmparg\sinolSNameTesty%
-        \ifsectionPresentTesty%
-          \erroutput{powtorzony rozdzial '\@tmparg'}%
-        \else%
-          \global\sectionPresentTestytrue%
-        \fi%
-      \fi%
-      \ifx\@tmparg\sinolSNameRozwiazanieWzorcowe%
-        \ifsectionPresentRozwiazanieWzorcowe%
-          \erroutput{powtorzony rozdzial '\@tmparg'}%
-        \else%
-          \global\sectionPresentRozwiazanieWzorcowetrue%
-        \fi%
-      \fi%
-    }%
-  }%
-
-  \renewcommand{\concludetext}{
-    \ifidealSolutionPresent\else
-      \erroutput{brak odniesienia do rozwiazania optymalnego}
-    \fi
-    \ifsectionPresentTesty\else
-      \erroutput{brak rozdzialu '\sinolSNameTesty'}
-    \fi
-    \ifsectionPresentRozwiazanieWzorcowe\else
-      \erroutput{brak rozdzialu '\sinolSNameRozwiazanieWzorcowe'}
-    \fi
-  }
-
-  \newif\ifidealSolutionPresent \idealSolutionPresentfalse
-
-  \newcommand{\solution}[1]{%
-    \infoutput{[solution][##1]}%
-    \infoutput{[uses][prog/##1]}%
-    {\ttfamily prog/\ID#1}%
-    \def\@tmparg{#1}
-    \ifx\@tmparg\sinolSolNameC
-      \idealSolutionPresenttrue
-    \fi
-    \ifx\@tmparg\sinolSolNameCPP
-      \idealSolutionPresenttrue
-    \fi
-    \ifx\@tmparg\sinolSolNamePAS
-      \idealSolutionPresenttrue
-    \fi
-  }
-
-  \newenvironment{tests}{%
-    \newcommand{\test}[3]{%
-      \item {\ttfamily \ID##1.IN} ($##2$ sek.) ##3\par
-      \infoutput{[test][##1]}
-      \infoutput{[uses][in/##1.in]}
-      \infoutput{[uses][out/##1.in]}
-    }
-    \begin{itemize}
-  }{%
-    \end{itemize}
-  }
-}
-
-
-\DeclareOption{wer}{%
-  \def\sinolcat{wer}
-  \def\xsinolcat{\sinolTitleWeryfikacja}
-  \renewcommand{\title}[1]{%
-    \def\sinolTitle{#1}%
-    \infoutput{[title][#1]}%
-  }
-  \newcommand{\id}[1]{%
-    \edef\ID{#1}%
-    \infoutput{[id][#1]}%
-  }
-  \newcommand{\makemetric}{%
-    {
-      \footnotesize
-      {\noindent\bfseries \sinolSNameHistory:}\par
-      \sinolHistory
-    }
-  }
-  \renewcommand{\title}[1]{%
-    \def\sinolTitle{#1}%
-    \infoutput{[title][#1]}%
-  }
-
-  \newcommand{\solution}[1]{%
-    \infoutput{[solution][##1]}%
-    \infoutput{[uses][prog/##1]}%
-    {\ttfamily prog/\ID#1}%
-    \def\@tmparg{#1}
-    \ifx\@tmparg\sinolSolNameC
-      \idealSolutionPresenttrue
-    \fi
-    \ifx\@tmparg\sinolSolNameCPP
-      \idealSolutionPresenttrue
-    \fi
-    \ifx\@tmparg\sinolSolNamePAS
-      \idealSolutionPresenttrue
-    \fi
-  }
-
-  \renewcommand{\concludedecls}{%
-    \ifundef{ID}{%
-      \def\ID{XXX}%
-    }{}%
-    \ifundef{sinolTitle}{%
-      \def\sinolTitle{\?{tytu^^b3 zostanie wygenerowany}}%
-    }{}%
-    \def\sinolIdSignature{\ID/\sinolSignature}%
-  }%
-}
-
-\DeclareOption{zawodnik}{%
-  \global\zawodniktrue
-  \ifx\sinolcat\sinolCatNameZad
-    \global\metricfalse
-    \renewcommand{\?}[1]{%
-      [[[#1]]]%
-      \errmessage{SINOL: przy opcji 'zawodnik' nie wolno uzywac %
-        '\string\?\string{...\string}'}
-    }
-  \else
-    \errmessage{SINOL: opcja 'zawodnik' moze wystepowac tylko po opcji 'zad'}
-  \fi
 }
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
 \PassOptionsToClass{a4paper}{article}
 \LoadClass{article}
-%% \RequirePackage{polski}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % rozmiar papieru
@@ -989,10 +580,9 @@ $^\thesinolCommentNumber$%
 \setlength{\voffset}{-30mm} % this means 1in-15mm
 \setlength{\topmargin}{0pt}
 \setlength{\parskip}{0pt}
-%% w przypadku stylu fancy, trzeba wy��czy� rysowanie linii w nag��wku
-%\headrulewidth 0pt
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0.4pt}
+
 \newcommand{\start}{
   \begin{document}
   \begin{tasktext}
@@ -1003,10 +593,47 @@ $^\thesinolCommentNumber$%
   \end{document}
 }
 
-\lfoot[L]{Stowarzyszenie Talent (talent.edu.pl)}
-\rfoot{\sinolTitle\ifDocVersiondefed\ -\ \ID\fi}
+\newcommand{\ocen}[1]{
+  \begin{enumerate}
+  \setlength\itemindent{-13pt}
+  #1
+  \end{enumerate}
+}
 
-\newenvironment{tasktext}{%
+\newcommand{\testOcen}[2]{
+  \item[] \textbf{\color{talentBlue}#1:\ }#2
+}
+
+\newcommand{\ocenTable}[1]{
+  \customOcenTable{|c|c|c|}{\fontfamily{ptm}\tc{Nr} & \tc{Ograniczenia} & \tc{Punkty}}{#1}
+}
+
+\newcommand{\customOcenTable}[3]{
+  \begin{center}
+    \begin{tabular}{#1}
+    \hline
+    #2 \\
+    \hline
+    #3
+    \end{tabular}
+  \end{center}
+}
+
+\newcommand{\ocenRow}[1]{
+  #1 \\ \hline
+}
+
+\newcommand{\ocenElement}[1]{
+  \begin{tabular}{@{}c@{}}
+  #1
+  \end{tabular}
+}
+
+\lfoot[L]{Stowarzyszenie Talent (talent.edu.pl)}
+\rfoot{\sinolTitle\ -\ \ID}
+\pagestyle{fancy}
+
+\newenvironment{tasktext}{
 
   \expandafter\selectlanguage\expandafter{\sinolLang}%
   \expandafter\inputencoding\expandafter{\sinolInputEncoding}%
@@ -1017,7 +644,7 @@ $^\thesinolCommentNumber$%
       \setlength{\parindent}{-4pt}
       \color{talentBlue}
       \sffamily\bfseries
-      \LARGE
+      \huge
       \sinolTitle
       
       \end{minipage}
@@ -1032,43 +659,43 @@ $^\thesinolCommentNumber$%
     \hrule height 3pt \relax
   }
   \smallskip
-  % \concludedecls
-  %
-  \ifzawodnik
+  \concludedecls
   \color{talentBlue}
   \smallskip
-  \hbox to \hsize{
+  \hbox to \hsize
+  {
     \begin{minipage}[t]{1\textwidth}
-    \setlength{\parindent}{-1pt}
+    \setlength{\parindent}{-2pt}
     \def\@tempempty{}
     \bf
+    \fontfamily{ptm}
     %
     %% Konkurs pokazuje się tylko gdy jest niepusty
-    \ifkonkursdefed%
-      \ifx\sinolKonkurs\@tempempty\ %
-      \else%
-        \sinolKonkursText%
-        \sinolKonkurs,\ %
-      \fi%
-    \else\?{brak}\erroutput{brak konkursu}\fi%
+    \ifkonkursdefed
+      \ifx\sinolKonkurs\@tempempty\ 
+      \else
+        \sinolKonkursText
+        \sinolKonkurs.\ 
+      \fi
+    \else\?{brak konkursu}\erroutput{brak konkursu}\fi
     %
     %% Dzień pokazuje się tylko gdy jest niepusty
-    \ifdaydefed%
+    \ifdaydefed
       \ifx\sinolDay\@tempempty.
       \else
         \sinolDayText 
         \sinolDay.
       \fi%
-    \else\?{brak}\erroutput{brak dnia}\fi%
+    \else\?{brak dnia}\erroutput{brak dnia}\fi
     %
     % Grupa
-    \ifgroupdefed%
+    \ifgroupdefed
       \ifx\sinolGroup\@tempempty%
-      \else%
+      \else
         \sinolGroupText:\
         \sinolGroup.
-      \fi%
-    \else\fi%
+      \fi
+    \else?{brak grupy}\erroutput{brak grupy}\fi
     %
     % Dostępna pamięć -- pokazuje sie tylko gdy
     % nie jest pusta i jest zdefiniowana
@@ -1078,7 +705,7 @@ $^\thesinolCommentNumber$%
         \sinolRAMText:\
         \sinolRAM\,MB. 
       \fi
-    \else\fi
+    \else\?{brak limitu pamięci}\erroutput{brak limitu pamięci}\fi
     % 
     %% Limit czasu -- pokazuje się tylko gdy nie jest pusty i jest zdefiniowany.
     \iftimedefed
@@ -1087,32 +714,22 @@ $^\thesinolCommentNumber$%
         \sinolTimeText:\
         \sinolTime.
       \fi%
-    \else\fi%
+    \else\?{brak limitu czasu}\erroutput{brak limitu pamięci}\fi%
     \hbox to 0pt {\vbox to 0pt {\begin{itemize} \item[] \end{itemize}\vss}}
     % Powyzsza linijka to smutny hak, ktory wymusza, zeby itemize'y
     % generowaly prawidlowe odstepy. Nie wiem dlaczego to dziala, nie wiem dlaczego
     % bez tego nie dziala. Have fun.
-      \hfill
-      \ifdatedefed{\it\sinolDate}\else\?{brak daty}\erroutput{brak daty}\fi
+    \hfill
     \end{minipage}
     }
     \color{black}
     \bigskip
-  % \else
-  % % Jeśli to nie jest treść zadania tylko inny dokument: TODO
-  %   \vskip1.5pt
-  %   {\tiny\rightline{%
-  %     dokument systemu SINOL \sinolVersion
-  %   }}
-  %   \smallskip
-  \fi
   \noindent
   \ignorespacesafterend
 }{
   \concludetext
   \closeout\inffile
   \closeout\errfile
-  % \end{document}
 }
 
 % Odstepy w itemize
@@ -1122,7 +739,3 @@ $^\thesinolCommentNumber$%
       \topsep 3\p@ \@plus1\p@ \@minus0\p@
       \itemsep 3\p@ \@plus1\p@ \@minus\p@}
 \let\@listI\@listi
-
-
-
-
