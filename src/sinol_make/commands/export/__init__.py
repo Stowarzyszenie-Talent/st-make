@@ -20,6 +20,9 @@ class Command(BaseCommand):
     Class for "export" command.
     """
 
+    def __init__(self):
+        super().__init__()
+
     def get_name(self):
         return "export"
 
@@ -221,7 +224,7 @@ class Command(BaseCommand):
         :param target_dir: Target directory path.
         :return: Path to archive.
         """
-        archive = os.path.join(os.getcwd(), f'{self.task_id}.tgz')
+        archive = os.path.join(os.getcwd(), f'{self.export_name}.tgz')
         with tarfile.open(archive, "w:gz") as tar:
             tar.add(target_dir, arcname=os.path.basename(target_dir))
         return archive
@@ -231,6 +234,7 @@ class Command(BaseCommand):
 
         self.args = args
         self.task_id = package_util.get_task_id()
+        self.export_name = self.task_id
         package_util.validate_test_names(self.task_id)
 
         config = package_util.get_config()
@@ -246,6 +250,9 @@ class Command(BaseCommand):
         self.copy_package_required_files(export_package_path)
         self.clear_files(export_package_path)
         self.create_makefile_in(export_package_path, config)
+        export_name = self.contest.additional_export_job()
+        if export_name is not None:
+            self.export_name = export_name
         archive = self.compress(export_package_path)
 
-        print(util.info(f'Exported to {self.task_id}.tgz'))
+        print(util.info(f'Exported to {self.export_name}.tgz'))

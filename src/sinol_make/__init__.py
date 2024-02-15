@@ -1,13 +1,12 @@
 # PYTHON_ARGCOMPLETE_OK
 
-import argcomplete
-import traceback
 import argparse
-import sys
-import os
+import traceback
+
+import argcomplete
 
 from sinol_make import util, oiejq
-
+from sinol_make.talent import user_util
 
 __version__ = "0.0.1"
 
@@ -38,6 +37,7 @@ def main_exn():
     parser = configure_parsers()
     args = parser.parse_args()
     commands = util.get_commands()
+    user_util.init()
 
     for command in commands:
         if command.get_name() == args.command:
@@ -74,7 +74,7 @@ def main():
         util.exit_with_error(err)
     except SystemExit as err:
         exit(err.code)
-    except:
+    except Exception:
         print(traceback.format_exc())
         util.exit_with_error('An error occurred while running the command.\n'
                              'If that is a bug, please report it or submit a bugfix: '
