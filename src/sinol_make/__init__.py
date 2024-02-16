@@ -14,13 +14,13 @@ __version__ = "1.5.26"
 
 def configure_parsers():
     parser = argparse.ArgumentParser(
-        prog='sinol-make',
+        prog='st-make',
         description='Tool for creating and testing sio2 tasks',
     )
     parser.add_argument("-v", "--version", action="version", version="%(prog)s " + __version__)
     subparsers = parser.add_subparsers(
         title='command',
-        description='sinol-make commands',
+        description='st-make commands',
         dest='command',
     )
     subparsers.required = False
@@ -77,4 +77,5 @@ def main():
     except:
         print(traceback.format_exc())
         util.exit_with_error('An error occurred while running the command.\n'
-                             'If that is a bug, please report it or submit a bugfix: https://github.com/sio2project/sinol-make/#reporting-bugs-and-contributing-code')
+                             'If that is a bug, please report it or submit a bugfix: '
+                             'https://github.com/Stowarzyszenie-Talent/st-make/#reporting-bugs-and-contributing-code')
