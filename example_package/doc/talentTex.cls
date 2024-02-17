@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\sinolVersion{0.0.2}
+\def\sinolVersion{0.0.3}
 \ProvidesClass{talentTex}[Stowarzyszenie Talent \sinolVersion]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[T1]{fontenc}
@@ -20,7 +20,6 @@
 \RequirePackage{graphicx}
 \RequirePackage{ifpdf}
 \RequirePackage{fancyhdr}
-\RequirePackage[english,polish]{babel}
 \RequirePackage[latin2,utf8]{inputenc}
 \RequirePackage{verbatim}
 \RequirePackage{xcolor}
@@ -41,8 +40,8 @@
 \newif\ifkonkursdefed \konkursdefedfalse  % czy podano konkurs
 \newif\ifdaydefed \daydefedfalse  % czy podano dzien
 \newif\ifgroupdefed \groupdefedfalse  % czy podano dzien
-\newif\ifRAMdefed \RAMdefedfalse  % czy podano dost�pn� pami��
-\newif\iftimedefed \timedefedfalse % czy podano czas dzia�ania
+\newif\ifRAMdefed \RAMdefedfalse  % czy podano dostępną pamięć
+\newif\iftimedefed \timedefedfalse % czy podano czas działania
 \newif\ifCountrydefed \Countrydefedfalse % Czy zdefiniowano kraj
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -81,7 +80,7 @@
     \vbox to 0pt{
       \vss
       \hbox{
-        \includegraphics[height=1.143cm]{\sinolContestLogo}%
+        \includegraphics[height=1.143cm,bb=0 0 900 300]{\sinolContestLogo}%
       }
     }
   }
@@ -312,7 +311,6 @@
 \newcommand{\outfile}{{\ttfamily XXX.IN}}
 
 \def\sinolContestLogo{logo.jpg}
-\def\sinolLang{polish}
 
 \def\sinolSolNameC{.c}
 \def\sinolSolNameCPP{.cpp}
@@ -634,18 +632,16 @@
 \pagestyle{fancy}
 
 \newenvironment{tasktext}{
-
-  \expandafter\selectlanguage\expandafter{\sinolLang}%
-  \expandafter\inputencoding\expandafter{\sinolInputEncoding}%
- 
+  \expandafter\inputencoding\expandafter{\sinolInputEncoding}
   {
     \leftline{
       \begin{minipage}[t]{0.8\textwidth}
       \setlength{\parindent}{-4pt}
       \color{talentBlue}
-      \sffamily\bfseries
+      \fontfamily{ptm}
       \huge
-      \sinolTitle
+    
+      \textbf{\sinolTitle}
       
       \end{minipage}
     }
@@ -656,9 +652,8 @@
   \smallskip
   {
     \color{talentBrown}
-    \hrule height 3pt \relax
+    \hrule height 2pt \relax
   }
-  \smallskip
   \concludedecls
   \color{talentBlue}
   \smallskip
