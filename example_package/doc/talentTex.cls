@@ -11,11 +11,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\sinolVersion{0.0.3}
+\def\sinolVersion{0.0.4}
 \ProvidesClass{talentTex}[Stowarzyszenie Talent \sinolVersion]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[T1]{fontenc}
-\usepackage{lmodern}
 \RequirePackage{epsf}
 \RequirePackage{graphicx}
 \RequirePackage{ifpdf}
@@ -40,7 +39,7 @@
 \newif\ifkonkursdefed \konkursdefedfalse  % czy podano konkurs
 \newif\ifdaydefed \daydefedfalse  % czy podano dzien
 \newif\ifgroupdefed \groupdefedfalse  % czy podano dzien
-\newif\ifRAMdefed \RAMdefedfalse  % czy podano dostępną pamięć
+\newif\ifMemorydefed \Memorydefedfalse  % czy podano dostępną pamięć
 \newif\iftimedefed \timedefedfalse % czy podano czas działania
 \newif\ifCountrydefed \Countrydefedfalse % Czy zdefiniowano kraj
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,7 +54,7 @@
 \newcounter{sinolCommentNumber}
 \global\def\comments{}
 \newcommand\commentStyle[1]{
-  \edef\cstyle{#1}%
+  \edef\cstyle{#1}
 }
 
 \newcommand\showComments{
@@ -98,16 +97,16 @@
     #3
   \fi
 }
-\def\ifeq#1#2#3{%
-  \edef\@tempeqa{#1}%
-  \edef\@tempeqb{#2}%
+\def\ifeq#1#2#3{
+  \edef\@tempeqa{#1}
+  \edef\@tempeqb{#2}
   \ifx\@tempeqa\@tempeqb
     #3
   \fi
 }
-\def\ifneq#1#2#3{%
-  \edef\@tempeqa{#1}%
-  \edef\@tempeqb{#2}%
+\def\ifneq#1#2#3{
+  \edef\@tempeqa{#1}
+  \edef\@tempeqb{#2}
   \ifx\@tempeqa\@tempeqb\else
     #3
   \fi
@@ -159,7 +158,7 @@
 }
 
 \newcommand{\tSection}[1]{
-  \noSkiptSection{#1}{15pt}
+  \tNoSkipSection{#1}{15pt}
 }
 
 \newcommand{\tSmallSection}[1]{
@@ -176,10 +175,11 @@
 }
 
 
-\newcommand{\noSkiptSection}[2]{
+\newcommand{\tNoSkipSection}[2]{
   {
     \setlength\parindent{0pt}
     \setlength\parskip{#2}
+    \par
     {
       \fontfamily{ptm}
       \color{talentBlue}
@@ -188,10 +188,12 @@
     }
   }
   \setlength\parskip{2pt}
+  \par
 }
 
 
 \newcommand{\tc}[1]{
+  \fontfamily{ptm}
   \color{talentBlue}
   \textbf{#1}
   \color{black}
@@ -199,111 +201,111 @@
 
 \newlength{\imgwidth}
 % podpis pod/nad obrazkiem
-\newcommand\imgcaption[1]{%
-\def\capwidth{\textwidth}%
-\addtolength\capwidth{-1cm}%
-\centerline{\begin{minipage}{\capwidth}\footnotesize #1\end{minipage}}%
+\newcommand\imgcaption[1]{
+\def\capwidth{\textwidth}
+\addtolength\capwidth{-1cm}
+\centerline{\begin{minipage}{\capwidth}\footnotesize #1\end{minipage}}
 }
-%
+
 % rysunek #1-plik, #2-podpis, #3-gdzie podpis (t-na gorze, b-na dole)
-\newcommand\img[3]{%
+\newcommand\img[3]{
   \def\tmparg{#3}
   \def\tmpb{b}
-  \setlength\imgwidth{\textwidth}%
-  \addtolength\imgwidth{-2cm}%
-  \begin{center}%
-  \begin{minipage}{\imgwidth}%
+  \setlength\imgwidth{\textwidth}
+  \addtolength\imgwidth{-2cm}
+  \begin{center}
+  \begin{minipage}{\imgwidth}
   \ifx\tmparg\tmpb
-    $$\includegraphics{#1}$$%
-    \hrule%
-    \smallskip%
-    \imgcaption{#2}%
+    $$\includegraphics{#1}$$
+    \hrule
+    \smallskip
+    \imgcaption{#2}
   \else
-    \imgcaption{#2}%
-    \smallskip%
-    \hrule%
-    \smallskip%
-    $$\includegraphics{#1}$$%
+    \imgcaption{#2}
+    \smallskip
+    \hrule
+    \smallskip
+    $$\includegraphics{#1}$$
   \fi
   \end{minipage}\end{center}
 }
-%
+
 % rysunek z podpisem na gorze
 \newcommand\timg[2]{\img{#1}{#2}{t}}
 % rysunek z podpisem na dole
 \newcommand\bimg[2]{\img{#1}{#2}{b}}
 \newcommand\plainimg[1]{$\includegraphics{#1}$}
 % tryb dwukolumnowy (kolumny -- #1 i #2) 
-\newcommand\twocol[2]{%
-  \begin{center}%
-  \begin{minipage}[t]{0.5\textwidth}%
-  \vspace{0pt}%
-  {#1}%
-  \end{minipage}\hfill%
-  \begin{minipage}[t]{0.5\textwidth}%
-  \vspace{0pt}%
-  {#2}%
-  \end{minipage}%
+\newcommand\twocol[2]{
+  \begin{center}
+  \begin{minipage}[t]{0.5\textwidth}
+  \vspace{0pt}
+  {#1}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.5\textwidth}
+  \vspace{0pt}
+  {#2}
+  \end{minipage}
   \end{center}
 }
 
 
 \let\oldpagestyle\pagestyle
 \def\sinolPageStyle{fancy}
-\renewcommand{\pagestyle}[1]{%
-  \gdef\sinolPageStyle{#1}%
+\renewcommand{\pagestyle}[1]{
+  \gdef\sinolPageStyle{#1}
   \oldpagestyle{#1}
 }
 
-\newcommand{\signature}[1]{%
-  \def\sinolSignature{#1}%
-  \infoutput{[signature][#1]}%
+\newcommand{\signature}[1]{
+  \def\sinolSignature{#1}
+  \infoutput{[signature][#1]}
   \global\signaturedefedtrue
 }
 
-\newcommand{\history}[3]{%
-  \edef\sinolHistory{\noindent $\bullet$\ v.\,#3: #1, #2\par\sinolHistory}%
-  \infoutput{[history][#1][#2][#3]}%
-  \gdef\sinolDocVersion{#3}%
-  \DocVersiondefedtrue%
+\newcommand{\history}[3]{
+  \edef\sinolHistory{\noindent $\bullet$\ v.\,#3: #1, #2\par\sinolHistory}
+  \infoutput{[history][#1][#2][#3]}
+  \gdef\sinolDocVersion{#3}
+  \DocVersiondefedtrue
 }
 
-\newcommand{\uses}[1]{%
-  \infoutput{[uses][#1]}%
+\newcommand{\uses}[1]{
+  \infoutput{[uses][#1]}
 }
 
-\newcommand{\etap}[1]{%
-  \def\sinolEtap{#1}%
+\newcommand{\etap}[1]{
+  \def\sinolEtap{#1}
   \global\etapdefedtrue
 }
 
-\newcommand{\konkurs}[1]{%
-  \def\sinolKonkurs{#1}%
+\newcommand{\konkurs}[1]{
+  \def\sinolKonkurs{#1}
   \global\konkursdefedtrue
 }
 
-\renewcommand{\day}[1]{%
-  \def\sinolDay{#1}%
+\renewcommand{\day}[1]{
+  \def\sinolDay{#1}
   \global\daydefedtrue
 }
 
 \newcommand{\group}[1]{
-  \def\sinolGroup{#1}%
+  \def\sinolGroup{#1}
   \global\groupdefedtrue
 }
 
-\newcommand{\RAM}[1]{
-  \def\sinolRAM{#1}%
-  \global\RAMdefedtrue
+\newcommand{\Memory}[1]{
+  \def\sinolMemory{#1}
+  \global\Memorydefedtrue
 }
 
 \newcommand{\Time}[1]{
-  \def\sinolTime{#1\,s}%
+  \def\sinolTime{#1\,s}
   \global\timedefedtrue
 }
 
 \newcommand{\Country}[1]{
-  \def\sinolCountry{#1}%
+  \def\sinolCountry{#1}
   \global\Countrydefedtrue
 }
 
@@ -332,7 +334,7 @@
 \def\sinolDayText{}
 \def\sinolKonkursText{}
 \def\sinolSourceText{Plik źródłowy}
-\def\sinolRAMText{Pamięć}
+\def\sinolMemoryText{Pamięć}
 \def\sinolTimeText{Czas}
 
 \newcommand{\iomode}[1]{
@@ -358,7 +360,7 @@
 
 \iomode{stdin}
 
-\newcommand{\iffileexists}[3]{%
+\newcommand{\iffileexists}[3]{
   \immediate\openin\tmpfile #1\par
   \ifeof\tmpfile
     \immediate\closein\tmpfile
@@ -376,7 +378,7 @@
 
 \AtEndDocument{
   \ifsinolerrors
-    \immediate\write16{SINOL: znaleziono błędy (zob. \jobname.err) !}
+    \immediate\write16{SINOL: znaleziono błędy (zob. \jobname.err)!}
   \fi
   \ifsinolshortages
     \immediate\write16{SINOL: znaleziono niedoprecyzowania (występuje '[[[...]]]')}
@@ -391,31 +393,31 @@
 }
 
 \def\sinolCatNameZad{zad}
-\DeclareOption{zad}{%
+\DeclareOption{zad}{
   \def\sinolcat{zad}
   \def\xsinolcat{\sinolTitleZadanie}
-  \renewcommand{\title}[1]{%
-    \def\sinolTitle{#1}%
-    \infoutput{[title][#1]}%
+  \renewcommand{\title}[1]{
+    \def\sinolTitle{#1}
+    \infoutput{[title][#1]}
   }
-  \newcommand{\id}[1]{%
-    \edef\ID{#1}%
-    \infoutput{[id][#1]}%
-  }
-
-  \newcommand{\exampleinputimg}[1]{%
-    \edef\exampleInImg{#1}%
+  \newcommand{\id}[1]{
+    \edef\ID{#1}
+    \infoutput{[id][#1]}
   }
 
-  \newcommand{\exampleoutputimg}[1]{%
-    \edef\exampleOutImg{#1}%
+  \newcommand{\exampleinputimg}[1]{
+    \edef\exampleInImg{#1}
   }
 
-  \newcommand{\exampleimg}[1]{%
-    \edef\exampleImg{#1}%
+  \newcommand{\exampleoutputimg}[1]{
+    \edef\exampleOutImg{#1}
   }
 
-  \newcommand{\makemetric}{%
+  \newcommand{\exampleimg}[1]{
+    \edef\exampleImg{#1}
+  }
+
+  \newcommand{\makemetric}{
     {
       \footnotesize
       {\noindent\bfseries \sinolSNameHistory:}\par
@@ -423,11 +425,11 @@
     }
   }
 
-  \newcommand{\exampleinput}[1]{%
-      \iffileexists{\sinolTestIn/\ID0#1.in}{%
+  \newcommand{\exampleinput}[1]{
+      \iffileexists{\sinolTestIn/\ID0#1.in}{
           \includefile{\sinolTestIn/\ID0#1.in}
       }{
-       \iffileexists{\ID0#1.in}{%
+       \iffileexists{\ID0#1.in}{
           \includefile{\ID0#1.in}
        }{
          \smallskip
@@ -438,11 +440,11 @@
       }
   }
 
-  \newcommand{\exampleoutput}[1]{%
-    \iffileexists{\sinolTestOut/\ID0#1.out}{%
+  \newcommand{\exampleoutput}[1]{
+    \iffileexists{\sinolTestOut/\ID0#1.out}{
       \includefile{\sinolTestOut/\ID0#1.out}
     }{
-      \iffileexists{\ID0#1.out}{%
+      \iffileexists{\ID0#1.out}{
          \includefile{\ID0#1.out}
       }{    
        \smallskip
@@ -461,18 +463,18 @@
 
   \def\@exampleputtogetherv#1#2{#1 #2}
 
-  \newcommand{\makestandardexampleinput}[1]{%
+  \newcommand{\makestandardexampleinput}[1]{
     \noindent\sinolExampleInputText
-    \ifundef{exampleInImg}{%
+    \ifundef{exampleInImg}{
       \exampleinput{#1}
     }{
       \@exampleputtogetherimg{\exampleinput}{\plainimg{\exampleInImg}}
     }
   }
 
-  \newcommand{\makestandardexampleoutput}[1]{%
+  \newcommand{\makestandardexampleoutput}[1]{
     \noindent\sinolExampleOutputText
-    \ifundef{exampleOutImg}{%
+    \ifundef{exampleOutImg}{
       \exampleoutput{#1}
     }{
       \@exampleputtogetherimg{\exampleoutput}{\plainimg{\exampleOutImg}}
@@ -496,8 +498,8 @@
     \closein\tmpfile
   }
 
-  \newcommand{\@makestandardexampletext}[1]{%
-    \@exampleputtogethertext{%
+  \newcommand{\@makestandardexampletext}[1]{
+    \@exampleputtogethertext{
       \makestandardexampleinput{#1}
     }{
       \makestandardexampleoutput{#1}
@@ -518,16 +520,16 @@
   }
 
 
-  \newcommand{\makestandardexample}[1]{%
+  \newcommand{\makestandardexample}[1]{
     \let\@exampleputtogetherimg=\@exampleputtogetherh
     \let\@exampleputtogethertext=\@exampleputtogetherv
     \@makeexample{#1}
   }
 
-  \newcommand{\makecompactexample}[1]{%
+  \newcommand{\makecompactexample}[1]{
     \setlength\parskip{-15pt}
-    \def\@exampleputtogetherimg##1##2{%
-      \@exampleputtogetherv{##1}{%
+    \def\@exampleputtogetherimg##1##2{
+      \@exampleputtogetherv{##1}{
         \begin{center}
           ##2
         \end{center}
@@ -541,18 +543,15 @@
   \renewcommand{\concludedecls}{
     % Sprawdzanie istnienia definicji
     \ifundef{ID}{
-      \erroutput{brak 3-literowego identyfikatora (klauzula \string\id)}%
+      \erroutput{brak 3-literowego identyfikatora (klauzula \string\id)}
       \def\ID{XXX}
     }{}
-    %
-    \def\infile{{\ttfamily \lcase{\ID}.in}}%
-    \def\outfile{{\ttfamily \lcase{\ID}.out}}%
-    %
+    \def\infile{{\ttfamily \lcase{\ID}.in}}
+    \def\outfile{{\ttfamily \lcase{\ID}.out}}
     \ifundef{sinolTitle}{
       \erroutput{brak tytułu (klauzula \string\title)}
       \def\sinolTitle{\?{brak tytułu}}
     }{}
-    %
     \def\sinolIdSignature{\ucase{\ID}}
     \let\oldsection\section
   }
@@ -570,8 +569,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % rozmiar papieru
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setlength{\textwidth}{168mm} %{180mm}
-\setlength{\textheight}{265mm} %{257mm}
+\setlength{\textwidth}{168mm} % {180mm}
+\setlength{\textheight}{265mm} % {257mm}
 \setlength{\oddsidemargin}{0pt}
 \setlength{\topmargin}{0pt}
 \setlength{\hoffset}{-4mm} % this means 1in-15mm
@@ -594,6 +593,7 @@
 \newcommand{\ocen}[1]{
   \begin{enumerate}
   \setlength\itemindent{-13pt}
+  \fontfamily{ptm}
   #1
   \end{enumerate}
 }
@@ -603,7 +603,7 @@
 }
 
 \newcommand{\ocenTable}[1]{
-  \customOcenTable{|c|c|c|}{\fontfamily{ptm}\tc{Nr} & \tc{Ograniczenia} & \tc{Punkty}}{#1}
+  \customOcenTable{|c|c|c|}{\tc{Nr}&\tc{Ograniczenia}&\tc{Punkty}}{#1}
 }
 
 \newcommand{\customOcenTable}[3]{
@@ -680,12 +680,12 @@
       \else
         \sinolDayText 
         \sinolDay.
-      \fi%
+      \fi
     \else\?{brak dnia}\erroutput{brak dnia}\fi
     %
     % Grupa
     \ifgroupdefed
-      \ifx\sinolGroup\@tempempty%
+      \ifx\sinolGroup\@tempempty
       \else
         \sinolGroupText:\
         \sinolGroup.
@@ -694,22 +694,22 @@
     %
     % Dostępna pamięć -- pokazuje sie tylko gdy
     % nie jest pusta i jest zdefiniowana
-    \ifRAMdefed
-      \ifx\sinolRAM\@tempempty
+    \ifMemorydefed
+      \ifx\sinolMemory\@tempempty
       \else
-        \sinolRAMText:\
-        \sinolRAM\,MB. 
+        \sinolMemoryText:\
+        \sinolMemory\,MB. 
       \fi
     \else\?{brak limitu pamięci}\erroutput{brak limitu pamięci}\fi
     % 
     %% Limit czasu -- pokazuje się tylko gdy nie jest pusty i jest zdefiniowany.
     \iftimedefed
-      \ifx\sinolTime\@tempempty%
-      \else%
+      \ifx\sinolTime\@tempempty
+      \else
         \sinolTimeText:\
         \sinolTime.
-      \fi%
-    \else\?{brak limitu czasu}\erroutput{brak limitu pamięci}\fi%
+      \fi
+    \else\?{brak limitu czasu}\erroutput{brak limitu pamięci}\fi
     \hbox to 0pt {\vbox to 0pt {\begin{itemize} \item[] \end{itemize}\vss}}
     % Powyzsza linijka to smutny hak, ktory wymusza, zeby itemize'y
     % generowaly prawidlowe odstepy. Nie wiem dlaczego to dziala, nie wiem dlaczego
@@ -718,8 +718,9 @@
     \end{minipage}
     }
     \color{black}
-    \bigskip
   \noindent
+  \smallskip
+  \par
   \ignorespacesafterend
 }{
   \concludetext

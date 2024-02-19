@@ -1,13 +1,13 @@
 \documentclass[zad]{talentTex}
 \title{Na ile części podzielić?}
 \id{abc}
-\iomode{stdin} % Hint: stdin / interactive
-% HINT: Pola konkurs, etap, day, date uzupelnia kierownik konkursu.
+\iomode{stdin} % HINT: stdin / interactive
+\Time{10,5} % HINT: Nie dodawać "s"
+\Memory{256} % HINT: Nie dodawać "MB"
+% HINT: Pola konkurs, etap, day, date uzupełnia kierownik konkursu.
 \konkurs{SKN 2022/23}
 \day{Dzień 1}
 \group{A} % HINT: Sama literka
-\Time{10,5} % HINT: Nie dodawać "s"
-\RAM{256} % HINT: Nie dodawać "MB"
 
 %%%%%%%%%%%%%%%%%%
 % Przydatne komendy:
@@ -18,10 +18,10 @@
 
 %%%%%%%%%%%%%%%%%%
 % Komendy talentowe
-% \start{}  % Początek i koniec treści zadani
+% \start{}  % Początek i koniec treści zadania
 % \finish{} % Cała treść powinna być między tymi znacznikami
 % \tSection{text} % nagłówek w stylu talentu
-% \noSkiptSection{text} % Jak wyżej, tylko bez uskoku
+% \tNoSkipSection{text} % Jak wyżej, tylko bez odstęp między akapitami
 % \tSmallSection{text} % Mały nagłówek w stylu talentu
 % \tc{text} % styl używany do oznaczania zmiennych
 % \makecompactexample{}   % 2 style dodawania testów "0". 
@@ -34,7 +34,8 @@
 % \ocenElement{text} % Jeśli chcesz mieć 2 linie w pojedyńczej komórce tableli
 
 \start{}
-\ \ Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
+
+Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 Donec rhoncus torstor vitae lorem luctus maximus.
 Donec bibendum, dui eget diganissim viverra, lectus leo scelerisque metus, ut sagittis ligula nisl ut purus.
 Etiam imperdiet luctus leo, et molestie diam congue auctor. Sed sapien eros, imperdiet in fermentum $\tc{a}$, faucibus ut ex cośtam. 
@@ -56,11 +57,12 @@ Donec bibendum, dui eget diganissim viverra, lectus leo scelerisque metus, ut sa
 W pierwszym i jedynym wierszu wyjścia powinna znajdować się jedna liczba $\tc{z}$, wynik zadania.
 
 \tSection{Przykład}
+
 \makecompactexample{a}  % abc0.in -> \makecompactexample{}
                         % abc0a.in -> \makecompactexample{a}
                         % abc0b.in -> \makecompactexample{b}
 
-\noSkiptSection{Wyjaśnienie przykładów}{0pt}
+\tNoSkipSection{Wyjaśnienie przykładów}{0pt}
 
 \tSmallSection{Przykład 1}
 
@@ -84,12 +86,12 @@ Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 \tSection{Ocenianie}
 
 Zestaw testów dzieli się na następujące podzadania.
-Testy do każdego podzadania składają~się z~jednej lub~większej liczby osobnych grup testów.
+Testy do każdego podzadania składają się z jednej lub większej liczby osobnych grup testów.
 
 % Alternatywnie \customOcenTable{|c|c|c|}{\tc{Nr} & \tc{Ograniczenia} & \tc{Punkty}}{reszta tabeli}
 
 \ocenTable{
-  \ocenRow{1 & \ocenElement{$\tc{n} \leq 1000$  Dwie \\ Linie} & 30}
+  \ocenRow{1 & \ocenElement{$\tc{n} \leq 1000$  Dwie\\ Linie} & 30}
   \ocenRow{2 & $\tc{n} \leq 1\,000\,000$ & 70}
 }
 
