@@ -165,6 +165,7 @@
   {
     \setlength\parindent{0pt}
     \setlength\parskip{5pt}
+    \par
     {
       \fontfamily{ptm}
       \color{talentBlue}
@@ -172,6 +173,7 @@
     }
   }
   \setlength\parskip{2pt}
+  \par
 }
 
 
@@ -583,6 +585,7 @@
 \newcommand{\start}{
   \begin{document}
   \begin{tasktext}
+  \par
 }
 
 \newcommand{\finish}{
