@@ -585,7 +585,6 @@
 \newcommand{\start}{
   \begin{document}
   \begin{tasktext}
-  \par
 }
 
 \newcommand{\finish}{
