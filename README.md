@@ -9,7 +9,7 @@ with features such as:
 - catching mistakes in the problem packages as early as possible,
 - and more.
 
-This tool is a fork of [sinol-make](https://github.com/sio2project/sinol-make), with features specific for [Talent](https://talent.edu.pl/) contests
+This tool is a fork of [sinol-make](https://github.com/sio2project/sinol-make), with features specific for [Talent](https://talent.edu.pl/) contests.
 
 # Contents
 
@@ -33,13 +33,13 @@ solutions' runtime, called `oiejq`.
 
 ### Installation
 
-It's possible to directly install [sinol-make](https://pypi.org/project/sinol-make/)
+It's possible to directly install [st-make](https://pypi.org/project/st-make/)
 through Python's package manager pip, which usually is installed alongside Python:
 
 ```
-pip3 install sinol-make
+pip3 install st-make
 ```
-`pip` installs the `sinol-make` executable in `~/.local/bin/` directory,
+`pip` installs the `st-make` executable in `~/.local/bin/` directory,
 so make sure this directory is in your `PATH`.
 [Here's](https://gist.github.com/nex3/c395b2f8fd4b02068be37c961301caa7) how to add a directory to `PATH`.
 
@@ -88,5 +88,5 @@ program to use, what tests to check and how many CPUs to use. Run `st-make inwer
 
 - Want to report a bug or request a feature? Open issue:
   - [for Talent specific features](https://github.com/Stowarzyszenie-Talent/st-make/issues),
-  - [for sinol-make](https://github.com/sio2project/sinol-make/issues).
+  - [for other areas](https://github.com/sio2project/sinol-make/issues).
 - Want to help us build `st-make`? Create a Pull Request and we will gladly review it.

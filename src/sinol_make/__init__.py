@@ -44,8 +44,8 @@ def main_exn():
             new_version = util.check_for_updates(__version__)
             if new_version is not None:
                 print(util.warning(
-                    f'New version of sinol-make is available (your version: {__version__}, available version: {new_version}).\n'
-                    f' You can update it by running `pip3 install sinol-make --upgrade`.'))
+                    f'New version of st-make is available (your version: {__version__}, available version: {new_version}).\n'
+                    f' You can update it by running `pip3 install st-make --upgrade`.'))
 
             if util.is_linux() and not oiejq.check_oiejq():
                 print(util.warning('`oiejq` in `~/.local/bin/` not found, installing now...'))

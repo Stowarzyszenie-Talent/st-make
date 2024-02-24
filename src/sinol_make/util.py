@@ -176,7 +176,7 @@ def check_for_updates(current_version) -> Union[str, None]:
 
 def check_version():
     """
-    Function that asynchronously checks for new version of sinol-make.
+    Function that asynchronously checks for new version of st-make.
     Writes the newest version to data/version file.
     """
     importlib = import_importlib_resources()
