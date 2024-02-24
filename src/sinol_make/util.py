@@ -131,8 +131,8 @@ def import_importlib_resources():
 
 def check_for_updates(current_version) -> Union[str, None]:
     """
-    Function to check if there is a new version of sinol-make.
-    :param current_version: current version of sinol-make
+    Function to check if there is a new version of st-make.
+    :param current_version: current version of st-make
     :return: returns new version if there is one, None otherwise
     """
     importlib = import_importlib_resources()
@@ -173,7 +173,7 @@ def check_version():
     importlib = import_importlib_resources()
 
     try:
-        request = requests.get("https://pypi.python.org/pypi/sinol-make/json", timeout=1)
+        request = requests.get("https://pypi.python.org/pypi/st-make/json", timeout=1)
     except requests.exceptions.RequestException:
         return
 
