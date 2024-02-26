@@ -9,7 +9,7 @@ with features such as:
 - catching mistakes in the problem packages as early as possible,
 - and more.
 
-This tool is a fork of [sinol-make](https://github.com/sio2project/sinol-make), with features specific for [Talent](https://talent.edu.pl/) contests.
+This tool is a fork of [sinol-make](https://github.com/sio2project/sinol-make), with features specific to [Talent](https://talent.edu.pl/) contests.
 
 # Contents
 
@@ -86,7 +86,7 @@ program to use, what tests to check and how many CPUs to use. Run `st-make inwer
 
 ### Reporting bugs and contributing code
 
-- Want to report a bug or request a feature? Open issue:
+- Want to report a bug or request a feature? Open an issue:
   - [for Talent specific features](https://github.com/Stowarzyszenie-Talent/st-make/issues),
   - [for other areas](https://github.com/sio2project/sinol-make/issues).
 - Want to help us build `st-make`? Create a Pull Request and we will gladly review it.
