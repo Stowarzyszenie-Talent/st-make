@@ -1,18 +1,17 @@
-import os
+import argparse
 import glob
-import stat
+import os
 import shutil
+import stat
 import tarfile
 import tempfile
-import argparse
-import yaml
 
-from sinol_make import util, contest_types
+from sinol_make import util
+from sinol_make.commands.doc import Command as DocCommand
 from sinol_make.commands.ingen.ingen_util import get_ingen, compile_ingen, run_ingen, ingen_exists
+from sinol_make.commands.outgen import Command as OutgenCommand, compile_correct_solution, get_correct_solution
 from sinol_make.helpers import package_util, parsers, paths
 from sinol_make.interfaces.BaseCommand import BaseCommand
-from sinol_make.commands.outgen import Command as OutgenCommand, compile_correct_solution, get_correct_solution
-from sinol_make.commands.doc import Command as DocCommand
 
 
 class Command(BaseCommand):
@@ -30,7 +29,7 @@ class Command(BaseCommand):
         parser = subparser.add_parser(
             self.get_name(),
             help='Create archive for oioioi upload',
-            description='Creates archive in the current directory ready to upload to sio2 or szkopul.')
+            description='Creates archive in the current directory ready to upload to wyzwania or oboz systems.')
         parser.add_argument('-c', '--cpus', type=int,
                             help=f'number of cpus to use to generate output files '
                                  f'(default: {util.default_cpu_count()})',
