@@ -7,12 +7,6 @@ class BaseCommand:
     Base class for command
     """
 
-    def __init__(self):
-        try:
-            self.contest = contest_types.get_contest_type()
-        except UnknownContestType as e:
-            util.exit_with_error(str(e))
-
     def get_name(self):
         """
         Get name of command

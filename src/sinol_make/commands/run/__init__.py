@@ -251,9 +251,6 @@ class Command(BaseCommand):
     Class for running current task
     """
 
-    def __init__(self):
-        super().__init__()
-
     def get_name(self):
         return 'run'
 

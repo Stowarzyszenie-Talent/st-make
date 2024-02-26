@@ -6,21 +6,19 @@ import stat
 import tarfile
 import tempfile
 
-from sinol_make import util
+from sinol_make import util, contest_types
 from sinol_make.commands.doc import Command as DocCommand
 from sinol_make.commands.ingen.ingen_util import get_ingen, compile_ingen, run_ingen, ingen_exists
 from sinol_make.commands.outgen import Command as OutgenCommand, compile_correct_solution, get_correct_solution
 from sinol_make.helpers import package_util, parsers, paths
 from sinol_make.interfaces.BaseCommand import BaseCommand
+from sinol_make.interfaces.Errors import UnknownContestType
 
 
 class Command(BaseCommand):
     """
     Class for "export" command.
     """
-
-    def __init__(self):
-        super().__init__()
 
     def get_name(self):
         return "export"
@@ -235,6 +233,10 @@ class Command(BaseCommand):
         self.task_id = package_util.get_task_id()
         self.export_name = self.task_id
         package_util.validate_test_names(self.task_id)
+        try:
+            self.contest = contest_types.get_contest_type()
+        except UnknownContestType as e:
+            util.exit_with_error(str(e))
 
         config = package_util.get_config()
 
