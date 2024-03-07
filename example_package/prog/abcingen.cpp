@@ -40,7 +40,7 @@ public:
     ~TestName() {
         // Group 0 and 'ocen' are not required.
         for (int i=1; i<= max_group; ++i) {
-            oi_assert(id.find(i) != id.end(), "there can not be a gap in the groups, you dont have " + to_string(i));
+            oi_assert(id.find(i) != id.end(), "there can not be a gap in the groups, you don't have " + to_string(i));
         }
     }
 
