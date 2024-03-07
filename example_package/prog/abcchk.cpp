@@ -27,7 +27,7 @@ const int MAX_N = 10'000;
     user >> oi::Num{sum, -2e6, 2e6} >> oi::nl;
     // `oi::nl` in mode `oi::Scanner::Mode::UserOutput` ignores whitespaces before the newline.
     if (fabs((a + b) - sum) > 1e-6) {
-        // If you want to fail the whole test, you could use `oi::checker_verdict.wrong()`
+        // If you want to fail the whole test, you could use `oi::checker_verdict.exit_wrong()`
         // Here we want to check the output parts separately.
         max_score = 80;
         verdict_comment = "Pierwszy wiersz jest niepoprawny";

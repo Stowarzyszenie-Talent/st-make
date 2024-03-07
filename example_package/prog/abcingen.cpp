@@ -200,26 +200,18 @@ void gen_all_tests() {
     GEN_TEST_RESEED(gen_proper_test({100, 100}));
 
     current_test.advance_group(); // Group 2.
-    gen_test(current_test++, 12345678, gen_proper_test, pair{101, 1'000});
-    GEN_TEST(12345678, gen_proper_test({1'000, 1'000}));
-
-    current_test.advance_group(); // Group 3.
     GEN_TEST_RESEED(cout << "0.001 1.34\n2\n2 1\n");
+    GEN_TEST(12345678, gen_proper_test({100, 100}));
     GEN_TEST_RESEED(
         int x = MAX_N / 5;
         gen1();
         gen2(x);
     );
 
-    current_test.set_group(4); // Group 4.
-    for (int i = 0; i < 5; ++i) {
-        gen_test_reseed(current_test++, gen_proper_test, pair{1, 1'000});
-    }
-
     GEN_TEST_RESEED_GROUP(1, gen_0());
-    GEN_TEST_RESEED_GROUP(5, gen_0());
-    GEN_TEST_RESEED(gen1(); gen2()); // Generates group 5, because last time it was 5.
-    GEN_TEST_GROUP(0, 123, gen_0());
+    GEN_TEST_RESEED_GROUP(3, gen_0());
+    GEN_TEST_RESEED(gen1(); gen2()); // Generates group 3, because last time it was 3.
+    GEN_TEST_GROUP(0, 12345678, gen_0());
 
     return;
 }
