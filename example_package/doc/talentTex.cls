@@ -37,8 +37,8 @@
 \newif\ifdatedefed \datedefedfalse  % czy podano date
 \newif\ifetapdefed \etapdefedfalse  % czy podano etap
 \newif\ifkonkursdefed \konkursdefedfalse  % czy podano konkurs
-\newif\ifdaydefed \daydefedfalse  % czy podano dzien
-\newif\ifgroupdefed \groupdefedfalse  % czy podano group
+\newif\ifdaydefed \daydefedfalse  % czy podano dzień
+\newif\ifgroupdefed \groupdefedfalse  % czy podano grupę
 \newif\ifMemorydefed \Memorydefedfalse  % czy podano dostępną pamięć
 \newif\iftimedefed \timedefedfalse % czy podano czas działania
 \newif\ifCountrydefed \Countrydefedfalse % Czy zdefiniowano kraj
@@ -609,7 +609,7 @@
 }
 
 \newcommand{\customOcenTable}[3]{
-  \begin{center} % center / flushleft
+  \begin{center} % Gdybyśmy jednak chcieli po lewej to 'flushleft'.
     \begin{tabular}{#1}
     \hline
     #2 \\

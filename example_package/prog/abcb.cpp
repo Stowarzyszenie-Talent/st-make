@@ -32,4 +32,4 @@ int main() {
 // programy wzorcowe powinny nazywać się abc{}.*
 // programy wolne powinny nazywać się abcs{}.*
 // programy błedne powinny nazywać się abcb{}.*
-// {} może być (raczej) dowolnym ciągiem, najlepiej dawać liczby (abcs2.cpp, abc10.py)
+// jako {} najlepiej dawać kolejne liczby od 1. Przykład: abcs2.cpp, abc10.py.

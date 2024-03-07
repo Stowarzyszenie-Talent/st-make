@@ -85,34 +85,3 @@ int main(int argc, char* argv[]) {
 // 80
 // )")
 
-// CHECKER_TEST(R"(
-// @test_in
-// 0 1
-// 3
-// 1 2 3
-// @test_out
-// does not matter
-// @user
-// 1
-// 1 2 4
-// @checker
-// OK
-// Pierwszy wiersz jest OK; Wiersz 2, pozycja 5: Liczba calkowita spoza zakresu
-// 20
-// )")
-
-// CHECKER_TEST(R"(
-// @test_in
-// 0 1
-// 3
-// 1 2 3
-// @test_out
-// does not matter
-// @user
-// 2
-// 1 2 4
-// @checker
-// OK
-// Pierwszy wiersz jest niepoprawny; Wiersz 2, pozycja 5: Liczba calkowita spoza zakresu
-// 0
-// )")

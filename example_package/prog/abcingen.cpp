@@ -1,5 +1,6 @@
-#include "oi.h"
 #include <bits/stdc++.h>
+#include "oi.h"
+
 #undef cout
 #undef printf
 #define GEN_TEST(seed, code) gen_test(current_test++, seed, [&]() -> void { code; });

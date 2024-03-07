@@ -35,7 +35,7 @@ void inwer(oi::Scanner in) {
         if (i < n - 1) {
             in >> ' ';
         } else {
-            // rozwiązanie wzorcowe nie powinno wypisywać na końcu wiersza białych znaków
+            // The template solution should not print whitespace at the end of the line.
             in >> oi::nl;
         }
     }
@@ -56,7 +56,7 @@ void inwer(oi::Scanner in) {
     auto is_subtask2 = [&]() -> bool {
         return a+b <= 1'000'000;
     };
-    // ...
+    // Add more groups.
 
     auto is_0 = [&]() -> bool {
         return abs(a - -1.0) < 1e-6 && abs(b - 1.0) < 1e-6 && n == 3 && vv[0] == 3 && vv[1] == 2 && vv[2] == 1 ;
@@ -64,16 +64,18 @@ void inwer(oi::Scanner in) {
     auto is_1ocen = [&]() -> bool {
         return abs(a - -1e6) < 1e-6 && abs(b - 1e6) < 1e-6 && n == 1000;
     };
-    // ...
+    // Add more pre-tests.
 
     // Set up the subtasks and pre-tests you have.
     map<int, bool> subtasks = {
         {1, is_subtask1()},
         {2, is_subtask2()},
+        // Add more groups.
     };
     map<string, bool> sample_tests = {
         {"0", is_0()},
         {"1ocen", is_1ocen()},
+        // Add more pre-tests.
     };
 
     string subtasks_s;
