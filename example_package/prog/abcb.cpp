@@ -29,7 +29,7 @@ int main() {
 }
 
 // wzorcówka musi nazywać się abc.*
-// programy wzorcowe powinny nazywać się abc{}.*
+// pozostałe programy wzorcowe powinny nazywać się abc{}.*
 // programy wolne powinny nazywać się abcs{}.*
 // programy błędne powinny nazywać się abcb{}.*
 // jako {} najlepiej dawać kolejne liczby od 1. Przykład: abcs2.cpp, abc10.py.

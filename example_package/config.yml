@@ -52,10 +52,8 @@ scores:
 
 ### Title
 
+# Task title visible in the system.
 # If there are Polish characters, they should be written for better readability.
-# Title can be different for different languages.
-# title_pl: Przykładowe zadanie
-# title_en: Example task package
 
 
 ### Scores
