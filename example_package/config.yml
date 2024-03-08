@@ -4,7 +4,7 @@ sinol_task_id: abc
 
 memory_limit: 262144 # kB
 
-time_limit: 1000 # milliseconds
+time_limit: 1000 # ms
 
 scores:
   1: 20
@@ -30,7 +30,7 @@ scores:
 # extra_compilation_files: ['abclib.cpp', 'abclib.h']
 
 
-### Time
+### Time - time_limit:
 
 # More precise time limit for each group or test can be defined in `time_limits` key.
 # The more precise time limit has higher priority (first group, then global time limit).
@@ -40,7 +40,7 @@ scores:
 #   5: 7000
 
 
-### Memory
+### Memory - memory_limit:
 
 # More precise memory limits can be defined in `memory_limits` key.
 # Same as with time limits, the more precise memory limit has higher priority.
@@ -50,13 +50,13 @@ scores:
 #   4: 131072
 
 
-### Title
+### Title - title:
 
 # Task title visible in the system.
 # If there are Polish characters, they should be written for better readability.
 
 
-### Scores
+### Scores - scores:
 
 # Number of points for each group can be defined in `scores` key.
 # If this key is not specified, then all groups have the same number of points.
@@ -64,7 +64,7 @@ scores:
 # Group 0 always has zero points.
 
 
-### Task ID
+### Task ID - sinol_task_id:
 
 # This key represents the short name (consisting of 3 letters) of the task.
 # The names of files in `prog/`, `doc/`, `in/` and `out/` directories have to start with this task id.
