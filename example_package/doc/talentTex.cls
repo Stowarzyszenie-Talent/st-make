@@ -601,7 +601,7 @@
 }
 
 \newcommand{\testOcen}[2]{
-  \item[] \textbf{\color{talentBlue}#1:\ }   #2
+  \item[] \textbf{\color{talentBlue}#1: \ }{#2}
 }
 
 \newcommand{\ocenTable}[1]{
