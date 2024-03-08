@@ -16,6 +16,7 @@
 #include <cstdio> // to prevent messing <cstdio> after forbidding scanf(), printf(), fopen() by macro
 #include <cstdlib> // to prevent messing <cstdlib> after forbidding exit() and _Exit() by macro
 #include <cstring>
+#include <fcntl.h>
 #include <exception>
 #include <fstream> // to prevent messing <fstream> after forbidding ifstream and fstream by macro
 #include <iostream> // to prevent messing <iostream> after forbidding cin is forbidden by macro
@@ -34,10 +35,6 @@
 #include <unistd.h> // to prevent messing <unistd.h> after forbidding _exit() by macro
 #include <utility>
 #include <vector>
-#ifdef __APPLE__
-#include <fcntl.h>
-#endif
-
 
 using std::string;
 using std::vector;
@@ -692,11 +689,7 @@ inline bool Scanner::getchar(int& ch) noexcept {
         ch = *next_char;
         next_char = std::nullopt;
     } else {
-        #ifdef __APPLE__
         ch = getc_unlocked(file);
-        #else
-        ch = fgetc_unlocked(file);
-        #endif
     }
     eofed = (ch == EOF);
     prev_last_char_pos = last_char_pos;
@@ -946,36 +939,34 @@ inline void checker_test(
         );
     };
 
-    auto create_fd_with_contents =
-        [&terminate_with_error](const char* name, const string& contents) {
-            #ifdef __APPLE__
-            int fd = shm_open(name, O_CREAT | O_RDWR | O_EXCL, 0600);
-            #else
-            int fd = memfd_create(name, MFD_CLOEXEC);
-            #endif
-            if (fd == -1) {
-                terminate_with_error("memfd_create() - ", strerror(errno));
-            }
-            if (pwrite(fd, contents.data(), contents.size(), 0) !=
-                static_cast<ssize_t>(contents.size()))
-            {
-                terminate_with_error("pwrite() - ", strerror(errno));
-            }
-            return fd;
-        };
+    auto create_fd = [&terminate_with_error] {
+        // Using tmpfile() to be POSIX compliant, so that it works on MacOS.
+        auto* f = tmpfile();
+        if (!f) {
+            terminate_with_error("tmpfile() - ", strerror(errno));
+        }
+        int fd = dup(fileno(f));
+        if (fclose(f)) {
+            terminate_with_error("flose() - ", strerror(errno));
+        }
+        return fd;
+    };
 
-    int in_fd = create_fd_with_contents("checker test: test input", test_input.str);
-    int out_fd = create_fd_with_contents("checker test: test output", test_output.str);
-    int user_out_fd = create_fd_with_contents("checker test: user output", user_output.str);
+    auto create_fd_with_contents = [&terminate_with_error, &create_fd](const string& contents) {
+        auto fd = create_fd();
+        if (pwrite(fd, contents.data(), contents.size(), 0) !=
+            static_cast<ssize_t>(contents.size()))
+        {
+            terminate_with_error("pwrite() - ", strerror(errno));
+        }
+        return fd;
+    };
 
-    #ifdef __APPLE__
-    int checker_out_fd = shm_open("checker test: checker output", O_CREAT | O_RDWR | O_EXCL, 0600);
-    #else
-    int checker_out_fd = memfd_create("checker test: checker output", MFD_CLOEXEC);
-    #endif
-    if (checker_out_fd == -1) {
-        terminate_with_error("memfd_create() - ", strerror(errno));
-    }
+    int in_fd = create_fd_with_contents(test_input.str);
+    int out_fd = create_fd_with_contents(test_output.str);
+    int user_out_fd = create_fd_with_contents(user_output.str);
+
+    int checker_out_fd = create_fd();
 
     int pid = fork();
     if (pid == -1) {
