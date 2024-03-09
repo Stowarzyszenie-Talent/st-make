@@ -979,9 +979,9 @@ inline void checker_test(
         }
 
         char prog_name[] = "";
-        auto test_input_path = string{"/proc/self/fd/"} + std::to_string(in_fd);
-        auto test_output_path = string{"/proc/self/fd/"} + std::to_string(out_fd);
-        auto user_output_path = string{"/proc/self/fd/"} + std::to_string(user_out_fd);
+        auto test_input_path = string{"/dev/fd/"} + std::to_string(in_fd);
+        auto test_output_path = string{"/dev/fd/"} + std::to_string(out_fd);
+        auto user_output_path = string{"/dev/fd/"} + std::to_string(user_out_fd);
 
         char* argv[] = {
             prog_name,
