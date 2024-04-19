@@ -1,59 +1,165 @@
+<!-- Jak nie umiesz otworzyć by łądniej wyglądało, tu jest czytelniej -->
+<!-- https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package -->
+
 <!-- ---------------------------------------------------------------------- -->
 # **Szablon paczki**
 Jest to przykładoway szblon paczki, który zalecamy uzywać.
 Jedynie dla zadań interaktywnych jest on inny.
-(Jeszcze nie zrobiliśmy szablonu)
+(Jeszcze nie zrobiliśmy dla niego szablonu).
+W przypadku chęci zrobienia takiego zadania obecnie najlepiej skontaktuj się z kimś kto wie jak to się robi.
 
-Aktualna wersja paczki zawsze znajduje się tu 
-[link](https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package).
-```st-make init```, pobiera właśnie tą wersję.
+Aktualna wersja paczki zawsze znajduje się zawsze
+[na githubie](https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package).
+`st-make init`, pobiera właśnie tą wersję.
+
+# **ogólne informacje**
+<details><summary></summary>
+
+1. Do kompilacji paczki używamy skryptu `st-make`.
+Jest on dostępny [na githubie](https://github.com/Stowarzyszenie-Talent/st-make).
+1. Każde zadanie ma `tag` - jest to najczęściej 3 literowy skrót.
+Wszystkie nazwy plików w paczce zaczynamy od niego.
+W przykładowej paczce jest to `abc`.
+
+Skrypt `st-make` je potem kompiluje do pdf, tak samo system sio.
+
+Szablony tych dokumentów są dostępne w paczce.
+
+Do tworzenia treści używamy kilku poleceń z `talentTex.cls`:
+
+- tu będą wkrótce wymienione.
+
+</details> <!-- koniec: ogólne informacje -->
 
 
 <!-- ---------------------------------------------------------------------- -->
----
+# **doc**
+<details><summary></summary>
+
+Ten folder zawiera wszystkie pliki tekstowe (pdf, tex, doc, img, ...).
+- `{TAG}zad.tex` - treść zadania, (przyjmowane jest też w wordzie).
+- `{TAG}opr.tex` - dokument z opracowaniem zadania.
+Posiada wszelkie informacje techniczne o zadaniu.
+- `{TAG}opi.tex` - dokument z opisem rozwiązania.
+
+</details> <!-- koniec: doc -->
+
+
+<!-- ---------------------------------------------------------------------- -->
 # **prog**
 <details><summary></summary>
+
+W tym katalogu będziemy trzymać wszystkie programy.
+Ważną rzeczą jest aby programy **nie miały żadnych warningów**.
+
+
 
 <!-- ---------------------------------------------------------------------- -->
 <details><summary>rozwiązania</summary>
 
 # rozwiązania
 
-Ogólne postanowienia o programach:
-- wzorcówka musi nazywać się abc.*
-- pozostałe programy wzorcowe powinny nazywać się abc{}.*
-- programy wolne powinny nazywać się abcs{}.*
-- programy błędne powinny nazywać się abcb{}.*
-- jako {} najlepiej dawać kolejne liczby od 1. Przykład: abcs2.cpp, abc10py.
+Nazewnictwo:
+- `{TAG}.` - **wzorcówka**, np. `abc.cpp`.
+Ten program jest wzorcowym i to on generuje nam poprawne odpowiedzi.
+- `{TAG}{cyfra}{suffix}.` - rozwiązania poprawne, na przykład `zad.cpp`, `zad2.cpp`, `zad3_alternatywna_wzorcowka.cpp`, `zad104.py`,
+- `{TAG}s{cyfra}{suffix}.` - rozwiązania wolne, na przykład `zads1.cpp`, `zads3_brute_n_kwadrat.cpp`, `zads13.py`,
+- `{TAG}b{cyfra}{suffix}.` - rozwiązania niepoprawne, na przykład `zadb1.cpp`, `zadb3_heura.cpp`, `zadb10.py`,
 
----
+Każdy program musi mieć inną nazwę po usunięciu rozszerzeń.
+
+Zalecamy nazywać programy kolejnymi cyframi. `abc.cpp`, `abc2.cpp`, `abc3.cpp`, `abcs1.cpp`, `abcs2.cpp`, `abcb1.cpp`, ...
+
+Generalnie rozwiązania poprawne to takie które działają w odpowiedzniej złożoności i dają dobre wyniki (wolny python też tu należy).
+Programy wolne to takie co mają gorszą złożoność czasową i dają dobre wyniki.
+Programy błędne to takie co co dają złe wyniki.
+Na przykład jak mamy wolny program co daje złe wyniki to damy go do grupy błędnych.
+
+Każdy kod w pierwszych liniach powinien mieć komentarz (taki jak w szablone).
+Dodatkowo kody powinny być czytelne i najlepiej zaopatrzone w komentarze (zwłaszcza wzorcówka).
+
 </details><!-- koniec ## programy -->
 
 <!-- ---------------------------------------------------------------------- -->
 <details><summary>ingen</summary>
 
 # ingen
-jeszcze nie opisany.
+`{TAG}ingen.cpp`
 
----
+Słóży do generowanie plików `.in`.
+
+Ingen powinien:
+* Po uruchomieniu (bez żadnych argumentów) wygenerować
+  w bieżącym katalogu odpowiednie pliki z danymi wejściowymi.
+* Używać liczb losowych z pakietu `oi.h`,
+* Każdy test (lub grupa testów) powinna mieć osobnego seeda.
+* Być w pełni deterministyczny - na przykład można inicjować
+  ziarno generatora liczb losowych stałą wartością.
+* Idealnie odzwiercziedlać foramt testu padany w treści.
+* Na końcu pliku dawań nową linie, a na końcu wiersza **nie** dawać białych znaków.
+
 </details> <!-- koniec ## ingen -->
 
 <!-- ---------------------------------------------------------------------- -->
 <details><summary>inwer</summary>
 
 # inwer
-jeszcze nie opisany.
+`{TAG}inwer.cpp`
 
----
+Słóży do sprawdzenia czy testy `.in` spełniają założenia z treści.
+
+Inwer powinien:
+* Wczytywać pliki wejściowe za pomocą pakietu `oi.h`.
+* Zawierać ograniczenia z treści zadania w formie stałych.
+  Duże stałe podajemy w sposób czytelny, np. jako iloczyny.
+* W przypadku poprawnej weryfikacji ma wypisać `OK`
+  oraz, w jednej linii, krótką charakterystykę testu
+  (wartości najważniejszych parametrów) i skończyc działanie kodem 0.
+  Wypisany komentarz ma na celu upewnienie się, że każda grupa testów
+  zawiera testy z wartościami brzegowymi
+  (na przykład minimalne i maksymalne ograniczenia na `n`,
+  drzewa w postaci ścieżki i gwiazdy, itd).
+* Wypisać również numery podzadań, które pasują do tego testu,
+  lub nazwy testów ocen, które pasują do tego testu.
+  (należy inwerem się upewnić, że testy ocen są dokładnie takie, jak w treści).
+* W przypadku błędnej weryfikacji wypisać informację
+  o błędzie i kończyć działanie kodem niezerowym.
+  Można używać funkcji `assert` a najlepiej `oi_asert` z `oi.h`.
+* Sprawdzać, czy dane wejściowe są idealnie zgodne z opisem
+  z treści zadania, **z dokładnością do każdego białego znaku**.
+  Nie mogą pojawić się żadne zbędne białe znaki.
+
 </details> <!-- koniec ## inwer -->
 
 <!-- ---------------------------------------------------------------------- -->
 <details><summary>checkerka</summary>
 
 # checkerka
-jeszcze nie opisany.
+`abcchk.cpp`
 
----
+W przypadku zadań z jednoznaczną odpowiedzią, nie dodajemy tego programu. System SIO ma domyślną chekierke, która porównuje odpowiedź z wzorcową.
+
+W przypadku zadań, w których istnieje wiele poprawnych odpowiedzi,
+paczka powinno zawierać weryfikator danych wyjściowych.
+Należy zwrócić **szczególną** uwagę, aby weryfikator wyjścia działał poprawnie nawet dla bardzo złośliwych danych (np. nie można nic zakładać
+o długości ciągów znaków znajdujących się w odpowiedzi zawodnika).
+Do każdego komunikatu, który może wypisać weryfikator, powinno istnieć rozwiązanie błędne lub istnieć w programie test jednostkowy, który powoduje wypisanie tego komunikatu.
+
+Weryfikator należy starać się **napisać wydajnie**, gdyż w trakcie zawodów jest on uruchamiany bardzo wiele razy.
+
+Checkerka powinna:
+* Być uruchamiane w następujący sposób: `./{TAG}chk wejście wyjście_zawodnika wyjście_wzorcowe`.
+* Wczytyać pliki za pomocą pakietu `oi.h`.
+* wypisać odpowiedź w następującym formacie:
+  * pierwszy wiersz powinien zawierać jedno słowo:
+    * `OK` - jeśli odpowiedź jest poprawna, lub
+    * `WRONG `-  w przeciwnym przypadku.
+  * drugi wiersz (opcjonalnie) powinien zawierać komentarz do
+    odpowiedzi zawodnika (np. przyczyny uznania rozwiązania za niepoprawne)
+  * trzeci wiersz (opcjonalnie) powinien zawierać jedną liczbę całkowitą
+    z przedziału [0, 100] oznaczającą (w procentach) liczbę punktów, którą należy przyznać zawodnikowi za test.
+* Pozwala na zbędne białe znaki tylko i wyłącznie na końcu linii i na końcu wyjścia oraz na **brak końca linii na końcu wyjścia** (ważne!).
+
 </details> <!-- koniec ## checkerka -->
 
 <!-- ---------------------------------------------------------------------- -->
@@ -110,7 +216,9 @@ Wczutuje znak do ```char a``` z podanej puli b gdzie b to string lub tablica cha
 - liczba - ```>> oi::Num(a, b, c)``` -
 Wczytuje liczbę ```a``` (int, float, ...) która ma być w podanym zakresie od ```b``` do ```c```.
 
----
+Podawanie zakresu może wydawać się upierdliwe, ale pozwala zapobiec że ktoś poda nieskończenie długi string.
+Albo że przegapimy sprawdzenie czy liczba jest w zakresie.
+
 </details> <!-- koniec ### Scanner (Wczytywanie) -->
 
 <!-- ---------------------------------------------------------------------- -->
@@ -135,7 +243,6 @@ Zwraca ```WRONG\n[msg]...[msg]\n0\n``` lub
 ```OK\n[partial_score_msg]; [msg]...[msg]\n[partial_score]\n``` lub
 jak nie ma partial_score_msg ```OK\n[msg]...[msg]\n[partial_score]\n``` .
 
----
 </details> <!-- koniec ### CheckerVerdict -->
 
 <!-- ---------------------------------------------------------------------- -->
@@ -146,7 +253,6 @@ Te testy są uruchamiane tylko lokalnie.
 Istnieją 2 (raczej) intucyjne sposoby pisania ich.
 Zostały one przykładowo zaimplementowane w chekierce.
 
----
 </details> <!-- koniec checker_test -->
 
 
@@ -165,7 +271,6 @@ Natomiast ```coś``` to jedna z podanych opcji:
 My będziemy używać tylko ```oi::inwer_verdict.exit_ok() << [msg]```.
 Druga opcja jest używana systemowo i będziemy ją zgłaszać np. przez ```oi::bug(Msg&&... msg)```.
 
----
 </details> <!-- koniec ### InwerVerdict -->
 
 <!-- ---------------------------------------------------------------------- -->
@@ -174,7 +279,6 @@ Druga opcja jest używana systemowo i będziemy ją zgłaszać np. przez ```oi::
 Wywołując ```oi::bug(Msg&&... msg)```, program zakończy się niepowodzeniem.
 Wyświetli on wtedy podaną wiadomość/ci.
 
----
 </details> <!-- koniec ### bug -->
 
 <!-- ---------------------------------------------------------------------- -->
@@ -185,7 +289,6 @@ Wywołując ```oi::oi_assert(condition, ...);```, sprawdzi nasze założenie, a 
 Wypisze on ```[FILE]:[LINE]: [func]: Assertion '[condition]' failed.``` lub
 ```[FILE]:[LINE]: [func]: Assertion '[condition]' failed: [msg]...```
 
----
 </details> <!-- koniec ### oi_assert -->
 
 <!-- ---------------------------------------------------------------------- -->
@@ -212,11 +315,10 @@ Możemy również pomieszać jakiś kontener robiąc ```rng.shuffle(container)``
 
 
 <!-- ---------------------------------------------------------------------- -->
----
 # **config**
-<details><summary>
+<details><summary></summary>
+
 Wszystkie informacje opisane tu są też opisane w configu.
-</summary>
 
 For more options see: [link to github](https://github.com/sio2project/sinol-make/blob/main/example_package/config.yml).
 Or here are some basic ones.
@@ -235,7 +337,6 @@ extra_compilation_args:
 
 extra_compilation_files: ['abclib.cpp', 'abclib.h']
 ```
----
 
 </details> <!-- koniec Interactive tasks -->
 
@@ -252,7 +353,6 @@ time_limits:
 More precise time limit for each group or test can be defined in `time_limits` key.
 The more precise time limit has higher priority (first group, then global time limit).
 
----
 </details> <!-- koniec Time -->
 
 
@@ -268,7 +368,6 @@ memory_limits:
 More precise memory limits can be defined in `memory_limits` key.
 Same as with time limits, the more precise memory limit has higher priority.
 
----
 </details> <!-- koniec Memory -->
 
 
@@ -280,7 +379,6 @@ title: Przykładowy tytuł
 Task title visible in the system.
 If there are Polish characters, they should be written for better readability.
 
----
 </details> <!-- koniec Title -->
 
 
@@ -296,7 +394,6 @@ If this key is not specified, then all groups have the same number of points.
 (if number of groups doesn't divide 100, then the last groups will have the remaining points).
 Group 0 always has zero points.
 
----
 </details> <!-- koniec Scores -->
 
 
@@ -310,7 +407,6 @@ The names of files in `prog/`, `doc/`, `in/` and `out/` directories have to star
 This key is only used by `st-make`: running `st-make export` creates
 an archive with the proper name, which sio2 uses as the task id.
 
----
 </details> <!-- koniec Task ID -->
 
 
@@ -323,7 +419,6 @@ sinol-make can behave differently depending on the value of `sinol_contest_type`
 Mainly, it affects how points are calculated.
 If the key is not specified, then (in st-make) `talent` is used. In sinol-make (OI version) is used 'default'.
 
----
 </details> <!-- koniec Contest type -->
 
 
@@ -341,10 +436,41 @@ It is automatically generated and managed by st-make.
 
 </details> <!-- koniec # config -->
 
+# in i out
+<details><summary></summary>
 
-<!-- ---------------------------------------------------------------------- -->
----
-# **doc**
-jeszcze nie jest opisany dokładnie tu co zawiera i robi doc.
-Zawiera on napewno szablon zadania.
-Jeszcze piszemy tylko dodatkowe funkcje i szblon dokumentów pomocniczych.
+Są to foldery, w których znajdują się testy.
+Testy nazywamy `{TAG}{grupa}{nr_testu}.{in/out}`.
+
+Grupa:
+- 0, ocen - są to testy wstępne, nie liczą się do oceny i uczestnik ma do nich dostęp na zawodach.
+- 1,2,... - jest to grupa, punkty za nią dostaniemy jak przejdą wszystkie testy z danej grupy.
+
+nr_testu to kolejne litery alfabetu.
+A jak się skończą to dwie: a, ... z, aa, ab, ...
+
+Przykładowe nazwy to: `abc0a.in`, `abc1a.in`, `abc1b.out`, `abc3z.in`, `abc3aa.in`.
+
+Ciekawą formą nazywania jest też `{TAG}{grupa}t{nr}`, np `abc1t1.in`, jednak nie chce się przyjąć.
+
+**Testy ocen** - anomalią od tego są używane kiedyś testy ocen.
+Testy opisane jako `{TAG}{liczba}ocen.in` są zaliczne jako **testy wstępne**.
+Na przykład `abc1ocen.in`, `abc2ocen.out`.
+Obecnie można dawać po prostu `0a`, `0b`, ... `0e`, a w treści dać tylko np a i b.
+
+Testy są tworzone przez `abcingen.cpp`.
+Takie testy będą tworzone dopiero na systemie, więc foldery będą najczęściej puste.
+Możemy jednak sami dodać testy które nie są generowane i one tu będą się znajdować.
+
+</details> <!-- koniec: in i out -->
+
+
+# dlazaw
+<details><summary></summary>
+
+W tym folderze są trzymane pliki dla zawodników.
+Między innymi przydaje się w zadaniach interaktywnych gdzie jest udostępniana nam jakaś biblioteczka.
+
+**Uwaga** testów ocen tu nie dajemy, je uczestnik dostaje automatycznie na zawodach.
+
+</details> <!-- koniec: dlazaw -->
