@@ -42,6 +42,14 @@ Ten folder zawiera wszystkie pliki tekstowe (pdf, tex, doc, img, ...).
 Posiada wszelkie informacje techniczne o zadaniu.
 - `{TAG}opi.tex` - dokument z opisem rozwiązania.
 
+Do kompilacji użyj `st-make doc`.
+
+## talentTex.cls
+
+Jest to nasza klasa używana w plikach `.tex`.
+Jej opis jest podany w dokumentach.
+Wkrótce też opiszemy tutaj.
+
 </details> <!-- koniec: doc -->
 
 

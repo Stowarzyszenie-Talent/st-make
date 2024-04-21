@@ -1,13 +1,13 @@
 \documentclass[zad]{talentTex}
+
 \title{Przykładowe zadanie z długą nazwą}
 \id{abc}
-\iomode{stdin} % stdin / interactive
-\Time{10,5} % Nie dodawać "s"
-\Memory{256} % Nie dodawać "MB"
-% Poniższe pola uzupełnia kierownik konkursu.
+\iomode{stdin} % stdin
+\Time{2,4} % w sekundach
+\Memory{256} % w MB
+\group{A} 
 \konkurs{SKN 2023/24}
 \day{Runda 17}
-\group{A} % Sama literka / nazwa
 
 %%%%%%%%%%%%%%%%%%
 % Przydatne komendy:
@@ -59,7 +59,7 @@ W pierwszym wierszu wyjścia powinna znajdować się jedna liczba $\tc{z}$, wyni
 
 \tSection{Przykład}
 
-\makecompactexample{}  % abc0.in -> {}, abc0x.in -> {x}
+\makecompactexample{a}  % abc0x.in -> {x}
 \makecompactexample{a}  % testy muszą być wygenerowane więc użyj st-make ingen outgen
 
 \tNoSkipSection{Wyjaśnienie przykładów}{0pt}
@@ -92,8 +92,8 @@ Testy do każdego podzadania składają się z jednej lub większej liczby osobn
 
 \ocenTable{
   \ocenRow{1 & $\tc{n} \leq 100$ & 30}
-  \ocenRow{2 & \ocenElement{$\tc{n} \leq 1000$  Dwie\\ Linie} & 50}
-  \ocenRow{3 & Bez ograniczeń & 20}
+  \ocenRow{2 & \ocenElement{$\tc{n} \leq 1000$  Dwie\\ Linie} & 20}
+  \ocenRow{3 & Bez ograniczeń & 50}
 }
 
 \finish{}

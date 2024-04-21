@@ -1,11 +1,8 @@
-\documentclass[12pt]{article}
-\usepackage{geometry} 
-\geometry{a4paper} 
-\usepackage{amssymb}
-\usepackage{polski}
+\documentclass[opr]{talentTex}
 
-\title{Opracowanie}
-\date{} % pozostaw puste
+\title{Przykładowe zadanie z długą nazwą}
+\id{abc}
+\group{}
 
 %%%%%%%%%%%%%%%%%%
 % Przydatne komendy:
@@ -15,22 +12,39 @@
 % Dokumentacja:
 %   https://www.overleaf.com/learn
 
-\begin{document}
-\maketitle
+%%%%%%%%%%%%%%%%%%
+% Komendy talentowe
+% \start{}  % Rozpoczyna treść, musi być na samym początku treści zadania
+% \finish{} % Kończy treść, musi być na samym końcu treści zadania
+% \tSection{text} % Nagłówek w stylu talentu
+% \tNoSkipSection{text} % Jak wyżej, tylko bez odstępu od poprzedniego akapitu
+% \tSmallSection{text} % Mały nagłówek w stylu talentu
+% \tc{text} % Styl używany do oznaczania zmiennych
+% \makecompactexample{id}   % 2 style dodawania automatycznie testów "zad0{id}" z paczki
+% \makestandardexample{id}  % compact - obok siebie, standard - pod sobą
+% Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out więc najpierw je stwórz
 
-\section{Poziom zadania, statystyki}
+\start{}
+
+\section*{Pochodzienie zadanie}
 
 
-\section{Ustawienie limitów}
+\section*{Poziom zadania, trudnoości}
 
 
-\section{Istniejące rozwiązania}
+\section*{Podzadania}
 
 
-\section{Jak wygenerowano testy}
+\section*{Istniejące rozwiązania}
 
 
-\section{Inne}
+\section*{Jak wygenerowano testy}
 
 
-\end{document}
+\section*{Ustawienie limitów}
+
+
+\section*{Inne}
+
+
+\finish{}
