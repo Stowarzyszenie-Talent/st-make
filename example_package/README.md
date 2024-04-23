@@ -319,7 +319,7 @@ Wyświetli on wtedy podaną wiadomość/ci.
 <details><summary>oi_assert</summary>
 
 Działa podobnie do zwykłego asserta.
-Wywołując ```oi::oi_assert(condition, ...);```, sprawdzi nasze założenie, a jak będzie błędne to poda dokładny komunikat co jest nie tak.
+Wywołując ```oi_assert(condition, ...);```, sprawdzi nasze założenie, a jak będzie błędne to poda dokładny komunikat co jest nie tak.
 Wypisze on ```[FILE]:[LINE]: [func]: Assertion '[condition]' failed.``` lub
 ```[FILE]:[LINE]: [func]: Assertion '[condition]' failed: [msg]...```
 

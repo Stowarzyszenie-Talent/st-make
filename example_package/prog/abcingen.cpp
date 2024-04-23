@@ -14,20 +14,9 @@ current_test.set_group(group); gen_test_reseed(current_test++, []() -> void { co
 using namespace std;
 oi::Random rng;
 
-const string& get_task_id() {
-    static auto task_id = [](string path) {
-        auto end = path.rfind("ingen.");
-        oi_assert(end != string::npos);
-        auto beg = path.rfind('/', end);
-        if (beg == string::npos) {
-            beg = 0;
-        } else {
-            ++beg;
-        }
-        return path.substr(beg, end - beg);
-    }(__FILE__);
-    return task_id;
-    // return "abc";
+// Set task id.
+const string get_task_id() {
+    return "abc"; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Set task id.
 }
 
 struct TestName {
