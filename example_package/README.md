@@ -3,7 +3,7 @@
 
 <!-- ---------------------------------------------------------------------- -->
 # **Szablon paczki**
-Jest to przykładoway szblon paczki, który zalecamy uzywać.
+Jest to przykładowy szablon paczki, który zalecamy używać.
 Jedynie dla zadań interaktywnych jest on inny.
 (Jeszcze nie zrobiliśmy dla niego szablonu).
 W przypadku chęci zrobienia takiego zadania obecnie najlepiej skontaktuj się z kimś kto wie jak to się robi.
@@ -47,8 +47,34 @@ Do kompilacji użyj `st-make doc`.
 ## talentTex.cls
 
 Jest to nasza klasa używana w plikach `.tex`.
-Jej opis jest podany w dokumentach.
-Wkrótce też opiszemy tutaj.
+Nadaje ona odpowiedni wygląd dokumentą i udostępnia kilka ułatwień w pisaniu.
+Automatycznie tworzy ona nagłówki i stopki.
+Wystarczy że stworzymy treść pomiędzy znacznikami `\start` i `\finish`.
+Dodatkowo udostępnia następujące rzeczy:
+
+- `\tc{n}` - koloruje na talentowy kolor "n".
+- `\plainimg{img1.jpg}` - wstawia obrazek o podanej ścieżce.
+- `\img{img1.jpg}{opis}{t/b}` - wstawia obrazek o podanej ścieżce z opisem u góry lub na dole.
+Można też `\timg{img1.jpg}{opis}`, `\bimg{img1.jpg}{opis}`.
+
+Komendy stylizujące treść:
+
+- `\start{}` - Rozpoczyna treść, musi być na samym początku treści zadania
+- `\finish{}` - Kończy treść, musi być na samym końcu treści zadania
+- `\tSection{text}` - Nagłówek w stylu talentu
+- `\tNoSkipSection{text}{0pt}` - Jak wyżej, tylko bez odstępu od poprzedniego akapitu
+- `\tSmallSection{text}` - Mały nagłówek w stylu talentu
+- `\tc{text}` - Styl używany do oznaczania zmiennych
+- `\makecompactexample{id}` - dodaje automatycznie test "zad0{id}" z paczki obok siebie.
+- `\makestandardexample{id}` - Tak samo, tylko pod sobą.
+Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out.
+Więc upewnij się że one istnieją.
+- `\ocen{\testOcen{}{} ...}` - Lista wszystkich testów ocen
+- `\testOcen{text}{text2}` - Pojedyńczy test ocen z opisem
+- `\ocenTable{}` - Tabela z podzadaniami
+- `\ocenRow{text}` - Pojedyńczy wiersz tabeli: kolejne komórki powinny być rozdzielone znakiem &
+- `\ocenElement{text}` - Jeśli chcesz mieć 2 linie w pojedyńczej komórce tabeli
+
 
 </details> <!-- koniec: doc -->
 
@@ -78,12 +104,12 @@ Każdy program musi mieć inną nazwę po usunięciu rozszerzeń.
 
 Zalecamy nazywać programy kolejnymi cyframi. `abc.cpp`, `abc2.cpp`, `abc3.cpp`, `abcs1.cpp`, `abcs2.cpp`, `abcb1.cpp`, ...
 
-Generalnie rozwiązania poprawne to takie które działają w odpowiedzniej złożoności i dają dobre wyniki (wolny python też tu należy).
+Generalnie rozwiązania poprawne to takie które działają w odpowiedniej złożoności i dają dobre wyniki (wolny Python też tu należy).
 Programy wolne to takie co mają gorszą złożoność czasową i dają dobre wyniki.
 Programy błędne to takie co co dają złe wyniki.
 Na przykład jak mamy wolny program co daje złe wyniki to damy go do grupy błędnych.
 
-Każdy kod w pierwszych liniach powinien mieć komentarz (taki jak w szablone).
+Każdy kod w pierwszych liniach powinien mieć komentarz (taki jak w szablonie).
 Dodatkowo kody powinny być czytelne i najlepiej zaopatrzone w komentarze (zwłaszcza wzorcówka).
 
 </details><!-- koniec ## programy -->
@@ -94,7 +120,7 @@ Dodatkowo kody powinny być czytelne i najlepiej zaopatrzone w komentarze (zwła
 # ingen
 `{TAG}ingen.cpp`
 
-Słóży do generowanie plików `.in`.
+Służy do generowanie plików `.in`.
 
 Ingen powinien:
 * Po uruchomieniu (bez żadnych argumentów) wygenerować
@@ -103,7 +129,7 @@ Ingen powinien:
 * Każdy test (lub grupa testów) powinna mieć osobnego seeda.
 * Być w pełni deterministyczny - na przykład można inicjować
   ziarno generatora liczb losowych stałą wartością.
-* Idealnie odzwiercziedlać foramt testu padany w treści.
+* Idealnie odzwierciedlać format testu podany w treści.
 * Na końcu pliku dawań nową linie, a na końcu wiersza **nie** dawać białych znaków.
 
 </details> <!-- koniec ## ingen -->
@@ -114,7 +140,7 @@ Ingen powinien:
 # inwer
 `{TAG}inwer.cpp`
 
-Słóży do sprawdzenia czy testy `.in` spełniają założenia z treści.
+Służy do sprawdzenia czy testy `.in` spełniają założenia z treści.
 
 Inwer powinien:
 * Wczytywać pliki wejściowe za pomocą pakietu `oi.h`.
@@ -122,7 +148,7 @@ Inwer powinien:
   Duże stałe podajemy w sposób czytelny, np. jako iloczyny.
 * W przypadku poprawnej weryfikacji ma wypisać `OK`
   oraz, w jednej linii, krótką charakterystykę testu
-  (wartości najważniejszych parametrów) i skończyc działanie kodem 0.
+  (wartości najważniejszych parametrów) i skończyć działanie kodem 0.
   Wypisany komentarz ma na celu upewnienie się, że każda grupa testów
   zawiera testy z wartościami brzegowymi
   (na przykład minimalne i maksymalne ograniczenia na `n`,
@@ -157,7 +183,7 @@ Weryfikator należy starać się **napisać wydajnie**, gdyż w trakcie zawodów
 
 Checkerka powinna:
 * Być uruchamiane w następujący sposób: `./{TAG}chk wejście wyjście_zawodnika wyjście_wzorcowe`.
-* Wczytyać pliki za pomocą pakietu `oi.h`.
+* Wczytywać pliki za pomocą pakietu `oi.h`.
 * wypisać odpowiedź w następującym formacie:
   * pierwszy wiersz powinien zawierać jedno słowo:
     * `OK` - jeśli odpowiedź jest poprawna, lub
@@ -189,7 +215,7 @@ Są 3 tryby wczytywania danych:
 | Lax        | ignoruje nl i ws | ignoruje ws  | -            |
 | TestInput  | -                | -            | wczytuje eof |
 
-Jak widać służą one do pomijania bądź nie, pustych lini na końcu pliku i białych znaków na końcu lini. 
+Jak widać służą one do pomijania bądź nie, pustych linii na końcu pliku i białych znaków na końcu linii. 
 Oraz czy zostanie na koniec jeszcze wczytany eof.
 Uwaga, nadal warto (i zalecamy) wczytywać samemu eof.
 
@@ -201,26 +227,26 @@ teraz scaner możemy używać jak cin, czyli ```scaner >>```.
 Wersje językowe są dostępne tylko te 2, w tych językach będą wypisywane komunikaty związane z wczytywaniem.
 Inicjalizowanie skanerów jest już w templatce zakodowane.
 
-Do wywoływania błedów używa on funkcji error(Msg&&... msg)
-która, wypisuje błedy podczas wczytywania.
-W takim shemacie: ```[mode]Wiersz [last_char_pos.line], [pozycja] [last_char_pos.pos]: [msg]...```
+Do wywoływania błędów używa on funkcji error(Msg&&... msg)
+która, wypisuje błędy podczas wczytywania.
+W takim schemacie: ```[mode]Wiersz [last_char_pos.line], [pozycja] [last_char_pos.pos]: [msg]...```
 
-Jego **najważniejszą funkcją jest wczytywanie** i realizuje ją w nasępujący sposób:
+Jego **najważniejszą funkcją jest wczytywanie** i realizuje ją w następujący sposób:
 
 - pojedyńczy znak - ```>> 'x' >> ' '``` -
 Pozwala wczytać pojedyńczy konkretny znak.
 - EOF (koniec pliku) - ```>> oi::eof``` -
 Wczytuje koniec pliku zgodnie z trybem pracy.
-- EOL (koniec lini) - ```>> oi::nl``` - 
-Wczytuje koniec lini zgodnie z trybem pracy.
+- EOL (koniec linii) - ```>> oi::nl``` - 
+Wczytuje koniec linii zgodnie z trybem pracy.
 - ignorowanie znaków białych - ```>> oi::ignore_ws``` -
 Pomija wszystkie znaki białe do następnego znaku.
 - linia - ```>> oi::Line(a, b)``` -
-Wczytuje cały wiersz do ```string a```, który jest nie dłóższy niż ```size_t b```.
+Wczytuje cały wiersz do ```string a```, który jest nie dłuższy niż ```size_t b```.
 - string - ```>> oi::Str(a, b)``` -
 Wczytuje string do ```a``` o maksymalnej długości ```b```.
 - char - ```>> oi::Char(a, b)``` -
-Wczutuje znak do ```char a``` z podanej puli b gdzie b to string lub tablica charów.
+Wczytuje znak do ```char a``` z podanej puli b gdzie b to string lub tablica charów.
 - liczba - ```>> oi::Num(a, b, c)``` -
 Wczytuje liczbę ```a``` (int, float, ...) która ma być w podanym zakresie od ```b``` do ```c```.
 
@@ -244,7 +270,7 @@ Kończy sprawdzanie z sukcesem z podanym wynikiem i wiadomością/ciami.
 Zwraca ```OK\n[msg]...[msg]\n[score]\n```
 - **set_partial_score(int score, Msg&&... msg)** -
 Ustawia wynik częściowy który zostanie zwrócony gdy nastąpi błąd.
-Czyli zamiast 0 punktów otrzyma się tyle ile się przypisało z danum komentarzem.
+Czyli zamiast 0 punktów otrzyma się tyle ile się przypisało z danym komentarzem.
 - **exit_wrong(Msg&&... msg)** -
 Kończ sprawdzanie z błędem i daje 0 punktów, chyba, że ustawiono partial_score.
 Zwraca ```WRONG\n[msg]...[msg]\n0\n``` lub 

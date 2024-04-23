@@ -21,6 +21,22 @@
 \RequirePackage{xstring}
 \RequirePackage{xparse}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Plików w paczce
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\sinolTestIn{../in}
+\def\sinolTestOut{../out}
+\def\sinolContestLogo{logo.jpg}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Kolory
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{talentBrown}{RGB}{97, 31, 30}
+\definecolor{talentBlue}{RGB}{0, 56, 117} % logo
+% \definecolor{talentBlue}{RGB}{31, 101, 157} % środek
+% \definecolor{talentBlue}{RGB}{31, 129, 189} % Jasny (SZU)
+% \definecolor{talentBlue}{RGB}{31, 73, 125} % Ciemny
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % zmienne logiczne
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -35,15 +51,6 @@
 \newif\ifgroupdefed \groupdefedfalse  % czy podano grupę
 \newif\ifMemorydefed \Memorydefedfalse  % czy podano dostępną pamięć
 \newif\iftimedefed \timedefedfalse % czy podano czas działania
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Kolory
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\definecolor{talentBrown}{RGB}{97, 31, 30}
-\definecolor{talentBlue}{RGB}{0, 56, 117} % logo
-% \definecolor{talentBlue}{RGB}{31, 101, 157} % środek
-% \definecolor{talentBlue}{RGB}{31, 129, 189} % Jasny (SZU)
-% \definecolor{talentBlue}{RGB}{31, 73, 125} % Ciemny
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Obsługa plików: inf, err
@@ -123,6 +130,17 @@
   \fi
 }
 
+\newcommand{\iffileexists}[3]{
+  \immediate\openin\tmpfile #1\par
+  \ifeof\tmpfile
+    \immediate\closein\tmpfile
+    #3
+  \else
+    \immediate\closein\tmpfile
+    #2
+  \fi
+}
+
 \newcommand{\twocol}[2]{
   \begin{center}
   \begin{minipage}[t]{0.5\textwidth}
@@ -136,7 +154,7 @@
   \end{center}
 }
 
-\def\sinolContestLogo{logo.jpg}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \def\LOGO{
   \leavevmode
@@ -150,7 +168,18 @@
   }
 }
 
+\def\tophugetitle{
+  \begin{minipage}[t]{0.8\textwidth}
+    \setlength{\parindent}{-4pt}
+    \color{talentBlue}
+    \fontfamily{ptm}
+    \huge
+    \textbf{\sinolTitle}
+  \end{minipage}
+}
+
 \def\topinformationbar{}
+
 \def\sinolHistory{}
 \def\sinolSignature{}
 
@@ -171,10 +200,11 @@
   \let\oldsection\section
 }
 
-\newcommand{\concludetext}{} % uruchamiane po przeczytaniu tekstu
+% uruchamiane po przeczytaniu tekstu
+\newcommand{\concludetext}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Stałe określające plik
+% Przypisanie stałych przez użytkownika
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\id}[1]{
@@ -257,10 +287,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Nazwy wyświetlane (zmiana języka, narazie tu ręcznie)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\sinolSolNameC{.c}
-\def\sinolSolNameCPP{.cpp}
-\def\sinolSolNamePAS{.pas}
-
 \def\sinolSNamePrzyklad{Przykład}
 \def\sinolSNameZadanie{Zadanie}
 \def\sinolSNameWejscie{Wejście}
@@ -269,6 +295,8 @@
 \def\sinolSNameTesty{Testy}
 \def\sinolSNameUwagi{Uwagi}
 \def\sinolSNameHistory{HISTORIA}
+\def\sinolSNameOpis{Opis rozwiązania}
+\def\sinolSNameOpracowanie{Opracowanie}
 
 \def\sinolTitleZadanie{Zadanie}
 \def\sinolEtapText{etap}
@@ -282,7 +310,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Opcje talentTex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \DeclareOption{zad}{
   \renewcommand{\topinformationbar}{
     \hbox to \hsize
@@ -336,6 +363,7 @@
 
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{opi}{
   \renewcommand{\topinformationbar}{
     \hbox to \hsize
@@ -347,13 +375,14 @@
       \fontfamily{ptm}
       \color{talentBlue}
       \Large
-      Opis rozwiązania
+      \sinolSNameOpis
       \hfill
       \end{minipage}
     }
   }
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{opr}{
   \renewcommand{\topinformationbar}{
     \hbox to \hsize
@@ -365,7 +394,7 @@
       \fontfamily{ptm}
       \color{talentBlue}
       \Large
-      Opracowanie Zadania
+      \sinolSNameOpracowanie
       \hfill
       \end{minipage}
     }
@@ -373,7 +402,6 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
 \PassOptionsToClass{a4paper}{article}
@@ -396,25 +424,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Wygląd dokumentu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \pagestyle{fancy}
 \lfoot{Stowarzyszenie Talent (talent.edu.pl)}
 \rfoot{\sinolTitle\ - \ID}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % Definicja przestrzeni dokumentu: 'tasktext'
 \newenvironment{tasktext}{
   \concludedecls
   % Tytuł
-  \leftline{
-    \begin{minipage}[t]{0.8\textwidth}
-    \setlength{\parindent}{-4pt}
-    \color{talentBlue}
-    \fontfamily{ptm}
-    \huge
-    \textbf{\sinolTitle}
-    \end{minipage}
+  \leftline{%
+    \tophugetitle%
   }
   % Logo
   \rightline{
@@ -438,19 +458,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Komendy dostępne w klasie talentTex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % komendy do obsługi plików
-
-\newcommand{\iffileexists}[3]{
-  \immediate\openin\tmpfile #1\par
-  \ifeof\tmpfile
-    \immediate\closein\tmpfile
-    #3
-  \else
-    \immediate\closein\tmpfile
-    #2
-  \fi
-}
 
 \newcommand{\includefile}[1]{
 \vspace{-0.7em}
@@ -459,16 +467,12 @@
 
 \newcommand{\exampleinput}[1]{
     \iffileexists{\sinolTestIn/\ID0#1.in}{
-        \includefile{\sinolTestIn/\ID0#1.in}
+      \includefile{\sinolTestIn/\ID0#1.in}
     }{
-      \iffileexists{\ID0#1.in}{
-        \includefile{\ID0#1.in}
-      }{
-        \smallskip
-        \bf{brak pliku {\ttfamily\ID0#1.in}}\par
-        \erroutput{brak pliku '\ID0#1.in'}
-        \smallskip
-      }
+      \smallskip
+      \?{brak pliku {\ttfamily\ID0#1.in}}\par
+      \erroutput{brak pliku '\ID0#1.in' w scieżce '\sinolTestIn'}
+      \smallskip
     }
 }
 
@@ -476,20 +480,12 @@
   \iffileexists{\sinolTestOut/\ID0#1.out}{
     \includefile{\sinolTestOut/\ID0#1.out}
   }{
-    \iffileexists{\ID0#1.out}{
-        \includefile{\ID0#1.out}
-    }{    
-      \smallskip
-      \?{brak pliku {\ttfamily\ID0#1.out}}\par
-      \erroutput{brak pliku '\ID0#1.out'}
-      \smallskip
-    }
+    \smallskip
+    \?{brak pliku {\ttfamily\ID0#1.out}}\par
+    \erroutput{brak pliku '\ID0#1.out' w scieżce '\sinolTestOut'}
+    \smallskip
   }
 }
-
-\def\sinolTestIn{../in}
-
-\def\sinolTestOut{../out}
 
 \def\@exampleputtogetherh#1#2{\twocol{#1}{#2}}
 
@@ -513,23 +509,6 @@
   }
 }
 
-\newcommand{\loadtestdir}{
-  \openin\tmpfile testdir.inp
-  \ifeof\tmpfile
-% TW, zazwyczaj ten plik nie jest stosowany, wiec komunikat o bledzie nie jest 
-%     konieczny
-%      \write16{SINOL: brak pliku 'testdir.inp'}
-  \else
-    \read\tmpfile to\sinolTestIn
-    \ifeof\tmpfile
-      \write16{SINOL: plik 'testdir.inp' skonczyl sie zbyt wczesnie}
-    \else
-      \read\tmpfile to\sinolTestOut
-    \fi
-  \fi
-  \closein\tmpfile
-}
-
 \newcommand{\@makestandardexampletext}[1]{
   \@exampleputtogethertext{
     \makestandardexampleinput{#1}
@@ -538,8 +517,7 @@
   }
 }
 
-\newcommand{\@makeexample}[1]{
-  \loadtestdir   
+\newcommand{\@makeexample}[1]{ 
   \ifundef{exampleImg}{
     \@makestandardexampletext{#1}
   }{
