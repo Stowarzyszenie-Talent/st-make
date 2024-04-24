@@ -1,4 +1,7 @@
 % Latex style for Talent (https://talent.edu.pl) statemnts
+% Based on sinol.cls made by:
+% Grzegorz Jakacki, Tomasz Waleń, Marcin Kubica, Jakub Pawlewicz
+% Adam Iwanicki, Szymon Acedanski, Tomasz Idziaszek, Jakub Radoszewski
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Formalności

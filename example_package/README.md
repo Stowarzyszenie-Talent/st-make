@@ -1,10 +1,9 @@
-<!-- Jak nie umiesz otworzyć by ładniej wyglądało, tu jest czytelniej -->
+<!-- Czytelny widok tego dokumentu można znaleźć pod tym linkiem. -->
 <!-- https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package -->
 
 # Spis Treści
 
 - [Szablon paczki](#szablon-paczki)
-- [Ogólne informacje](#ogólne-informacje)
 - [doc](#doc)
   - [talentTex.cls](#talenttexcls)
 - [prog](#prog)
@@ -31,25 +30,20 @@
   - [Expected scores](#expected-scores)
 - [in i out](#in-i-out)
 - [dlazaw](#dlazaw)
+  - [attachment](#attachment)
 
 # **Szablon paczki**
 
-Jest to przykładowy szablon paczki, który zalecamy używać.
+Jest to przykładowy szablon paczki, który zaleca się używać.
 Jedynie dla zadań interaktywnych jest on inny.
-(Jeszcze nie zrobiliśmy dla niego szablonu).
-W przypadku chęci zrobienia takiego zadania obecnie najlepiej skontaktuj się z kimś kto wie jak to się robi.
+(Jeszcze nie jest gotowy szablon dla tego typu).
 
-Aktualna wersja paczki zawsze znajduje się zawsze
-[na githubie](https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package).
-`st-make init`, pobiera właśnie tą wersję.
+Najnowsza wersja paczki znajduje się na
+[GitHubie](https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package).
+Można ją pobrać używając komendy `st-make init {TAG}`.
 
-# **Ogólne informacje**
-
-1. Do kompilacji paczki używamy skryptu `st-make`.
+Do kompilacji paczki używamy skryptu `st-make`.
 Jest on dostępny [na githubie](https://github.com/Stowarzyszenie-Talent/st-make).
-1. Każde zadanie ma `tag` - jest to najczęściej 3 literowy skrót.
-Wszystkie nazwy plików w paczce zaczynamy od niego.
-W przykładowej paczce jest to `abc`.
 
 # **doc**
 
@@ -60,17 +54,17 @@ Ten folder zawiera wszystkie pliki tekstowe (pdf, tex, doc, img, ...).
 Posiada wszelkie informacje techniczne o zadaniu.
 - `{TAG}opi.tex` - dokument z opisem rozwiązania.
 
-Do kompilacji użyj `st-make doc`.
+Do kompilacji dokumentów latexowych użyj `st-make doc`.
 
 ## **talentTex.cls**
 
-Jest to nasza klasa używana w plikach `.tex`.
-Nadaje ona odpowiedni wygląd dokumentą i udostępnia kilka ułatwień w pisaniu.
+Jest to klasa używana w plikach `.tex`.
+Nadaje ona odpowiedni wygląd dokumentom.
 Automatycznie tworzy ona nagłówki i stopki.
 Wystarczy że stworzymy treść pomiędzy znacznikami `\start` i `\finish`.
-Dodatkowo udostępnia następujące rzeczy:
+Dodatkowo udostępnia następujące funkcje:
 
-- `\tc{n}` - koloruje na talentowy kolor "n".
+- `\tc{n}` - koloruje na talentowy kolor podany tekst.
 - `\plainimg{img1.jpg}` - wstawia obrazek o podanej ścieżce.
 - `\img{img1.jpg}{opis}{t/b}` - wstawia obrazek o podanej ścieżce z opisem u góry lub na dole.
 Można też `\timg{img1.jpg}{opis}`, `\bimg{img1.jpg}{opis}`.
@@ -83,20 +77,21 @@ Komendy stylizujące treść:
 - `\tNoSkipSection{text}{0pt}` - Jak wyżej, tylko bez odstępu od poprzedniego akapitu
 - `\tSmallSection{text}` - Mały nagłówek w stylu talentu
 - `\tc{text}` - Styl używany do oznaczania zmiennych
-- `\makecompactexample{id}` - dodaje automatycznie test "zad0{id}" z paczki obok siebie.
-- `\makestandardexample{id}` - Tak samo, tylko pod sobą.
+- `\makecompactexample{id}` - dodaje automatycznie test "abc0{id}" z paczki obok siebie.
+- `\makestandardexample{id}` - dodaje automatycznie test "abc0{id}" z paczki pod sobą.
 Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out.
-Więc upewnij się że one istnieją.
+Należy się upewnić, że są one wygenerowane w momencie kompilacji treści.
+Również tworzy nagłówek "Wejście", "Wyjście".
 - `\ocen{\testOcen{}{} ...}` - Lista wszystkich testów ocen
 - `\testOcen{text}{text2}` - Pojedynczy test ocen z opisem
 - `\ocenTable{}` - Tabela z podzadaniami
-- `\ocenRow{text}` - Pojedynczy wiersz tabeli: kolejne komórki powinny być rozdzielone znakiem &
+- `\ocenRow{nr & opis & punkty}` - Pojedynczy wiersz tabeli: kolejne komórki powinny być rozdzielone znakiem &
 - `\ocenElement{text}` - Jeśli chcesz mieć 2 linie w pojedyńczej komórce tabeli
 
 # **prog**
 
 W tym katalogu będziemy trzymać wszystkie programy.
-Ważną rzeczą jest aby programy **nie miały żadnych warningów**.
+Ważną rzeczą jest aby programy **kompilowały się bez warningów** przy użyciu `st-make`.
 
 ## **Rozwiązania**
 
@@ -114,11 +109,11 @@ Zalecamy nazywać programy kolejnymi cyframi. `abc.cpp`, `abc2.cpp`, `abc3.cpp`,
 
 Generalnie rozwiązania poprawne to takie które działają w odpowiedniej złożoności i dają dobre wyniki (wolny Python też tu należy).
 Programy wolne to takie co mają gorszą złożoność czasową i dają dobre wyniki.
-Programy błędne to takie co co dają złe wyniki.
+Programy błędne to takie co dają złe wyniki.
 Na przykład jak mamy wolny program co daje złe wyniki to damy go do grupy błędnych.
 
-Każdy kod w pierwszych liniach powinien mieć komentarz (taki jak w szablonie).
-Dodatkowo kody powinny być czytelne i najlepiej zaopatrzone w komentarze (zwłaszcza wzorcówka).
+Każdy kod w pierwszych liniach powinien mieć komentarz opisujący: autora, nazwę zadania, złożoność czasową i pamięciową oraz opis jakie to jest rozwiązanie.
+Dodatkowo kody powinny być czytelne, najlepiej zaopatrzone w komentarze i nie zawierające makr oraz define-ów itp.
 
 ## **ingen**
 
@@ -132,8 +127,8 @@ Ingen powinien:
   w bieżącym katalogu odpowiednie pliki z danymi wejściowymi.
 - Używać liczb losowych z pakietu `oi.h`,
 - Każdy test (lub grupa testów) powinna mieć osobnego seeda.
-- Być w pełni deterministyczny - na przykład można inicjować
-  ziarno generatora liczb losowych stałą wartością.
+- Być w pełni deterministyczny czyli za każdym razem ma generować te same testy.
+  Na przykład można inicjować ziarno generatora liczb losowych stałą wartością.
 - Idealnie odzwierciedlać format testu podany w treści.
 - Na końcu pliku dawań nową linie, a na końcu wiersza **nie** dawać białych znaków.
 
@@ -148,13 +143,10 @@ Inwer powinien:
 - Wczytywać pliki wejściowe za pomocą pakietu `oi.h`.
 - Zawierać ograniczenia z treści zadania w formie stałych.
   Duże stałe podajemy w sposób czytelny, np. jako iloczyny.
-- W przypadku poprawnej weryfikacji ma wypisać `OK`
-  oraz, w jednej linii, krótką charakterystykę testu
+- W przypadku poprawnej weryfikacji ma wypisać w jednej linii, krótką charakterystykę testu
   (wartości najważniejszych parametrów) i skończyć działanie kodem 0.
-  Wypisany komentarz ma na celu upewnienie się, że każda grupa testów
-  zawiera testy z wartościami brzegowymi
-  (na przykład minimalne i maksymalne ograniczenia na `n`,
-  drzewa w postaci ścieżki i gwiazdy, itd).
+  Wypisany komentarz ma na celu upewnienie się, że każda grupa testów zawiera testy z wartościami brzegowymi
+  (na przykład minimalne i maksymalne ograniczenia na `n`, drzewa w postaci ścieżki i gwiazdy, itd).
 - Wypisać również numery podzadań, które pasują do tego testu,
   lub nazwy testów ocen, które pasują do tego testu.
   (należy inwerem się upewnić, że testy ocen są dokładnie takie, jak w treści).
@@ -177,20 +169,21 @@ Należy zwrócić **szczególną** uwagę, aby weryfikator wyjścia działał po
 o długości ciągów znaków znajdujących się w odpowiedzi zawodnika).
 Do każdego komunikatu, który może wypisać weryfikator, powinno istnieć rozwiązanie błędne lub istnieć w programie test jednostkowy, który powoduje wypisanie tego komunikatu.
 
-Weryfikator należy starać się **napisać wydajnie**, gdyż w trakcie zawodów jest on uruchamiany bardzo wiele razy.
+Weryfikator należy starać się **napisać wydajnie**, gdyż w trakcie zawodów jest on uruchamiany bardzo wiele razy. Z analogicznymi ograniczeniami na czas i pamięć.
 
 Checkerka powinna:
 
-- Być uruchamiane w następujący sposób: `./{TAG}chk wejście wyjście_zawodnika wyjście_wzorcowe`.
+- Być uruchamiana w następujący sposób: `./{TAG}chk wejście wyjście_zawodnika wyjście_wzorcowe`.
 - Wczytywać pliki za pomocą pakietu `oi.h`.
-- wypisać odpowiedź w następującym formacie:
-  - pierwszy wiersz powinien zawierać jedno słowo:
+- Wypisać odpowiedź w następującym formacie:
+  - Pierwszy wiersz powinien zawierać jedno słowo:
     - `OK` - jeśli odpowiedź jest poprawna, lub
     - `WRONG`-  w przeciwnym przypadku.
-  - drugi wiersz (opcjonalnie) powinien zawierać komentarz do
-    odpowiedzi zawodnika (np. przyczyny uznania rozwiązania za niepoprawne)
-  - trzeci wiersz (opcjonalnie) powinien zawierać jedną liczbę całkowitą
+  - Drugi wiersz (opcjonalnie) powinien zawierać komentarz do
+    odpowiedzi zawodnika (np. przyczyny uznania rozwiązania za niepoprawne).
+  - Trzeci wiersz (opcjonalnie) powinien zawierać jedną liczbę całkowitą
     z przedziału [0, 100] oznaczającą (w procentach) liczbę punktów, którą należy przyznać zawodnikowi za test.
+- Domyślnie za samo `OK` dostaje się 100 punktów, a za `WRONG` 0 punktów.
 - Pozwala na zbędne białe znaki tylko i wyłącznie na końcu linii i na końcu wyjścia oraz na **brak końca linii na końcu wyjścia** (ważne!).
 
 ## **oi.h**
@@ -220,7 +213,7 @@ Aby móc korzystać z wczytywanie musimy zainicjować scaner:
 
 teraz scaner możemy używać jak cin, czyli ```scaner >>```.
 Wersje językowe są dostępne tylko te 2, w tych językach będą wypisywane komunikaty związane z wczytywaniem.
-Inicjalizowanie skanerów jest już w templatce zakodowane.
+Przykładowa inicjalizacja i użycie skanerów jest zaimplementowana w templatce programów.
 
 Do wywoływania błędów używa on funkcji error(Msg&&... msg)
 która, wypisuje błędy podczas wczytywania.
@@ -228,22 +221,22 @@ W takim schemacie: ```[mode]Wiersz [last_char_pos.line], [pozycja] [last_char_po
 
 Jego **najważniejszą funkcją jest wczytywanie** i realizuje ją w następujący sposób:
 
-- pojedynczy znak - ```>> 'x' >> ' '``` -
+- pojedynczy znak - `>> 'x' >> ' '` -
 Pozwala wczytać pojedynczy konkretny znak.
-- EOF (koniec pliku) - ```>> oi::eof``` -
+- EOF (koniec pliku) - `>> oi::eof` -
 Wczytuje koniec pliku zgodnie z trybem pracy.
-- EOL (koniec linii) - ```>> oi::nl``` -
+- EOL (koniec linii) - `>> oi::nl` -
 Wczytuje koniec linii zgodnie z trybem pracy.
-- ignorowanie znaków białych - ```>> oi::ignore_ws``` -
+- ignorowanie znaków białych - `>> oi::ignore_ws` -
 Pomija wszystkie znaki białe do następnego znaku.
-- linia - ```>> oi::Line(a, b)``` -
-Wczytuje cały wiersz do ```string a```, który jest nie dłuższy niż ```size_t b```.
-- string - ```>> oi::Str(a, b)``` -
-Wczytuje string do ```a``` o maksymalnej długości ```b```.
-- char - ```>> oi::Char(a, b)``` -
-Wczytuje znak do ```char a``` z podanej puli b gdzie b to string lub tablica charów.
-- liczba - ```>> oi::Num(a, b, c)``` -
-Wczytuje liczbę ```a``` (int, float, ...) która ma być w podanym zakresie od ```b``` do ```c```.
+- linia - `>> oi::Line(a, b)` -
+Wczytuje cały wiersz do zmiennej `a`, która jest stringiem, który jest nie dłuższy niż `size_t b`.
+- string - `>> oi::Str(a, b)` -
+Wczytuje string do zmiennej `a` o maksymalnej długości `b`.
+- char - `>> oi::Char(a, b)` -
+Wczytuje znak do `char a` z podanej puli dozwolonych charów `b` gdzie `b` to string lub tablica charów.
+- liczba - `>> oi::Num(a, b, c)` -
+Wczytuje liczbę `a` (int, float, ...) która ma być w podanym zakresie od `b` do `c`.
 
 Podawanie zakresu może wydawać się upierdliwe, ale pozwala zapobiec że ktoś poda nieskończenie długi string.
 Albo że przegapimy sprawdzenie czy liczba jest w zakresie.
@@ -259,22 +252,22 @@ Kończy sprawdzanie z sukcesem.
 Zwraca ```OK\n\n100\n```.
 - **exit_ok_with_score(int score, Msg&&... msg)** -
 Kończy sprawdzanie z sukcesem z podanym wynikiem i wiadomością/ciami.
-Zwraca ```OK\n[msg]...[msg]\n[score]\n```
+Zwraca ```OK\n[msg]\n[score]\n```
 - **set_partial_score(int score, Msg&&... msg)** -
 Ustawia wynik częściowy który zostanie zwrócony gdy nastąpi błąd.
 Czyli zamiast 0 punktów otrzyma się tyle ile się przypisało z danym komentarzem.
 - **exit_wrong(Msg&&... msg)** -
 Kończ sprawdzanie z błędem i daje 0 punktów, chyba, że ustawiono partial_score.
-Zwraca ```WRONG\n[msg]...[msg]\n0\n``` lub
-```OK\n[partial_score_msg]; [msg]...[msg]\n[partial_score]\n``` lub
-jak nie ma partial_score_msg ```OK\n[msg]...[msg]\n[partial_score]\n``` .
+Zwraca ```WRONG\n[msg]\n0\n``` lub
+```OK\n[partial_score_msg]; [msg]\n[partial_score]\n``` lub
+jak nie ma partial_score_msg ```OK\n[msg]\n[partial_score]\n``` .
 
 ### **checker_test**
 
 oi.h udostępnia możliwość pisania testów do chekerki, by upewnić się że zwraca to co powinna.
 Te testy są uruchamiane tylko lokalnie.
-Istnieją 2 (raczej) intucyjne sposoby pisania ich.
-Zostały one przykładowo zaimplementowane w chekierce.
+Istnieją 2 sposoby pisania ich.
+Przykład obu z nich jest zaimplementowany w przykładowym `abcchk.cpp`.
 
 ### **InwerVerdict**
 
@@ -320,7 +313,7 @@ Możemy również pomieszać jakiś kontener robiąc ```rng.shuffle(container)``
 
 # **config.yml**
 
-Wszystkie informacje opisane tu są też opisane w configu.
+Wszystkie informacje opisane tutaj, są też opisane w configu.
 
 For more options see: [link to github](https://github.com/sio2project/sinol-make/blob/main/example_package/config.yml).
 Or here are some basic ones.
@@ -437,18 +430,23 @@ Przykładowe nazwy to: `abc0a.in`, `abc1a.in`, `abc1b.out`, `abc3z.in`, `abc3aa.
 
 Ciekawą formą nazywania jest też `{TAG}{grupa}t{nr}`, np `abc1t1.in`, jednak nie chce się przyjąć.
 
-**Testy ocen** - anomalią od tego są używane kiedyś testy ocen.
+**Testy ocen** - anomalią od tego są używane kiedyś (obecnie też) testy ocen.
 Testy opisane jako `{TAG}{liczba}ocen.in` są zaliczne jako **testy wstępne**.
 Na przykład `abc1ocen.in`, `abc2ocen.out`.
 Obecnie można dawać po prostu `0a`, `0b`, ... `0e`, a w treści dać tylko np a i b.
 
 Testy są tworzone przez `abcingen.cpp`.
 Takie testy będą tworzone dopiero na systemie, więc foldery będą najczęściej puste.
-Możemy jednak sami dodać testy które nie są generowane i one tu będą się znajdować.
+Możemy jednak sami dodać ręcznie testy, które nie są tworzone przez ingena i one tu będą się znajdować.
 
 # dlazaw
 
 W tym folderze są trzymane pliki dla zawodników.
 Między innymi przydaje się w zadaniach interaktywnych gdzie jest udostępniana nam jakaś biblioteczka.
 
-**Uwaga** testów ocen tu nie dajemy, je uczestnik dostaje automatycznie na zawodach.
+**Uwaga** testów ocen tu nie dajemy, są one automatycznie dodawane podczas eksportu paczki przy użyciu `st-make export`.
+
+## attachment
+
+Pliki znajdujące się w tym folderze są udostępniane bezpośrednio użytkownikowi.
+`st-make` tworzy ten folder i dodaje do niego skompresowany folder `dlazaw` oraz skompresowany folder z tastami wstępnymi i ocen.

@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include "oi.h"
+
 using namespace std;
 
 const int MIN_N = 0;
