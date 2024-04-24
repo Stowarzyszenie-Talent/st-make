@@ -1,8 +1,8 @@
 // Author : st-make
-// Task   : Zadanie przykładowe (a+b)
+// Task   : Przykładowy tytuł zadania
 // Memory : O(1)
 // Time   : O(1)
-// Solv   : wzorócwka
+// Solv   : Rozwiązanie wzorcowe
 
 #include <bits/stdc++.h>
 

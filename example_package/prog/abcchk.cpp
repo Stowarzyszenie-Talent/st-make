@@ -27,6 +27,7 @@ const int MAX_N = 1'000'000;
     user >> oi::eof; // `oi::eof` in mode `oi::Scanner::Mode::UserOutput` ignores newlines and whitespaces before the EOF.
 
     oi::checker_verdict.exit_ok();
+    // oi::checker_verdict.exit_ok_with_score(80, "error message");
 }
 
 int main(int argc, char* argv[]) {
@@ -40,6 +41,7 @@ int main(int argc, char* argv[]) {
 
 // You can write checker tests in the following way:
 // (They won't be executed in sio2, they only work locally)
+// If you don't want to write, delete or comment. However, I recommend writing.
 CHECKER_TEST(TestInput{"0 1\n"}, TestOutput{"does not matter"}, UserOutput{"1"}, CheckerOutput{"OK\n\n100\n"})
 
 // Or like this:

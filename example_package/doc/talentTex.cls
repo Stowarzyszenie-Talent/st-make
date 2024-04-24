@@ -4,7 +4,7 @@
 % Formalności
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
-\def\sinolVersion{0.0.4}
+\def\sinolVersion{0.0.5}
 \ProvidesClass{talentTex}[Stowarzyszenie Talent \sinolVersion]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

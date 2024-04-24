@@ -14,9 +14,9 @@ current_test.set_group(group); gen_test_reseed(current_test++, []() -> void { co
 using namespace std;
 oi::Random rng;
 
-// Set task id.
+// Set task id!
 const string get_task_id() {
-    return "abc"; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Set task id.
+    return "abc";
 }
 
 struct TestName {
