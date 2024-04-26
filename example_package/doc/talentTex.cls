@@ -278,8 +278,8 @@
     \gdef\sinolExampleOutputText{poprawnym wynikiem jest plik wyjściowy \outfile{}:}    
   }
   \ifeq{#1}{stdin}{
-    \gdef\sinolExampleInputText{\color{talentBlue}\bf Wejście:\color{black} }
-    \gdef\sinolExampleOutputText{\color{talentBlue}\bf Wyjście:\color{black} }    
+    \gdef\sinolExampleInputText{{\color{talentBlue}\bf Wejście:}}
+    \gdef\sinolExampleOutputText{{\color{talentBlue}\bf Wyjście:}}    
   }    
   \ifeq{#1}{outputonly}{
     \gdef\sinolExampleInputText{Wejście:}

@@ -37,8 +37,7 @@
 Jest to przykładowy szablon paczki, który zaleca się używać.
 Jedynie dla zadań interaktywnych jest on inny i jeszcze nie został przygotowany.
 
-Aktualnie najnowsza wersja paczki znajduje się na
-[GitHubie](https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package).
+Aktualna wersja paczki znajduje się na [GitHubie](https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package).
 Można ją pobrać używając komendy `st-make init ID`, gdzie ID to 3-literowy skrót zadania.
 
 Do kompilacji paczki i innych czynności używamy skryptu `st-make`.
@@ -49,10 +48,10 @@ Można go pobrać komendą `pip3 install st-make`.
 
 Ten folder zawiera wszystkie dokumenty i pliki potrzebne do ich wygenerowania (pdf, tex, doc, img, ...).
 
-- `{TAG}zad.tex` - treść zadania.
-- `{TAG}opr.tex` - dokument z opracowaniem zadania.
+- `{ID}zad.tex` - treść zadania.
+- `{ID}opr.tex` - dokument z opracowaniem zadania.
 Posiada wszelkie informacje techniczne o zadaniu.
-- `{TAG}opi.tex` - dokument z opisem rozwiązania.
+- `{ID}opi.tex` - dokument z opisem rozwiązania.
 
 Do kompilacji dokumentów latexowych służy `st-make doc`.
 
@@ -68,9 +67,6 @@ Dodatkowo udostępnia następujące funkcje:
 - `\plainimg{img1.jpg}` - Wstawia obrazek o podanej ścieżce.
 - `\img{img1.jpg}{opis}{t/b}` - Wstawia obrazek o podanej ścieżce z opisem u góry lub na dole.
 Można też `\timg{img1.jpg}{opis}`, `\bimg{img1.jpg}{opis}`.
-
-Komendy stylizujące treść:
-
 - `\start{}` - Rozpoczyna treść, musi być na samym początku treści dokumentu.
 - `\finish{}` - Kończy treść, musi być na samym końcu treści dokumentu.
 - `\tSection{text}` - Nagłówek w stylu talentu.
@@ -85,7 +81,7 @@ Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
 
 - `\ocen{\testOcen{}{} ...}` - Lista wszystkich testów ocen.
 - `\testOcen{nazwa_testu}{opis_testu}` - Pojedynczy test ocen z opisem.
-- `\ocenTable{}` - Tabela z podzadaniami.
+- `\ocenTable{}` - Tworzy tabelę z podzadaniami. Automatycznie tworzy nagłówek (Nr & Ograniczenia & Punkty).
 - `\ocenRow{nr & opis & punkty}` - Pojedynczy wiersz tabeli: kolejne komórki powinny być rozdzielone znakiem &.
   Jeśli chcesz mieć 2 linie w pojedynczej komórce tabeli użyj `\ocenElement{text}`.
 
@@ -98,17 +94,17 @@ Ważną rzeczą jest aby programy **kompilowały się bez warningów** przy uży
 
 Nazewnictwo:
 
-- `{TAG}.` - **Rozwiązanie wzorcowe**, np. `zad.cpp`.
+- `{ID}.` - **Rozwiązanie wzorcowe**, np. `abc.cpp`.
 Ten program jest wzorcowym i to on generuje poprawne odpowiedzi.
-- `{TAG}{cyfra}{suffix}.` - Rozwiązania poprawne, na przykład: `zad.cpp`, `zad2.cpp`, `zad3_alternatywna_wzorcowka.cpp`, `zad104.py`,
-- `{TAG}s{cyfra}{suffix}.` - Rozwiązania wolne, na przykład: `zads1.cpp`, `zads3_brute_n_kwadrat.cpp`, `zads13.py`,
-- `{TAG}b{cyfra}{suffix}.` - Rozwiązania niepoprawne, na przykład: `zadb1.cpp`, `zadb3_heura.cpp`, `zadb10.py`,
+- `{ID}{cyfra}{suffix}.` - Rozwiązania poprawne, na przykład: `abc.cpp`, `abc.cpp`, `abc.cpp`, `abc104.py`,
+- `{ID}s{cyfra}{suffix}.` - Rozwiązania wolne, na przykład: `abcs1.cpp`, `abcs3_brute_n_kwadrat.cpp`, `abcs13.py`,
+- `{ID}b{cyfra}{suffix}.` - Rozwiązania niepoprawne, na przykład: `abcb1.cpp`, `abcb3_heura.cpp`, `abcb10.py`,
 
 Każdy program musi mieć inną nazwę po usunięciu rozszerzeń.
 
 Zalecamy nazywać programy kolejnymi cyframi. `abc.cpp`, `abc2.cpp`, `abc3.py`, `abcs1.cpp`, `abcs2.cpp`, `abcb1.cpp`, ...
 
-Generalnie rozwiązania poprawne to takie które działają w odpowiedniej złożoności i dają dobre wyniki (wolny Python też tu należy).
+Rozwiązania poprawne to takie które działają w odpowiedniej złożoności i dają dobre wyniki (wolny Python też tu należy).
 Programy wolne to takie co mają gorszą złożoność czasową i dają dobre wyniki.
 Programy błędne to takie co dają złe wyniki.
 Na przykład jak mamy wolny program co daje złe wyniki to damy go do grupy błędnych.
@@ -118,7 +114,7 @@ Dodatkowo kody powinny być czytelne, najlepiej zaopatrzone w komentarze i nie z
 
 ### **ingen**
 
-`{TAG}ingen.cpp`
+`{ID}ingen.cpp`
 
 Generuje pliki `.in`.
 Dzięki temu, że generator jest w paczce, łatwiej będzie w przyszłości zedytować testy.
@@ -128,14 +124,14 @@ Ingen powinien:
 - Po uruchomieniu (bez żadnych argumentów) wygenerować w bieżącym katalogu odpowiednie pliki z danymi wejściowymi.
 - Generować liczby losowe za pomocą `oi.h`.
 - Każdy test (lub grupa testów) powinna mieć osobnego seeda.
-- Być w pełni deterministyczny czyli za każdym razem ma generować dokładnie te same testy.
+- Być w pełni deterministyczny, czyli za każdym razem ma generować dokładnie te same testy.
   Na przykład można inicjować ziarno generatora liczb losowych stałą wartością.
 - Idealnie odzwierciedlać format testu, podanego w treści zadania.
 - Na końcu pliku wypisać znak końca linii, a na końcu wierszy **nie** wypisywać białych znaków.
 
 ### **inwer**
 
-`{TAG}inwer.cpp`
+`{ID}inwer.cpp`
 
 Służy do sprawdzenia czy pliki `.in` spełniają założenia z treści.
 Jednocześnie pokazuje przydatne informacje o testach.
@@ -161,7 +157,7 @@ Inwer powinien:
 
 `abcchk.cpp`
 
-W przypadku zadań z jednoznaczną odpowiedzią nie dodajemy tego programu. System SIO ma domyślną chekierke, która porównuje odpowiedź z wzorcową.
+W przypadku zadań z jednoznaczną odpowiedzią nie dodajemy tego programu. System SIO ma domyślną chekierkę, która porównuje odpowiedź z wzorcową.
 
 W przypadku zadań, w których istnieje wiele poprawnych odpowiedzi, paczka musi zawierać weryfikator danych wyjściowych.
 Oprócz tego, do każdego komunikatu, który może wypisać weryfikator, powinno istnieć rozwiązanie błędne lub istnieć w programie test jednostkowy, który powoduje wypisanie tego komunikatu.
@@ -169,7 +165,7 @@ Oprócz tego, do każdego komunikatu, który może wypisać weryfikator, powinno
 Checkerka powinna:
 
 - Być **napisana wydajnie**, gdyż w trakcie zawodów jest on uruchamiany bardzo wiele razy.
-- Być uruchamiana w następujący sposób: `./{TAG}chk wejście wyjście_zawodnika wyjście_wzorcowe`.
+- Być uruchamiana w następujący sposób: `./{ID}chk wejście wyjście_zawodnika wyjście_wzorcowe`.
 - Wczytywać pliki za pomocą pakietu `oi.h`.
 - Wypisać odpowiedź w następującym formacie:
   - Pierwszy wiersz powinien zawierać jedno słowo:
@@ -187,9 +183,13 @@ Checkerka powinna:
 
 Jest to biblioteka ułatwiająca pisanie programów w paczce.
 Jednocześnie pozawala uniknąć masy błędów.
-Jest wymagane by wszystkie operacje robić za jej pomocą.
+Jest wymagane by wszędzie tam gdzie to możliwe jej używać.
+Umożliwia ona nam następujące rzeczy.
 
 #### **Scanner (Wczytywanie)**
+
+Służy do wczytywania danych z plików.
+Dzięki temu nie musimy martwić się co user dał na wejściu, tylko mówimy co oczekujemy.
 
 ##### Są 3 tryby wczytywania danych
 
@@ -208,7 +208,7 @@ Aby móc korzystać z wczytywania trzeba zainicjować scanner:
 - `scanner = oi::Scanner(argv[1], oi::Scanner::Mode::[tryb], [scanner_lang]);`
 
 Teraz scanner możemy używać jak cin, czyli `scanner >>`.
-Wersje językowe są dostępne tylko te 2, w tych językach będą wypisywane komunikaty związane z wczytywaniem.
+Wersje językowe są dostępne tylko te 2, w tych językach będą wypisywane komunikaty związane z błędami wczytywania.
 
 Do wywoływania błędów scanner używa funkcji error(Msg&&... msg), która, wypisuje błędy podczas wczytywania.
 W schemacie: ```[mode]Wiersz [last_char_pos.line], [pozycja] [last_char_pos.pos]: [msg]...```
@@ -228,13 +228,13 @@ Wczytuje cały wiersz (łacznie z białymi znakami) do zmiennej `a`, która jest
 - string - `>> oi::Str(a, b)` -
 Wczytuje string (słowo do pierwszego białego znaku) do zmiennej `a` o maksymalnej długości `b`.
 - char - `>> oi::Char(a, b)` -
-Wczytuje znak do `char a` z podanej puli dozwolonych charów `b` gdzie `b` to string lub tablica charów.
+Wczytuje znak do `char a` z podanej puli dozwolonych charów `b` gdzie `b` to `std::string` lub `char*`.
 - liczba - `>> oi::Num(a, b, c)` -
 Wczytuje liczbę `a` (int, float, ...) która ma być w podanym zakresie od `b` do `c`.
 
 Podawanie zakresu może wydawać się żmudne, ale pozwala zapobiec, że ktoś poda nieskończenie długie słowo, albo że przegapimy sprawdzenie czy liczba jest w odpowiednim zakresie.
 
-Wszystkie te funkcje w przypadku gdy wczytają coś, co nie pasuje do opisu, zgłoszą błąd.
+Wszystkie te funkcje w przypadku gdy wczytają coś, co nie pasuje do opisu, zgłoszą błąd i zakończą działanie programu z kodem niezerowym.
 
 #### **CheckerVerdict**
 
@@ -296,7 +296,7 @@ Wypisze on `[FILE]:[LINE]: [func]: Assertion '[condition]' failed.` lub
 
 #### **Random**
 
-Służy do losowania wartości i jest wymagane używać go zamiast zwykłego rand() lub std::mt19937 lub innych mechanizmów losujących.
+Służy do losowania wartości i jest wymagane używać go zamiast zwykłego rand(), std::mt19937 lub innych mechanizmów losujących.
 Zapewnia on, że liczby są rzeczywiście (pseudo) losowe.
 Klasa `Random` udostępnia:
 
@@ -315,22 +315,23 @@ Możemy również pomieszać jakiś kontener Używając `rng.shuffle()`, podają
 ## in i out
 
 Są to foldery, w których znajdują się testy.
-Testy nazywamy `{TAG}{grupa}{nr_testu}.{in/out}`.
+Testy nazywamy `{ID}{grupa}{nr_testu}.{in/out}`.
 
 Grupa:
 
 - 0 - są to testy wstępne, nie liczą się do oceny i uczestnik ma do nich dostęp na zawodach.
 - 1,2,... - zwyczajna grupa, punkty za nią dostaniemy jak przejdą wszystkie testy z danej grupy.
 
-nr_testu to kolejne litery alfabetu.
-A jak się skończą to dwie: a, ... z, aa, ab, ...
+nr_testu to ciąg alfanumeryczny, zaczynający się od litery.
+Przyjeło się, że są to kolejne litery alfabetu angielskiego.
+A jak się skończą to stawiemy wiecej liter: a, ... z, aa, ab, ..., zz, aaa, ...
 
 Przykładowe nazwy to: `abc0a.in`, `abc1a.in`, `abc1b.out`, `abc3z.in`, `abc3aa.in`.
 
-Ciekawą formą nazywania jest też `{TAG}{grupa}t{nr}`, np `abc1t1.in`, jednak nie chce się przyjąć.
+Ciekawą formą nazywania jest też `{ID}{grupa}t{nr}`, np `abc1t1.in`, jednak nie chce się przyjąć.
 
-**Testy ocen** - anomalią od tych regół są używane kiedyś (jak i teraz) testy ocen.
-Testy opisane jako `{TAG}{liczba}ocen.in` są zaliczane jako **testy wstępne** (grupa 0).
+**Testy ocen** - anomalią od tych reguł są testy ocen.
+Testy opisane jako `{ID}{liczba}ocen.in` są zaliczane jako **testy wstępne** (grupa 0).
 Na przykład `abc1ocen.in`, `abc2ocen.out`.
 Obecnie można dawać po prostu `0a`, `0b`, ... `0e`, a w treści podać tylko np a i b.
 
