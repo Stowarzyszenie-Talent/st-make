@@ -35,108 +35,108 @@
 # **Szablon paczki**
 
 Jest to przykładowy szablon paczki, który zaleca się używać.
-Jedynie dla zadań interaktywnych jest on inny.
-(Jeszcze nie jest gotowy szablon dla tego typu).
+Jedynie dla zadań interaktywnych jest on inny i jeszcze nie został przygotowany.
 
-Najnowsza wersja paczki znajduje się na
+Aktualnie najnowsza wersja paczki znajduje się na
 [GitHubie](https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package).
 Można ją pobrać używając komendy `st-make init {TAG}`.
 
-Do kompilacji paczki używamy skryptu `st-make`.
-Jest on dostępny [na githubie](https://github.com/Stowarzyszenie-Talent/st-make).
+Do kompilacji paczki i innych czynności używamy skryptu `st-make`.
+Jest on dostępny na [GitHubie](https://github.com/Stowarzyszenie-Talent/st-make).
+Można go pobrać komendą `pip3 install st-make`.
 
 # **doc**
 
 Ten folder zawiera wszystkie pliki tekstowe (pdf, tex, doc, img, ...).
 
-- `{TAG}zad.tex` - treść zadania, (przyjmowane jest też w wordzie).
+- `{TAG}zad.tex` - treść zadania.
 - `{TAG}opr.tex` - dokument z opracowaniem zadania.
 Posiada wszelkie informacje techniczne o zadaniu.
 - `{TAG}opi.tex` - dokument z opisem rozwiązania.
 
-Do kompilacji dokumentów latexowych użyj `st-make doc`.
+Do kompilacji dokumentów latexowych służy `st-make doc`.
 
 ## **talentTex.cls**
 
 Jest to klasa używana w plikach `.tex`.
 Nadaje ona odpowiedni wygląd dokumentom.
 Automatycznie tworzy ona nagłówki i stopki.
-Wystarczy że stworzymy treść pomiędzy znacznikami `\start` i `\finish`.
+Wystarczy że stworzymy treść dokumentu pomiędzy znacznikami `\start` i `\finish`.
 Dodatkowo udostępnia następujące funkcje:
 
-- `\tc{n}` - koloruje na talentowy kolor podany tekst.
-- `\plainimg{img1.jpg}` - wstawia obrazek o podanej ścieżce.
-- `\img{img1.jpg}{opis}{t/b}` - wstawia obrazek o podanej ścieżce z opisem u góry lub na dole.
+- `\tc{n}` - Stylizuje podany tekst na talentowy kolor.
+- `\plainimg{img1.jpg}` - Wstawia obrazek o podanej ścieżce.
+- `\img{img1.jpg}{opis}{t/b}` - Wstawia obrazek o podanej ścieżce z opisem u góry lub na dole.
 Można też `\timg{img1.jpg}{opis}`, `\bimg{img1.jpg}{opis}`.
 
 Komendy stylizujące treść:
 
-- `\start{}` - Rozpoczyna treść, musi być na samym początku treści zadania
-- `\finish{}` - Kończy treść, musi być na samym końcu treści zadania
-- `\tSection{text}` - Nagłówek w stylu talentu
-- `\tNoSkipSection{text}{0pt}` - Jak wyżej, tylko bez odstępu od poprzedniego akapitu
-- `\tSmallSection{text}` - Mały nagłówek w stylu talentu
-- `\tc{text}` - Styl używany do oznaczania zmiennych
+- `\start{}` - Rozpoczyna treść, musi być na samym początku treści dokumentu.
+- `\finish{}` - Kończy treść, musi być na samym końcu treści dokumentu.
+- `\tSection{text}` - Nagłówek w stylu talentu.
+- `\tNoSkipSection{text}{0pt}` - Nagłówek w stylu talentu, tylko bez odstępu od poprzedniego akapitu.
+- `\tSmallSection{text}` - Mały nagłówek w stylu talentu.
 - `\makecompactexample{id}` - dodaje automatycznie test "abc0{id}" z paczki obok siebie.
 - `\makestandardexample{id}` - dodaje automatycznie test "abc0{id}" z paczki pod sobą.
 Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out.
 Należy się upewnić, że są one wygenerowane w momencie kompilacji treści.
-Również tworzy nagłówek "Wejście", "Wyjście".
-- `\ocen{\testOcen{}{} ...}` - Lista wszystkich testów ocen
-- `\testOcen{text}{text2}` - Pojedynczy test ocen z opisem
-- `\ocenTable{}` - Tabela z podzadaniami
-- `\ocenRow{nr & opis & punkty}` - Pojedynczy wiersz tabeli: kolejne komórki powinny być rozdzielone znakiem &
-- `\ocenElement{text}` - Jeśli chcesz mieć 2 linie w pojedyńczej komórce tabeli
+Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
+- `\ocen{\testOcen{}{} ...}` - Lista wszystkich testów ocen.
+- `\testOcen{nazwa_testu}{opis_testu}` - Pojedynczy test ocen z opisem.
+- `\ocenTable{}` - Tabela z podzadaniami.
+- `\ocenRow{nr & opis & punkty}` - Pojedynczy wiersz tabeli: kolejne komórki powinny być rozdzielone znakiem &.
+- `\ocenElement{text}` - Jeśli chcesz mieć 2 linie w pojedynczej komórce tabeli.
 
 # **prog**
 
-W tym katalogu będziemy trzymać wszystkie programy.
+W tym katalogu znajdują się wszystkie programy.
 Ważną rzeczą jest aby programy **kompilowały się bez warningów** przy użyciu `st-make`.
 
 ## **Rozwiązania**
 
 Nazewnictwo:
 
-- `{TAG}.` - **Rozwiązanie wzorcowe**, np. `abc.cpp`.
-Ten program jest wzorcowym i to on generuje nam poprawne odpowiedzi.
-- `{TAG}{cyfra}{suffix}.` - rozwiązania poprawne, na przykład `zad.cpp`, `zad2.cpp`, `zad3_alternatywna_wzorcowka.cpp`, `zad104.py`,
-- `{TAG}s{cyfra}{suffix}.` - rozwiązania wolne, na przykład `zads1.cpp`, `zads3_brute_n_kwadrat.cpp`, `zads13.py`,
-- `{TAG}b{cyfra}{suffix}.` - rozwiązania niepoprawne, na przykład `zadb1.cpp`, `zadb3_heura.cpp`, `zadb10.py`,
+- `{TAG}.` - **Rozwiązanie wzorcowe**, np. `zad.cpp`.
+Ten program jest wzorcowym i to on generuje poprawne odpowiedzi.
+- `{TAG}{cyfra}{suffix}.` - Rozwiązania poprawne, na przykład: `zad.cpp`, `zad2.cpp`, `zad3_alternatywna_wzorcowka.cpp`, `zad104.py`,
+- `{TAG}s{cyfra}{suffix}.` - Rozwiązania wolne, na przykład: `zads1.cpp`, `zads3_brute_n_kwadrat.cpp`, `zads13.py`,
+- `{TAG}b{cyfra}{suffix}.` - Rozwiązania niepoprawne, na przykład: `zadb1.cpp`, `zadb3_heura.cpp`, `zadb10.py`,
 
 Każdy program musi mieć inną nazwę po usunięciu rozszerzeń.
 
-Zalecamy nazywać programy kolejnymi cyframi. `abc.cpp`, `abc2.cpp`, `abc3.cpp`, `abcs1.cpp`, `abcs2.cpp`, `abcb1.cpp`, ...
+Zalecamy nazywać programy kolejnymi cyframi. `abc.cpp`, `abc2.cpp`, `abc3.py`, `abcs1.cpp`, `abcs2.cpp`, `abcb1.cpp`, ...
 
 Generalnie rozwiązania poprawne to takie które działają w odpowiedniej złożoności i dają dobre wyniki (wolny Python też tu należy).
 Programy wolne to takie co mają gorszą złożoność czasową i dają dobre wyniki.
 Programy błędne to takie co dają złe wyniki.
 Na przykład jak mamy wolny program co daje złe wyniki to damy go do grupy błędnych.
 
-Każdy kod w pierwszych liniach powinien mieć komentarz opisujący: autora, nazwę zadania, złożoność czasową i pamięciową oraz opis jakie to jest rozwiązanie.
-Dodatkowo kody powinny być czytelne, najlepiej zaopatrzone w komentarze i nie zawierające makr oraz define-ów itp.
+Każdy kod w pierwszych liniach powinien mieć komentarz opisujący: autora kodu, nazwę zadania, złożoność czasową i pamięciową oraz opis jakie to jest rozwiązanie.
+Dodatkowo kody powinny być czytelne, najlepiej zaopatrzone w komentarze i nie zawierające makr oraz define-ów itp. co utrudnia ich czytanie.
 
 ## **ingen**
 
 `{TAG}ingen.cpp`
 
-Służy do generowanie plików `.in`.
+Generuje pliki `.in`.
+Dzięki temu, że generator jest w paczce, łatwiej będzie w przyszłości zedytować testy.
 
 Ingen powinien:
 
-- Po uruchomieniu (bez żadnych argumentów) wygenerować
-  w bieżącym katalogu odpowiednie pliki z danymi wejściowymi.
-- Używać liczb losowych z pakietu `oi.h`,
+- Po uruchomieniu (bez żadnych argumentów) wygenerować w bieżącym katalogu odpowiednie pliki z danymi wejściowymi.
+- Używać liczb losowych z pakietu `oi.h`.
 - Każdy test (lub grupa testów) powinna mieć osobnego seeda.
-- Być w pełni deterministyczny czyli za każdym razem ma generować te same testy.
+- Być w pełni deterministyczny czyli za każdym razem ma generować dokładnie te same testy.
   Na przykład można inicjować ziarno generatora liczb losowych stałą wartością.
-- Idealnie odzwierciedlać format testu podany w treści.
-- Na końcu pliku dawań nową linie, a na końcu wiersza **nie** dawać białych znaków.
+- Idealnie odzwierciedlać format testu, podanego w treści zadania.
+- Na końcu pliku wypisać nową linie, a na końcu wiersza **nie** wypisywać białych znaków.
 
 ## **inwer**
 
 `{TAG}inwer.cpp`
 
 Służy do sprawdzenia czy testy `.in` spełniają założenia z treści.
+Jednocześnie pokazuje przydatne informacje o testach.
 
 Inwer powinien:
 
@@ -145,16 +145,14 @@ Inwer powinien:
   Duże stałe podajemy w sposób czytelny, np. jako iloczyny.
 - W przypadku poprawnej weryfikacji ma wypisać w jednej linii, krótką charakterystykę testu
   (wartości najważniejszych parametrów) i skończyć działanie kodem 0.
-  Wypisany komentarz ma na celu upewnienie się, że każda grupa testów zawiera testy z wartościami brzegowymi
+  Wypisany komentarz ma na celu upewnienie się, że test należy do odpowiedniej grupy oraz, że każda grupa testów zawiera testy z wartościami brzegowymi
   (na przykład minimalne i maksymalne ograniczenia na `n`, drzewa w postaci ścieżki i gwiazdy, itd).
 - Wypisać również numery podzadań, które pasują do tego testu,
   lub nazwy testów ocen, które pasują do tego testu.
-  (należy inwerem się upewnić, że testy ocen są dokładnie takie, jak w treści).
-- W przypadku błędnej weryfikacji wypisać informację
-  o błędzie i kończyć działanie kodem niezerowym.
+  (należy inwerem się upewnić, że testy przykładowe i ocen są dokładnie takie, jak w treści).
+- W przypadku błędnej weryfikacji wypisać informację o błędzie i skończyć działanie kodem niezerowym.
   Można używać funkcji `assert` a najlepiej `oi_asert` z `oi.h`.
-- Sprawdzać, czy dane wejściowe są idealnie zgodne z opisem
-  z treści zadania, **z dokładnością do każdego białego znaku**.
+- Sprawdzać, czy dane wejściowe są idealnie zgodne z opisem treści zadania, **z dokładnością do każdego białego znaku**.
   Nie mogą pojawić się żadne zbędne białe znaki.
 
 ## **checkerka**
@@ -163,16 +161,12 @@ Inwer powinien:
 
 W przypadku zadań z jednoznaczną odpowiedzią, nie dodajemy tego programu. System SIO ma domyślną chekierke, która porównuje odpowiedź z wzorcową.
 
-W przypadku zadań, w których istnieje wiele poprawnych odpowiedzi,
-paczka powinno zawierać weryfikator danych wyjściowych.
-Należy zwrócić **szczególną** uwagę, aby weryfikator wyjścia działał poprawnie nawet dla bardzo złośliwych danych (np. nie można nic zakładać
-o długości ciągów znaków znajdujących się w odpowiedzi zawodnika).
-Do każdego komunikatu, który może wypisać weryfikator, powinno istnieć rozwiązanie błędne lub istnieć w programie test jednostkowy, który powoduje wypisanie tego komunikatu.
-
-Weryfikator należy starać się **napisać wydajnie**, gdyż w trakcie zawodów jest on uruchamiany bardzo wiele razy. Z analogicznymi ograniczeniami na czas i pamięć.
+W przypadku zadań, w których istnieje wiele poprawnych odpowiedzi, paczka musi zawierać weryfikator danych wyjściowych.
+Oprócz tego, do każdego komunikatu, który może wypisać weryfikator, powinno istnieć rozwiązanie błędne lub istnieć w programie test jednostkowy, który powoduje wypisanie tego komunikatu.
 
 Checkerka powinna:
 
+- Być **napisana wydajnie**, gdyż w trakcie zawodów jest on uruchamiany bardzo wiele razy.
 - Być uruchamiana w następujący sposób: `./{TAG}chk wejście wyjście_zawodnika wyjście_wzorcowe`.
 - Wczytywać pliki za pomocą pakietu `oi.h`.
 - Wypisać odpowiedź w następującym formacie:
@@ -185,16 +179,17 @@ Checkerka powinna:
     z przedziału [0, 100] oznaczającą (w procentach) liczbę punktów, którą należy przyznać zawodnikowi za test.
 - Domyślnie za samo `OK` dostaje się 100 punktów, a za `WRONG` 0 punktów.
 - Pozwala na zbędne białe znaki tylko i wyłącznie na końcu linii i na końcu wyjścia oraz na **brak końca linii na końcu wyjścia** (ważne!).
+- Działał poprawnie nawet dla bardzo złośliwych danych (np. nie można nic zakładać o długości ciągów znaków znajdujących się w odpowiedzi zawodnika).
 
 ## **oi.h**
 
-Jest to biblioteka ułatwiająca pisanie paczki.
-Jednocześnie pozawala uniknąć masy rzeczy.
+Jest to biblioteka ułatwiająca pisanie programów w paczce.
+Jednocześnie pozawala uniknąć masy błędów.
 Jest wymagane by wszystkie operacje robić za jej pomocą.
 
 ### **Scanner (Wczytywanie)**
 
-Są 3 tryby wczytywania danych:
+#### Są 3 tryby wczytywania danych:
 
 | tryb       | eof              | nl           | destruktor   |
 | ---------- | :--------------: | :----------: | :----------: |
@@ -202,35 +197,32 @@ Są 3 tryby wczytywania danych:
 | Lax        | ignoruje nl i ws | ignoruje ws  | -            |
 | TestInput  | -                | -            | wczytuje eof |
 
-Jak widać służą one do pomijania bądź nie, pustych linii na końcu pliku i białych znaków na końcu linii.
-Oraz czy zostanie na koniec jeszcze wczytany eof.
-Uwaga, nadal warto (i zalecamy) wczytywać samemu eof.
+Jak widać służą one do pomijania bądź nie, pustych linii na końcu pliku i białych znaków na końcu linii oraz czy zostanie na koniec jeszcze wczytany eof.
+Nadal warto (i zalecamy) sprawdzać samemu czy nastąpił koniec pliku.
 
-Aby móc korzystać z wczytywanie musimy zainicjować scaner:
+Aby móc korzystać z wczytywanie trzeba zainicjować scaner:
 
-- ```scaner = oi::Scanner{stdin, oi::Scanner::Mode::[tryb], oi::Lang::[PL/EN]};```
-- ```scaner = oi::Scanner(argv[1], oi::Scanner::Mode::[tryb], [scanner_lang]);```
+- `scaner = oi::Scanner{stdin, oi::Scanner::Mode::[tryb], oi::Lang::[PL/EN]};`
+- `scaner = oi::Scanner(argv[1], oi::Scanner::Mode::[tryb], [scanner_lang]);`
 
-teraz scaner możemy używać jak cin, czyli ```scaner >>```.
+teraz scaner możemy używać jak cin, czyli `scaner >>`.
 Wersje językowe są dostępne tylko te 2, w tych językach będą wypisywane komunikaty związane z wczytywaniem.
-Przykładowa inicjalizacja i użycie skanerów jest zaimplementowana w templatce programów.
 
-Do wywoływania błędów używa on funkcji error(Msg&&... msg)
-która, wypisuje błędy podczas wczytywania.
-W takim schemacie: ```[mode]Wiersz [last_char_pos.line], [pozycja] [last_char_pos.pos]: [msg]...```
+Do wywoływania błędów scaner używa funkcji error(Msg&&... msg), która, wypisuje błędy podczas wczytywania.
+W schemacie: ```[mode]Wiersz [last_char_pos.line], [pozycja] [last_char_pos.pos]: [msg]...```
 
-Jego **najważniejszą funkcją jest wczytywanie** i realizuje ją w następujący sposób:
+#### **Najważniejszą funkcją jest wczytywanie** i realizuje ją w następujący sposób:
 
 - pojedynczy znak - `>> 'x' >> ' '` -
-Pozwala wczytać pojedynczy konkretny znak.
+Pozwala wczytać pojedynczy, konkretny znak.
 - EOF (koniec pliku) - `>> oi::eof` -
 Wczytuje koniec pliku zgodnie z trybem pracy.
 - EOL (koniec linii) - `>> oi::nl` -
 Wczytuje koniec linii zgodnie z trybem pracy.
 - ignorowanie znaków białych - `>> oi::ignore_ws` -
-Pomija wszystkie znaki białe do następnego znaku.
+Pomija wszystkie znaki białe do następnego znaku lub końca linii.
 - linia - `>> oi::Line(a, b)` -
-Wczytuje cały wiersz do zmiennej `a`, która jest stringiem, który jest nie dłuższy niż `size_t b`.
+Wczytuje cały wiersz do zmiennej `a`, która jest stringiem. Długość linii ma być nie dłuższy niż `size_t b`.
 - string - `>> oi::Str(a, b)` -
 Wczytuje string do zmiennej `a` o maksymalnej długości `b`.
 - char - `>> oi::Char(a, b)` -
@@ -238,82 +230,84 @@ Wczytuje znak do `char a` z podanej puli dozwolonych charów `b` gdzie `b` to st
 - liczba - `>> oi::Num(a, b, c)` -
 Wczytuje liczbę `a` (int, float, ...) która ma być w podanym zakresie od `b` do `c`.
 
-Podawanie zakresu może wydawać się upierdliwe, ale pozwala zapobiec że ktoś poda nieskończenie długi string.
-Albo że przegapimy sprawdzenie czy liczba jest w zakresie.
+Podawanie zakresu może wydawać się upierdliwe, ale pozwala zapobiec że ktoś poda nieskończenie długie słowo.
+Albo że przegapimy sprawdzenie czy liczba jest w odpowiednim zakresie.
+
+Wszystkie te funkcje w przypadku gdy wczytają coś, co nie pasuje do opisu, zgłoszą błąd.
 
 ### **CheckerVerdict**
 
-oi.h udostępnia nam obiekt ```checker_verdict``` klasy CheckerVerdict.
-Używamy go standardowo ```oi::checker_verdict.[coś]```.
-Udostępnia nam poniższe funkcje:
+oi.h udostępnia nam obiekt `checker_verdict` klasy CheckerVerdict.
+Używamy go standardowo `oi::checker_verdict.[coś]`.
+Udostępnia on nam poniższe funkcje:
 
 - **exit_ok()** -
 Kończy sprawdzanie z sukcesem.
-Zwraca ```OK\n\n100\n```.
+Zwraca `OK\n\n100\n`.
 - **exit_ok_with_score(int score, Msg&&... msg)** -
 Kończy sprawdzanie z sukcesem z podanym wynikiem i wiadomością/ciami.
-Zwraca ```OK\n[msg]\n[score]\n```
+Zwraca `OK\n[msg]\n[score]\n`.
 - **set_partial_score(int score, Msg&&... msg)** -
 Ustawia wynik częściowy który zostanie zwrócony gdy nastąpi błąd.
 Czyli zamiast 0 punktów otrzyma się tyle ile się przypisało z danym komentarzem.
 - **exit_wrong(Msg&&... msg)** -
 Kończ sprawdzanie z błędem i daje 0 punktów, chyba, że ustawiono partial_score.
-Zwraca ```WRONG\n[msg]\n0\n``` lub
-```OK\n[partial_score_msg]; [msg]\n[partial_score]\n``` lub
-jak nie ma partial_score_msg ```OK\n[msg]\n[partial_score]\n``` .
+Zwraca `WRONG\n[msg]\n0\n` albo `OK\n[partial_score_msg]; [msg]\n[partial_score]\n` albo `OK\n[msg]\n[partial_score]\n`.
 
 ### **checker_test**
 
 oi.h udostępnia możliwość pisania testów do chekerki, by upewnić się że zwraca to co powinna.
 Te testy są uruchamiane tylko lokalnie.
-Istnieją 2 sposoby pisania ich.
+Istnieją 2 sposoby ich pisania.
 Przykład obu z nich jest zaimplementowany w przykładowym `abcchk.cpp`.
 
 ### **InwerVerdict**
 
-oi.h udostępnia nam obiekt ```inwer_verdict``` klasy InwerVerdict.
+oi.h udostępnia nam obiekt `inwer_verdict` klasy InwerVerdict.
 Używamy go jako strumień wyjścia, a mianowicie:
-```oi::inwer_verdict.[coś] << [msg]```.
-Gdzie ```msg``` to wiadomość którą chcemy pokazać przed zakończeniem.
-Natomiast ```coś``` to jedna z podanych opcji:
+`oi::inwer_verdict.[coś] << [msg]`.
+Gdzie `msg` to wiadomość którą chcemy pokazać przed zakończeniem.
+Natomiast `coś` to jedna z podanych opcji:
 
 - **exit_ok()** - Kończy program pomyślnie.
 - **exit_wrong()** - Kończy program z błędem.
 
-My będziemy używać tylko ```oi::inwer_verdict.exit_ok() << [msg]```.
-Druga opcja jest używana systemowo i będziemy ją zgłaszać np. przez ```oi::bug(Msg&&... msg)```.
+My będziemy używać tylko `oi::inwer_verdict.exit_ok() << [msg]`.
+Druga opcja jest używana systemowo i będziemy ją zgłaszać np. przez `oi_assert()` lub `oi::bug(Msg&&... msg)`.
 
 ### **bug**
 
-Wywołując ```oi::bug(Msg&&... msg)```, program zakończy się niepowodzeniem.
-Wyświetli on wtedy podaną wiadomość/ci.
+Wywołując `oi::bug(Msg&&... msg)`, program zakończy się niepowodzeniem.
+Wyświetli on wtedy podaną wiadomość/ci, w formacie `BUG: [msg]` i zakończy działanie z kodem 2.
 
 ### **oi_assert**
 
 Działa podobnie do zwykłego asserta.
-Wywołując ```oi_assert(condition, ...);```, sprawdzi nasze założenie, a jak będzie błędne to poda dokładny komunikat co jest nie tak.
-Wypisze on ```[FILE]:[LINE]: [func]: Assertion '[condition]' failed.``` lub
-```[FILE]:[LINE]: [func]: Assertion '[condition]' failed: [msg]...```
+Wywołując `oi_assert(condition, ...);`, sprawdzi założenie, a jak będzie błędne to poda dokładny komunikat co jest nie tak.
+Wypisze on `[FILE]:[LINE]: [func]: Assertion '[condition]' failed.` lub
+`[FILE]:[LINE]: [func]: Assertion '[condition]' failed: [msg]`
 
 ### **Random**
 
-Służy do losowania wartości i jest wymagane go używać zamiast zwykłego rand.
-On zapewnia, że liczby są rzeczywiście (pseudo)losowe.
-Klasa ```Random``` udostępnia nam:
+Służy do losowania wartości i jest wymagane używać go zamiast zwykłego rand.
+Zapewnia on, że liczby są rzeczywiście (pseudo) losowe.
+Klasa `Random` udostępnia:
 
 - **Random(uint_fast64_t seed = 5489)**
+- **void shuffle(T begin, T end)**
 - **void shuffle(T& container)**
 - **operator()(T min, T max)**
 
-Tak więc aby utworzyć obiekt robimy ```rng = oi::Random{seed};```.
-Aby zmienić seed nadpisujemy ```rng = oi::Random(seed);```.
-Aby użyć robimy ```rng(min, max);```.
-Pod wartości min i max podstawiamy zakres z jakiego chcemy wylosowac wartość. Obsługiwane są wszystkie typy numeryczne (int, float, char, ...).
-Możemy również pomieszać jakiś kontener robiąc ```rng.shuffle(container)```.
+Tak więc aby utworzyć obiekt robimy `rng = oi::Random{seed};`.
+Aby zmienić seed nadpisujemy `rng = oi::Random(new_seed);`.
+Aby użyć robimy `rng(min, max);`.
+Pod wartości min i max podstawiamy zakres z jakiego chcemy wylosować wartość.
+Obsługiwane są wszystkie typy numeryczne (int, float, char, ...).
+Możemy również pomieszać jakiś kontener Używając `rng.shuffle()`, podając mu albo kontener albo początek i koniec przedziału.
 
 # **config.yml**
 
-Wszystkie informacje opisane tutaj, są też opisane w configu.
+Wszystkie informacje opisane tutaj, są również opisane w configu.
 
 For more options see: [link to github](https://github.com/sio2project/sinol-make/blob/main/example_package/config.yml).
 Or here are some basic ones.
@@ -416,12 +410,14 @@ It is automatically generated and managed by st-make.
 # in i out
 
 Są to foldery, w których znajdują się testy.
+Zazwyczaj będą puste bo pliki in generuje ingen, a pliki out generuje program wzorcowy.
+Te dwa programy mają pierwszeństwo względem ręcznych testów w przypadku konfliktu nazwy.
 Testy nazywamy `{TAG}{grupa}{nr_testu}.{in/out}`.
 
 Grupa:
 
-- 0, ocen - są to testy wstępne, nie liczą się do oceny i uczestnik ma do nich dostęp na zawodach.
-- 1,2,... - jest to grupa, punkty za nią dostaniemy jak przejdą wszystkie testy z danej grupy.
+- 0 - są to testy wstępne, nie liczą się do oceny i uczestnik ma do nich dostęp na zawodach.
+- 1,2,... - zwyczajna grupa, punkty za nią dostaniemy jak przejdą wszystkie testy z danej grupy.
 
 nr_testu to kolejne litery alfabetu.
 A jak się skończą to dwie: a, ... z, aa, ab, ...
@@ -431,9 +427,9 @@ Przykładowe nazwy to: `abc0a.in`, `abc1a.in`, `abc1b.out`, `abc3z.in`, `abc3aa.
 Ciekawą formą nazywania jest też `{TAG}{grupa}t{nr}`, np `abc1t1.in`, jednak nie chce się przyjąć.
 
 **Testy ocen** - anomalią od tego są używane kiedyś (obecnie też) testy ocen.
-Testy opisane jako `{TAG}{liczba}ocen.in` są zaliczne jako **testy wstępne**.
+Testy opisane jako `{TAG}{liczba}ocen.in` są zaliczane jako **testy wstępne** (grupa 0).
 Na przykład `abc1ocen.in`, `abc2ocen.out`.
-Obecnie można dawać po prostu `0a`, `0b`, ... `0e`, a w treści dać tylko np a i b.
+Obecnie można dawać po prostu `0a`, `0b`, ... `0e`, a w treści podać tylko np a i b.
 
 Testy są tworzone przez `abcingen.cpp`.
 Takie testy będą tworzone dopiero na systemie, więc foldery będą najczęściej puste.
@@ -442,11 +438,11 @@ Możemy jednak sami dodać ręcznie testy, które nie są tworzone przez ingena 
 # dlazaw
 
 W tym folderze są trzymane pliki dla zawodników.
-Między innymi przydaje się w zadaniach interaktywnych gdzie jest udostępniana nam jakaś biblioteczka.
+Między innymi przydaje się w zadaniach interaktywnych gdzie jest udostępniana jakaś biblioteczka.
 
 **Uwaga** testów ocen tu nie dajemy, są one automatycznie dodawane podczas eksportu paczki przy użyciu `st-make export`.
 
 ## attachment
 
 Pliki znajdujące się w tym folderze są udostępniane bezpośrednio użytkownikowi.
-`st-make` tworzy ten folder i dodaje do niego skompresowany folder `dlazaw` oraz skompresowany folder z tastami wstępnymi i ocen.
+`st-make export` tworzy ten folder i dodaje do niego skompresowany folder `dlazaw` oraz skompresowany folder z testami wstępnymi i ocen.

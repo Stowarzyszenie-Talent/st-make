@@ -1,7 +1,12 @@
 % Latex style for Talent (https://talent.edu.pl) statemnts
+% 
+% Copyright (c) Stanisław Czech 2024
+% Provided under MIT licence 
+%
 % Based on sinol.cls made by:
 % Grzegorz Jakacki, Tomasz Waleń, Marcin Kubica, Jakub Pawlewicz
 % Adam Iwanicki, Szymon Acedanski, Tomasz Idziaszek, Jakub Radoszewski
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Formalności
