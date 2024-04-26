@@ -1,9 +1,9 @@
 <!-- Czytelny widok tego dokumentu można znaleźć pod tym linkiem. -->
 <!-- https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package -->
 
-# Spis Treści
+# **Szablon paczki**
 
-- [Szablon paczki](#szablon-paczki)
+- [Ogólne informacje](#ogólne-informacje)
 - [doc](#doc)
   - [talentTex.cls](#talenttexcls)
 - [prog](#prog)
@@ -19,6 +19,9 @@
     - [bug](#bug)
     - [oi_assert](#oi_assert)
     - [Random](#random)
+- [in i out](#in-i-out)
+- [dlazaw](#dlazaw)
+- [attachment](#attachment)
 - [config.yml](#configyml)
   - [Interactive tasks](#interactive-tasks)
   - [Time](#time)
@@ -28,26 +31,23 @@
   - [Task ID](#task-id)
   - [Contest type](#contest-type)
   - [Expected scores](#expected-scores)
-- [in i out](#in-i-out)
-- [dlazaw](#dlazaw)
-  - [attachment](#attachment)
 
-# **Szablon paczki**
+## **Ogólne informacje**
 
 Jest to przykładowy szablon paczki, który zaleca się używać.
 Jedynie dla zadań interaktywnych jest on inny i jeszcze nie został przygotowany.
 
 Aktualnie najnowsza wersja paczki znajduje się na
 [GitHubie](https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package).
-Można ją pobrać używając komendy `st-make init {TAG}`.
+Można ją pobrać używając komendy `st-make init ID`, gdzie ID to 3-literowy skrót zadania.
 
 Do kompilacji paczki i innych czynności używamy skryptu `st-make`.
 Jest on dostępny na [GitHubie](https://github.com/Stowarzyszenie-Talent/st-make).
 Można go pobrać komendą `pip3 install st-make`.
 
-# **doc**
+## **doc**
 
-Ten folder zawiera wszystkie pliki tekstowe (pdf, tex, doc, img, ...).
+Ten folder zawiera wszystkie dokumenty i pliki potrzebne do ich wygenerowania (pdf, tex, doc, img, ...).
 
 - `{TAG}zad.tex` - treść zadania.
 - `{TAG}opr.tex` - dokument z opracowaniem zadania.
@@ -56,7 +56,7 @@ Posiada wszelkie informacje techniczne o zadaniu.
 
 Do kompilacji dokumentów latexowych służy `st-make doc`.
 
-## **talentTex.cls**
+### **talentTex.cls**
 
 Jest to klasa używana w plikach `.tex`.
 Nadaje ona odpowiedni wygląd dokumentom.
@@ -74,25 +74,27 @@ Komendy stylizujące treść:
 - `\start{}` - Rozpoczyna treść, musi być na samym początku treści dokumentu.
 - `\finish{}` - Kończy treść, musi być na samym końcu treści dokumentu.
 - `\tSection{text}` - Nagłówek w stylu talentu.
-- `\tNoSkipSection{text}{0pt}` - Nagłówek w stylu talentu, tylko bez odstępu od poprzedniego akapitu.
+- `\tCustomSection{text}{0pt}` - Nagłówek w stylu talentu, z możliwością ustawienia odstępu od poprzedniego akapitu.
 - `\tSmallSection{text}` - Mały nagłówek w stylu talentu.
-- `\makecompactexample{id}` - dodaje automatycznie test "abc0{id}" z paczki obok siebie.
-- `\makestandardexample{id}` - dodaje automatycznie test "abc0{id}" z paczki pod sobą.
+- `\makecompactexample{id}` - dodaje automatycznie test "abc0{id}" z paczki, wejście i wyjście będą obok siebie.
+- `\makestandardexample{id}` - dodaje automatycznie test "abc0{id}" z paczki, wejście i wyjście będą pod sobą.
+
 Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out.
 Należy się upewnić, że są one wygenerowane w momencie kompilacji treści.
 Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
+
 - `\ocen{\testOcen{}{} ...}` - Lista wszystkich testów ocen.
 - `\testOcen{nazwa_testu}{opis_testu}` - Pojedynczy test ocen z opisem.
 - `\ocenTable{}` - Tabela z podzadaniami.
 - `\ocenRow{nr & opis & punkty}` - Pojedynczy wiersz tabeli: kolejne komórki powinny być rozdzielone znakiem &.
-- `\ocenElement{text}` - Jeśli chcesz mieć 2 linie w pojedynczej komórce tabeli.
+  Jeśli chcesz mieć 2 linie w pojedynczej komórce tabeli użyj `\ocenElement{text}`.
 
-# **prog**
+## **prog**
 
 W tym katalogu znajdują się wszystkie programy.
 Ważną rzeczą jest aby programy **kompilowały się bez warningów** przy użyciu `st-make`.
 
-## **Rozwiązania**
+### **Rozwiązania**
 
 Nazewnictwo:
 
@@ -114,7 +116,7 @@ Na przykład jak mamy wolny program co daje złe wyniki to damy go do grupy bł�
 Każdy kod w pierwszych liniach powinien mieć komentarz opisujący: autora kodu, nazwę zadania, złożoność czasową i pamięciową oraz opis jakie to jest rozwiązanie.
 Dodatkowo kody powinny być czytelne, najlepiej zaopatrzone w komentarze i nie zawierające makr oraz define-ów itp. co utrudnia ich czytanie.
 
-## **ingen**
+### **ingen**
 
 `{TAG}ingen.cpp`
 
@@ -124,26 +126,26 @@ Dzięki temu, że generator jest w paczce, łatwiej będzie w przyszłości zedy
 Ingen powinien:
 
 - Po uruchomieniu (bez żadnych argumentów) wygenerować w bieżącym katalogu odpowiednie pliki z danymi wejściowymi.
-- Używać liczb losowych z pakietu `oi.h`.
+- Generować liczby losowe za pomocą `oi.h`.
 - Każdy test (lub grupa testów) powinna mieć osobnego seeda.
 - Być w pełni deterministyczny czyli za każdym razem ma generować dokładnie te same testy.
   Na przykład można inicjować ziarno generatora liczb losowych stałą wartością.
 - Idealnie odzwierciedlać format testu, podanego w treści zadania.
-- Na końcu pliku wypisać nową linie, a na końcu wiersza **nie** wypisywać białych znaków.
+- Na końcu pliku wypisać znak końca linii, a na końcu wierszy **nie** wypisywać białych znaków.
 
-## **inwer**
+### **inwer**
 
 `{TAG}inwer.cpp`
 
-Służy do sprawdzenia czy testy `.in` spełniają założenia z treści.
+Służy do sprawdzenia czy pliki `.in` spełniają założenia z treści.
 Jednocześnie pokazuje przydatne informacje o testach.
 
 Inwer powinien:
 
-- Wczytywać pliki wejściowe za pomocą pakietu `oi.h`.
+- Wczytywać plik wejściowy za pomocą pakietu `oi.h`.
 - Zawierać ograniczenia z treści zadania w formie stałych.
-  Duże stałe podajemy w sposób czytelny, np. jako iloczyny.
-- W przypadku poprawnej weryfikacji ma wypisać w jednej linii, krótką charakterystykę testu
+  Duże stałe podajemy w sposób czytelny, np. jako iloczyny innych stałych lub w notacji naukowej.
+- W przypadku poprawnej weryfikacji ma wypisać w jednej linii krótką charakterystykę testu
   (wartości najważniejszych parametrów) i skończyć działanie kodem 0.
   Wypisany komentarz ma na celu upewnienie się, że test należy do odpowiedniej grupy oraz, że każda grupa testów zawiera testy z wartościami brzegowymi
   (na przykład minimalne i maksymalne ograniczenia na `n`, drzewa w postaci ścieżki i gwiazdy, itd).
@@ -155,11 +157,11 @@ Inwer powinien:
 - Sprawdzać, czy dane wejściowe są idealnie zgodne z opisem treści zadania, **z dokładnością do każdego białego znaku**.
   Nie mogą pojawić się żadne zbędne białe znaki.
 
-## **checkerka**
+### **checkerka**
 
 `abcchk.cpp`
 
-W przypadku zadań z jednoznaczną odpowiedzią, nie dodajemy tego programu. System SIO ma domyślną chekierke, która porównuje odpowiedź z wzorcową.
+W przypadku zadań z jednoznaczną odpowiedzią nie dodajemy tego programu. System SIO ma domyślną chekierke, która porównuje odpowiedź z wzorcową.
 
 W przypadku zadań, w których istnieje wiele poprawnych odpowiedzi, paczka musi zawierać weryfikator danych wyjściowych.
 Oprócz tego, do każdego komunikatu, który może wypisać weryfikator, powinno istnieć rozwiązanie błędne lub istnieć w programie test jednostkowy, który powoduje wypisanie tego komunikatu.
@@ -181,15 +183,15 @@ Checkerka powinna:
 - Pozwala na zbędne białe znaki tylko i wyłącznie na końcu linii i na końcu wyjścia oraz na **brak końca linii na końcu wyjścia** (ważne!).
 - Działał poprawnie nawet dla bardzo złośliwych danych (np. nie można nic zakładać o długości ciągów znaków znajdujących się w odpowiedzi zawodnika).
 
-## **oi.h**
+### **oi.h**
 
 Jest to biblioteka ułatwiająca pisanie programów w paczce.
 Jednocześnie pozawala uniknąć masy błędów.
 Jest wymagane by wszystkie operacje robić za jej pomocą.
 
-### **Scanner (Wczytywanie)**
+#### **Scanner (Wczytywanie)**
 
-#### Są 3 tryby wczytywania danych:
+##### Są 3 tryby wczytywania danych
 
 | tryb       | eof              | nl           | destruktor   |
 | ---------- | :--------------: | :----------: | :----------: |
@@ -200,18 +202,18 @@ Jest wymagane by wszystkie operacje robić za jej pomocą.
 Jak widać służą one do pomijania bądź nie, pustych linii na końcu pliku i białych znaków na końcu linii oraz czy zostanie na koniec jeszcze wczytany eof.
 Nadal warto (i zalecamy) sprawdzać samemu czy nastąpił koniec pliku.
 
-Aby móc korzystać z wczytywanie trzeba zainicjować scaner:
+Aby móc korzystać z wczytywania trzeba zainicjować scanner:
 
-- `scaner = oi::Scanner{stdin, oi::Scanner::Mode::[tryb], oi::Lang::[PL/EN]};`
-- `scaner = oi::Scanner(argv[1], oi::Scanner::Mode::[tryb], [scanner_lang]);`
+- `scanner = oi::Scanner{stdin, oi::Scanner::Mode::[tryb], oi::Lang::[PL/EN]};`
+- `scanner = oi::Scanner(argv[1], oi::Scanner::Mode::[tryb], [scanner_lang]);`
 
-teraz scaner możemy używać jak cin, czyli `scaner >>`.
+Teraz scanner możemy używać jak cin, czyli `scanner >>`.
 Wersje językowe są dostępne tylko te 2, w tych językach będą wypisywane komunikaty związane z wczytywaniem.
 
-Do wywoływania błędów scaner używa funkcji error(Msg&&... msg), która, wypisuje błędy podczas wczytywania.
+Do wywoływania błędów scanner używa funkcji error(Msg&&... msg), która, wypisuje błędy podczas wczytywania.
 W schemacie: ```[mode]Wiersz [last_char_pos.line], [pozycja] [last_char_pos.pos]: [msg]...```
 
-#### **Najważniejszą funkcją jest wczytywanie** i realizuje ją w następujący sposób:
+##### **Najważniejszą funkcją jest wczytywanie** i realizuje ją w następujący sposób
 
 - pojedynczy znak - `>> 'x' >> ' '` -
 Pozwala wczytać pojedynczy, konkretny znak.
@@ -222,27 +224,26 @@ Wczytuje koniec linii zgodnie z trybem pracy.
 - ignorowanie znaków białych - `>> oi::ignore_ws` -
 Pomija wszystkie znaki białe do następnego znaku lub końca linii.
 - linia - `>> oi::Line(a, b)` -
-Wczytuje cały wiersz do zmiennej `a`, która jest stringiem. Długość linii ma być nie dłuższy niż `size_t b`.
+Wczytuje cały wiersz (łacznie z białymi znakami) do zmiennej `a`, która jest stringiem. Długość linii ma być nie dłuższy niż `size_t b`.
 - string - `>> oi::Str(a, b)` -
-Wczytuje string do zmiennej `a` o maksymalnej długości `b`.
+Wczytuje string (słowo do pierwszego białego znaku) do zmiennej `a` o maksymalnej długości `b`.
 - char - `>> oi::Char(a, b)` -
 Wczytuje znak do `char a` z podanej puli dozwolonych charów `b` gdzie `b` to string lub tablica charów.
 - liczba - `>> oi::Num(a, b, c)` -
 Wczytuje liczbę `a` (int, float, ...) która ma być w podanym zakresie od `b` do `c`.
 
-Podawanie zakresu może wydawać się upierdliwe, ale pozwala zapobiec że ktoś poda nieskończenie długie słowo.
-Albo że przegapimy sprawdzenie czy liczba jest w odpowiednim zakresie.
+Podawanie zakresu może wydawać się żmudne, ale pozwala zapobiec, że ktoś poda nieskończenie długie słowo, albo że przegapimy sprawdzenie czy liczba jest w odpowiednim zakresie.
 
 Wszystkie te funkcje w przypadku gdy wczytają coś, co nie pasuje do opisu, zgłoszą błąd.
 
-### **CheckerVerdict**
+#### **CheckerVerdict**
 
 oi.h udostępnia nam obiekt `checker_verdict` klasy CheckerVerdict.
 Używamy go standardowo `oi::checker_verdict.[coś]`.
 Udostępnia on nam poniższe funkcje:
 
 - **exit_ok()** -
-Kończy sprawdzanie z sukcesem.
+Kończy sprawdzanie z sukcesem dając 100 punktów.
 Zwraca `OK\n\n100\n`.
 - **exit_ok_with_score(int score, Msg&&... msg)** -
 Kończy sprawdzanie z sukcesem z podanym wynikiem i wiadomością/ciami.
@@ -254,14 +255,20 @@ Czyli zamiast 0 punktów otrzyma się tyle ile się przypisało z danym komentar
 Kończ sprawdzanie z błędem i daje 0 punktów, chyba, że ustawiono partial_score.
 Zwraca `WRONG\n[msg]\n0\n` albo `OK\n[partial_score_msg]; [msg]\n[partial_score]\n` albo `OK\n[msg]\n[partial_score]\n`.
 
-### **checker_test**
+Jeżeli w programie używamy `partial_score` to:
 
-oi.h udostępnia możliwość pisania testów do chekerki, by upewnić się że zwraca to co powinna.
+- Trzymajmy zmienną mówiącą jaki jest wynik częściowy.
+- Trzymajmy zmienną mówiącą ile user może zdobyć punktów (do_zdobycia).
+- Używamy `exit_ok_with_score(do_zdobycia)` zamiast `exit_ok()`.
+
+#### **checker_test**
+
+oi.h udostępnia możliwość pisania testów do chekerki.
 Te testy są uruchamiane tylko lokalnie.
 Istnieją 2 sposoby ich pisania.
 Przykład obu z nich jest zaimplementowany w przykładowym `abcchk.cpp`.
 
-### **InwerVerdict**
+#### **InwerVerdict**
 
 oi.h udostępnia nam obiekt `inwer_verdict` klasy InwerVerdict.
 Używamy go jako strumień wyjścia, a mianowicie:
@@ -275,21 +282,21 @@ Natomiast `coś` to jedna z podanych opcji:
 My będziemy używać tylko `oi::inwer_verdict.exit_ok() << [msg]`.
 Druga opcja jest używana systemowo i będziemy ją zgłaszać np. przez `oi_assert()` lub `oi::bug(Msg&&... msg)`.
 
-### **bug**
+#### **bug**
 
 Wywołując `oi::bug(Msg&&... msg)`, program zakończy się niepowodzeniem.
 Wyświetli on wtedy podaną wiadomość/ci, w formacie `BUG: [msg]` i zakończy działanie z kodem 2.
 
-### **oi_assert**
+#### **oi_assert**
 
 Działa podobnie do zwykłego asserta.
-Wywołując `oi_assert(condition, ...);`, sprawdzi założenie, a jak będzie błędne to poda dokładny komunikat co jest nie tak.
+Wywołując `oi_assert(condition, msg...);`, sprawdzi założenie, a jak będzie błędne to poda dokładny komunikat co jest nie tak.
 Wypisze on `[FILE]:[LINE]: [func]: Assertion '[condition]' failed.` lub
 `[FILE]:[LINE]: [func]: Assertion '[condition]' failed: [msg]`
 
-### **Random**
+#### **Random**
 
-Służy do losowania wartości i jest wymagane używać go zamiast zwykłego rand.
+Służy do losowania wartości i jest wymagane używać go zamiast zwykłego rand() lub std::mt19937 lub innych mechanizmów losujących.
 Zapewnia on, że liczby są rzeczywiście (pseudo) losowe.
 Klasa `Random` udostępnia:
 
@@ -298,120 +305,16 @@ Klasa `Random` udostępnia:
 - **void shuffle(T& container)**
 - **operator()(T min, T max)**
 
-Tak więc aby utworzyć obiekt robimy `rng = oi::Random{seed};`.
+Tak więc aby utworzyć obiekt robimy `oi::Random rng;` lub `oi::Random rng(seed);`.
 Aby zmienić seed nadpisujemy `rng = oi::Random(new_seed);`.
 Aby użyć robimy `rng(min, max);`.
 Pod wartości min i max podstawiamy zakres z jakiego chcemy wylosować wartość.
 Obsługiwane są wszystkie typy numeryczne (int, float, char, ...).
 Możemy również pomieszać jakiś kontener Używając `rng.shuffle()`, podając mu albo kontener albo początek i koniec przedziału.
 
-# **config.yml**
-
-Wszystkie informacje opisane tutaj, są również opisane w configu.
-
-For more options see: [link to github](https://github.com/sio2project/sinol-make/blob/main/example_package/config.yml).
-Or here are some basic ones.
-
-## Interactive tasks
-
-Extra compilation arguments can be defined in `extra_compile_args` key.
-Each language can have different extra arguments.
-Additional files used in compilation can be defined in `extra_compilation_files` key.
-They are copied to the directory where the source code is compiled.
-All languages have the same additional files.
-
-```text
-extra_compilation_args:
-   cpp: ['abclib.cpp']
-
-extra_compilation_files: ['abclib.cpp', 'abclib.h']
-```
-
-## Time
-
-```text
-time_limit: 1000 # ms
-
-time_limits:
-  2: 2000
-  5: 7000
-```
-
-More precise time limit for each group or test can be defined in `time_limits` key.
-The more precise time limit has higher priority (first group, then global time limit).
-
-## Memory
-
-```text
-memory_limit: 262144 # kB
-
-memory_limits:
-  3: 131072
-  4: 131072
-```
-
-More precise memory limits can be defined in `memory_limits` key.
-Same as with time limits, the more precise memory limit has higher priority.
-
-## Title
-
-```text
-title: Przykładowy tytuł
-```
-
-Task title visible in the system.
-If there are Polish characters, they should be written for better readability.
-
-## Scores
-
-```text
-scores:
-  1: 20
-  2: 80
-```
-
-Number of points for each group can be defined in `scores` key.
-If this key is not specified, then all groups have the same number of points.
-(if number of groups doesn't divide 100, then the last groups will have the remaining points).
-Group 0 always has zero points.
-
-## Task ID
-
-```text
-sinol_task_id: abc
-```
-
-This key represents the short name (consisting of 3 letters) of the task.
-The names of files in `prog/`, `doc/`, `in/` and `out/` directories have to start with this task id.
-This key is only used by `st-make`: running `st-make export` creates
-an archive with the proper name, which sio2 uses as the task id.
-
-## Contest type
-
-```text
-sinol_contest_type: talent
-```
-
-sinol-make can behave differently depending on the value of `sinol_contest_type` key.
-Mainly, it affects how points are calculated.
-If the key is not specified, then (in st-make) `talent` is used. In sinol-make (OI version) is used 'default'.
-
-## Expected scores
-
-```text
-sinol_expected_scores: {}
-```
-
-st-make can check if the solutions run as expected when using `run` command.
-Key `sinol_expected_scores` defines expected scores for each solution on each tests.
-There should be no reason to change this key manually.
-It is automatically generated and managed by st-make.
-
-# in i out
+## in i out
 
 Są to foldery, w których znajdują się testy.
-Zazwyczaj będą puste bo pliki in generuje ingen, a pliki out generuje program wzorcowy.
-Te dwa programy mają pierwszeństwo względem ręcznych testów w przypadku konfliktu nazwy.
 Testy nazywamy `{TAG}{grupa}{nr_testu}.{in/out}`.
 
 Grupa:
@@ -426,16 +329,19 @@ Przykładowe nazwy to: `abc0a.in`, `abc1a.in`, `abc1b.out`, `abc3z.in`, `abc3aa.
 
 Ciekawą formą nazywania jest też `{TAG}{grupa}t{nr}`, np `abc1t1.in`, jednak nie chce się przyjąć.
 
-**Testy ocen** - anomalią od tego są używane kiedyś (obecnie też) testy ocen.
+**Testy ocen** - anomalią od tych regół są używane kiedyś (jak i teraz) testy ocen.
 Testy opisane jako `{TAG}{liczba}ocen.in` są zaliczane jako **testy wstępne** (grupa 0).
 Na przykład `abc1ocen.in`, `abc2ocen.out`.
 Obecnie można dawać po prostu `0a`, `0b`, ... `0e`, a w treści podać tylko np a i b.
 
-Testy są tworzone przez `abcingen.cpp`.
-Takie testy będą tworzone dopiero na systemie, więc foldery będą najczęściej puste.
-Możemy jednak sami dodać ręcznie testy, które nie są tworzone przez ingena i one tu będą się znajdować.
+Pliki in generuje ingen, a pliki out generuje program wzorcowy.
+Testy korzystające z ingen będą tworzone dopiero na systemie, więc folder in będzie najczęściej pusty.
+To samo tyczy się plików out, one też są generowane na systemie.
+Możemy jednak sami dodać ręcznie testy, które nie są tworzone przez ingena i one tu mają się znajdować.
+Jednak, najlepiej by wszystko było generowane przez ingen.
+W przypadku konfliktu nazwy ręcznego i automatycznego testu, ten automatyczny nadpisze ręczny.
 
-# dlazaw
+## dlazaw
 
 W tym folderze są trzymane pliki dla zawodników.
 Między innymi przydaje się w zadaniach interaktywnych gdzie jest udostępniana jakaś biblioteczka.
@@ -446,3 +352,105 @@ Między innymi przydaje się w zadaniach interaktywnych gdzie jest udostępnian
 
 Pliki znajdujące się w tym folderze są udostępniane bezpośrednio użytkownikowi.
 `st-make export` tworzy ten folder i dodaje do niego skompresowany folder `dlazaw` oraz skompresowany folder z testami wstępnymi i ocen.
+
+## **config.yml**
+
+Wszystkie informacje opisane tutaj są również opisane w configu.
+
+For more options see: [link to github](https://github.com/sio2project/sinol-make/blob/main/example_package/config.yml).
+Or here are some basic ones.
+
+### Interactive tasks
+
+Extra compilation arguments can be defined in `extra_compile_args` key.
+Each language can have different extra arguments.
+Additional files used in compilation can be defined in `extra_compilation_files` key.
+They are copied to the directory where the source code is compiled.
+All languages have the same additional files.
+
+```text
+extra_compilation_args:
+   cpp: ['abclib.cpp']
+
+extra_compilation_files: ['abclib.cpp', 'abclib.h']
+```
+
+### Time
+
+```text
+time_limit: 1000 # ms
+
+time_limits:
+  2: 2000
+  5: 7000
+```
+
+More precise time limit for each group or test can be defined in `time_limits` key.
+The more precise time limit has higher priority (first group, then global time limit).
+
+### Memory
+
+```text
+memory_limit: 262144 # kB
+
+memory_limits:
+  3: 131072
+  4: 131072
+```
+
+More precise memory limits can be defined in `memory_limits` key.
+Same as with time limits, the more precise memory limit has higher priority.
+
+### Title
+
+```text
+title: Przykładowy tytuł
+```
+
+Task title visible in the system.
+If there are Polish characters, they should be written for better readability.
+
+### Scores
+
+```text
+scores:
+  1: 20
+  2: 80
+```
+
+Number of points for each group can be defined in `scores` key.
+If this key is not specified, then all groups have the same number of points.
+(if number of groups doesn't divide 100, then the last groups will have the remaining points).
+Group 0 always has zero points.
+
+### Task ID
+
+```text
+sinol_task_id: abc
+```
+
+This key represents the short name (consisting of 3 letters) of the task.
+The names of files in `prog/`, `doc/`, `in/` and `out/` directories have to start with this task id.
+This key is only used by `st-make`: running `st-make export` creates
+an archive with the proper name, which sio2 uses as the task id.
+
+### Contest type
+
+```text
+sinol_contest_type: talent
+```
+
+sinol-make can behave differently depending on the value of `sinol_contest_type` key.
+Mainly, it affects how points are calculated.
+If the key is not specified, then (in st-make) `talent` is used. In sinol-make (OI version) is used 'default'.
+
+### Expected scores
+
+```text
+sinol_expected_scores: {}
+```
+
+st-make can check if the solutions run as expected when using `run` command.
+Key `sinol_expected_scores` defines expected scores for each solution on each tests.
+There should be no reason to change this key manually.
+It is automatically generated and managed by st-make.

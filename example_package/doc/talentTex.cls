@@ -1,6 +1,7 @@
 % Latex style for Talent (https://talent.edu.pl) statemnts
 % 
 % Copyright (c) Stanisław Czech 2024
+% Copyright (c) Jakub Rożek 2024
 % Provided under MIT licence 
 %
 % Based on sinol.cls made by:
@@ -421,7 +422,6 @@
 \setlength{\textwidth}{168mm} % {180mm}
 \setlength{\textheight}{265mm} % {257mm}
 \setlength{\oddsidemargin}{0pt}
-\setlength{\topmargin}{0pt}
 \setlength{\hoffset}{-4mm} % this means 1in-15mm
 \setlength{\voffset}{-30mm} % this means 1in-15mm
 \setlength{\topmargin}{0pt}
@@ -544,7 +544,6 @@
 }
 
 \newcommand{\makecompactexample}[1]{
-  \setlength\parskip{-15pt}
   \def\@exampleputtogetherimg##1##2{
     \@exampleputtogetherv{##1}{
       \begin{center}
@@ -554,7 +553,6 @@
   }
   \let\@exampleputtogethertext=\@exampleputtogetherh
   \@makeexample{#1}
-  \setlength\parskip{-15pt}
 }
 
 % pozostałe komendy
@@ -607,7 +605,11 @@
 \newcommand{\plainimg}[1]{$$\includegraphics{#1}$$}
 
 \newcommand{\tSection}[1]{
-  \tNoSkipSection{#1}{15pt}
+  \tCustomSection{#1}{15pt}
+}
+
+\newcommand{\tsection}[1]{
+  \tSection{#1}
 }
 
 \newcommand{\tSmallSection}[1]{
@@ -625,7 +627,7 @@
   \par
 }
 
-\newcommand{\tNoSkipSection}[2]{
+\newcommand{\tCustomSection}[2]{
   {
     \setlength\parindent{0pt}
     \setlength\parskip{#2}
