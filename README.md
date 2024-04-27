@@ -1,5 +1,5 @@
 # ![Logo](https://avatars.githubusercontent.com/u/2264918?s=60&v=4) sinol-make
-
+ 
 `sinol-make` is a CLI tool for creating and verifying problem packages
 for [sio2](https://github.com/sio2project/oioioi)
 with features such as:
