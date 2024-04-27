@@ -3,34 +3,39 @@
 
 # **Szablon paczki**
 
-- [Ogólne informacje](#ogólne-informacje)
-- [doc](#doc)
-  - [talentTex.cls](#talenttexcls)
-- [prog](#prog)
-  - [Rozwiązania](#rozwiązania)
-  - [ingen](#ingen)
-  - [inwer](#inwer)
-  - [checkerka](#checkerka)
-  - [oi.h](#oih)
-    - [Scanner (Wczytywanie)](#scanner-wczytywanie)
-    - [CheckerVerdict](#checkerverdict)
-    - [checker_test](#checker_test)
-    - [InwerVerdict](#inwerverdict)
-    - [bug](#bug)
-    - [oi_assert](#oi_assert)
-    - [Random](#random)
-- [in i out](#in-i-out)
-- [dlazaw](#dlazaw)
-- [attachment](#attachment)
-- [config.yml](#configyml)
-  - [Interactive tasks](#interactive-tasks)
-  - [Time](#time)
-  - [Memory](#memory)
-  - [Title](#title)
-  - [Scores](#scores)
-  - [Task ID](#task-id)
-  - [Contest type](#contest-type)
-  - [Expected scores](#expected-scores)
+- [**Szablon paczki**](#szablon-paczki)
+  - [**Ogólne informacje**](#ogólne-informacje)
+  - [**doc**](#doc)
+    - [**talentTex.cls**](#talenttexcls)
+  - [**prog**](#prog)
+    - [**Rozwiązania**](#rozwiązania)
+    - [**ingen**](#ingen)
+    - [**inwer**](#inwer)
+    - [**checkerka**](#checkerka)
+    - [**oi.h**](#oih)
+      - [**Scanner (Wczytywanie)**](#scanner-wczytywanie)
+        - [Są 3 tryby wczytywania danych](#są-3-tryby-wczytywania-danych)
+        - [**Najważniejszą funkcją jest wczytywanie** i realizuje ją w następujący sposób](#najważniejszą-funkcją-jest-wczytywanie-i-realizuje-ją-w-następujący-sposób)
+      - [**CheckerVerdict**](#checkerverdict)
+      - [**checker\_test**](#checker_test)
+      - [**InwerVerdict**](#inwerverdict)
+      - [**bug**](#bug)
+      - [**oi\_assert**](#oi_assert)
+      - [**Random**](#random)
+  - [in i out](#in-i-out)
+    - [Testy ocen](#testy-ocen)
+    - [Generowanie](#generowanie)
+  - [dlazaw](#dlazaw)
+  - [attachment](#attachment)
+  - [**config.yml**](#configyml)
+    - [Interactive tasks](#interactive-tasks)
+    - [Time](#time)
+    - [Memory](#memory)
+    - [Title](#title)
+    - [Scores](#scores)
+    - [Task ID](#task-id)
+    - [Contest type](#contest-type)
+    - [Expected scores](#expected-scores)
 
 ## **Ogólne informacje**
 
@@ -297,7 +302,7 @@ Wypisze on `[FILE]:[LINE]: [func]: Assertion '[condition]' failed.` lub
 #### **Random**
 
 Służy do losowania wartości i jest wymagane używać go zamiast zwykłego rand(), std::mt19937 lub innych mechanizmów losujących.
-Zapewnia on, że liczby są rzeczywiście (pseudo) losowe.
+Zapewnia on uniwersalny sposób generowania liczb (pseudo) losowych.
 Klasa `Random` udostępnia:
 
 - **Random(uint_fast64_t seed = 5489)**
@@ -330,10 +335,14 @@ Przykładowe nazwy to: `abc0a.in`, `abc1a.in`, `abc1b.out`, `abc3z.in`, `abc3aa.
 
 Ciekawą formą nazywania jest też `{ID}{grupa}t{nr}`, np `abc1t1.in`, jednak nie chce się przyjąć.
 
-**Testy ocen** - anomalią od tych reguł są testy ocen.
+### Testy ocen
+
+Anomalią od powyższych reguł są testy ocen.
 Testy opisane jako `{ID}{liczba}ocen.in` są zaliczane jako **testy wstępne** (grupa 0).
 Na przykład `abc1ocen.in`, `abc2ocen.out`.
 Obecnie można dawać po prostu `0a`, `0b`, ... `0e`, a w treści podać tylko np a i b.
+
+### Generowanie
 
 Pliki in generuje ingen, a pliki out generuje program wzorcowy.
 Testy korzystające z ingen będą tworzone dopiero na systemie, więc folder in będzie najczęściej pusty.
