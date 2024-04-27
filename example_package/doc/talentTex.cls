@@ -151,16 +151,13 @@
 }
 
 \newcommand{\twocol}[2]{
-  \begin{center}
+  \noindent
   \begin{minipage}[t]{0.5\textwidth}
-  \vspace{0pt}
   {#1}
   \end{minipage}\hfill
   \begin{minipage}[t]{0.5\textwidth}
-  \vspace{0pt}
   {#2}
-  \end{minipage}\hfill
-  \end{center}
+  \end{minipage}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -495,64 +492,28 @@
   }
 }
 
-\def\@exampleputtogetherh#1#2{\twocol{#1}{#2}}
-
-\def\@exampleputtogetherv#1#2{#1 #2}
-
-\newcommand{\makestandardexampleinput}[1]{
+\newcommand{\makeexampleinput}[1]{
   \noindent\sinolExampleInputText
-  \ifundef{exampleInImg}{
-    \exampleinput{#1}
-  }{
-    \@exampleputtogetherimg{\exampleinput}{\plainimg{\exampleInImg}}
-  }
+  \exampleinput{#1}
 }
 
-\newcommand{\makestandardexampleoutput}[1]{
+\newcommand{\makeexampleoutput}[1]{
   \noindent\sinolExampleOutputText
-  \ifundef{exampleOutImg}{
-    \exampleoutput{#1}
-  }{
-    \@exampleputtogetherimg{\exampleoutput}{\plainimg{\exampleOutImg}}
-  }
+  \exampleoutput{#1}
 }
 
-\newcommand{\@makestandardexampletext}[1]{
-  \@exampleputtogethertext{
-    \makestandardexampleinput{#1}
-  }{
-    \makestandardexampleoutput{#1}
-  }
-}
-
-\newcommand{\@makeexample}[1]{ 
-  \ifundef{exampleImg}{
-    \@makestandardexampletext{#1}
-  }{
-    \@exampleputtogetherimg{
-      \@makestandardexampletext{#1}
-    }{
-      \plainimg{\exampleImg}
-    }
-  }
-}
-
-\newcommand{\makestandardexample}[1]{
-  \let\@exampleputtogetherimg=\@exampleputtogetherh
-  \let\@exampleputtogethertext=\@exampleputtogetherv
-  \@makeexample{#1}
+\newcommand{\makestandardexample}[1]{%
+  \makeexampleinput{#1}%
+  \makeexampleoutput{#1}%
 }
 
 \newcommand{\makecompactexample}[1]{
-  \def\@exampleputtogetherimg##1##2{
-    \@exampleputtogetherv{##1}{
-      \begin{center}
-        ##2
-      \end{center}
-    }
-  }
-  \let\@exampleputtogethertext=\@exampleputtogetherh
-  \@makeexample{#1}
+  \twocol{\makeexampleinput{#1}}{\makeexampleoutput{#1}}
+  \vspace{15pt}
+  \setlength\parskip{15pt}
+  \par
+  \setlength\parskip{0pt}
+  \par
 }
 
 % pozostałe komendy
@@ -655,12 +616,6 @@
     \textcolor{talentBlue}{\textbf{\fontfamily{ptm}\selectfont #1}}%
   \fi
 }
-%\newcommand{\tc}[1]{
-%  \fontfamily{ptm}
-%  \color{talentBlue}
-%  \textbf{#1}
-%  \color{black}
-%}
 
 \newcommand{\ocen}[1]{
   \begin{enumerate}
@@ -679,7 +634,7 @@
 }
 
 \newcommand{\customOcenTable}[3]{
-  \begin{center} % Gdybyśmy chcieli po lewej mieć tabelke to 'flushleft'.
+  \begin{center}
     \begin{tabular}{#1}
     \hline
     #2 \\
