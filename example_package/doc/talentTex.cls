@@ -33,8 +33,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Plików w paczce
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\sinolTestIn{../in}
-\def\sinolTestOut{../out}
+\def\sinolTestInPath{../in}
+\def\sinolTestOutPath{../out}
 \def\sinolContestLogo{logo.jpg}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -153,14 +153,16 @@
   \fi
 }
 
-\newcommand{\twocol}[2]{
-  \noindent
-  \begin{minipage}[t]{0.5\textwidth}
-  {#1}
-  \end{minipage}\hfill
-  \begin{minipage}[t]{0.5\textwidth}
-  {#2}
-  \end{minipage}
+\newcommand{\twocol}[2]{%
+  \begin{center}%
+    \noindent%
+    \begin{minipage}[t]{0.5\textwidth}%
+      {#1}%
+    \end{minipage}%
+    \begin{minipage}[t]{0.5\textwidth}%
+      {#2}%
+    \end{minipage}%
+  \end{center}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -474,49 +476,38 @@
 }
 
 \newcommand{\exampleinput}[1]{
-    \iffileexists{\sinolTestIn/\ID0#1.in}{
-      \includefile{\sinolTestIn/\ID0#1.in}
-    }{
-      \smallskip
-      \?{brak pliku {\ttfamily\ID0#1.in}}\par
-      \erroutput{brak pliku '\ID0#1.in' w scieżce '\sinolTestIn'}
-      \smallskip
-    }
-}
-
-\newcommand{\exampleoutput}[1]{
-  \iffileexists{\sinolTestOut/\ID0#1.out}{
-    \includefile{\sinolTestOut/\ID0#1.out}
+  \noindent\sinolExampleInputText
+  \iffileexists{\sinolTestInPath/\ID0#1.in}{
+    \includefile{\sinolTestInPath/\ID0#1.in}
   }{
     \smallskip
-    \?{brak pliku {\ttfamily\ID0#1.out}}\par
-    \erroutput{brak pliku '\ID0#1.out' w scieżce '\sinolTestOut'}
+    \?{brak pliku {\ttfamily\ID0#1.in}}\par
+    \erroutput{brak pliku '\ID0#1.in' w scieżce '\sinolTestInPath'}
     \smallskip
   }
 }
 
-\newcommand{\makeexampleinput}[1]{
-  \noindent\sinolExampleInputText
-  \exampleinput{#1}
-}
-
-\newcommand{\makeexampleoutput}[1]{
+\newcommand{\exampleoutput}[1]{
   \noindent\sinolExampleOutputText
-  \exampleoutput{#1}
+  \iffileexists{\sinolTestOutPath/\ID0#1.out}{
+    \includefile{\sinolTestOutPath/\ID0#1.out}
+  }{
+    \smallskip
+    \?{brak pliku {\ttfamily\ID0#1.out}}\par
+    \erroutput{brak pliku '\ID0#1.out' w scieżce '\sinolTestOutPath'}
+    \smallskip
+  }
 }
 
 \newcommand{\makestandardexample}[1]{%
-  \makeexampleinput{#1}%
-  \makeexampleoutput{#1}%
+  \vspace{5pt}
+  \exampleinput{#1}%
+  \exampleoutput{#1}%
 }
 
-\newcommand{\makecompactexample}[1]{
-  \twocol{\makeexampleinput{#1}}{\makeexampleoutput{#1}}
-  \vspace{15pt}
-  \setlength\parskip{15pt}
-  \par
-  \setlength\parskip{0pt}
-  \par
+\newcommand{\makecompactexample}[1]{%
+  \vspace{-5pt}%
+  \twocol{\exampleinput{#1}}{\exampleoutput{#1}}%
 }
 
 % pozostałe komendy
