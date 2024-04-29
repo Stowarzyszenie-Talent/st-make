@@ -3,38 +3,39 @@
 
 # **Szablon paczki**
 
-- [**Ogólne informacje**](#ogólne-informacje)
-- [**doc**](#doc)
-  - [**talentTex.cls**](#talenttexcls)
-- [**prog**](#prog)
-  - [**Rozwiązania**](#rozwiązania)
-  - [**ingen**](#ingen)
-  - [**inwer**](#inwer)
-  - [**checkerka**](#checkerka)
-  - [**oi.h**](#oih)
-    - [**Scanner (Wczytywanie)**](#scanner-wczytywanie)
-      - [Są 3 tryby wczytywania danych](#są-3-tryby-wczytywania-danych)
-      - [**Najważniejszą funkcją jest wczytywanie** i realizuje ją w następujący sposób](#najważniejszą-funkcją-jest-wczytywanie-i-realizuje-ją-w-następujący-sposób)
-    - [**CheckerVerdict**](#checkerverdict)
-    - [**checker\_test**](#checker_test)
-    - [**InwerVerdict**](#inwerverdict)
-    - [**bug**](#bug)
-    - [**oi\_assert**](#oi_assert)
-    - [**Random**](#random)
-- [in i out](#in-i-out)
-  - [Testy ocen](#testy-ocen)
-  - [Generowanie](#generowanie)
-- [dlazaw](#dlazaw)
-- [attachment](#attachment)
-- [**config.yml**](#configyml)
-  - [Interactive tasks](#interactive-tasks)
-  - [Time](#time)
-  - [Memory](#memory)
-  - [Title](#title)
-  - [Scores](#scores)
-  - [Task ID](#task-id)
-  - [Contest type](#contest-type)
-  - [Expected scores](#expected-scores)
+- [**Szablon paczki**](#szablon-paczki)
+  - [**Ogólne informacje**](#ogólne-informacje)
+  - [**doc**](#doc)
+    - [**talentTex.cls**](#talenttexcls)
+  - [**prog**](#prog)
+    - [**Rozwiązania**](#rozwiązania)
+    - [**ingen**](#ingen)
+    - [**inwer**](#inwer)
+    - [**checkerka**](#checkerka)
+    - [**oi.h**](#oih)
+      - [**Scanner (Wczytywanie)**](#scanner-wczytywanie)
+        - [Są 3 tryby wczytywania danych](#są-3-tryby-wczytywania-danych)
+        - [**Najważniejszą funkcją jest wczytywanie** i realizuje ją w następujący sposób](#najważniejszą-funkcją-jest-wczytywanie-i-realizuje-ją-w-następujący-sposób)
+      - [**CheckerVerdict**](#checkerverdict)
+      - [**checker\_test**](#checker_test)
+      - [**InwerVerdict**](#inwerverdict)
+      - [**bug**](#bug)
+      - [**oi\_assert**](#oi_assert)
+      - [**Random**](#random)
+  - [in i out](#in-i-out)
+    - [Testy ocen](#testy-ocen)
+    - [Generowanie](#generowanie)
+  - [dlazaw](#dlazaw)
+  - [attachment](#attachment)
+  - [**config.yml**](#configyml)
+    - [Interactive tasks](#interactive-tasks)
+    - [Time](#time)
+    - [Memory](#memory)
+    - [Title](#title)
+    - [Scores](#scores)
+    - [Task ID](#task-id)
+    - [Contest type](#contest-type)
+    - [Expected scores](#expected-scores)
 
 ## **Ogólne informacje**
 
@@ -85,9 +86,11 @@ Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
 
 - `\ocen{\testOcen{}{} ...}` - Lista wszystkich testów ocen.
 - `\testOcen{nazwa_testu}{opis_testu}` - Pojedynczy test ocen z opisem.
-- `\ocenTable{}` - Tworzy tabelę z podzadaniami. Automatycznie tworzy nagłówek (Nr & Ograniczenia & Punkty).
-- `\ocenRow{nr & opis & punkty}` - Pojedynczy wiersz tabeli: kolejne komórki powinny być rozdzielone znakiem &.
-  Jeśli chcesz mieć 2 linie w pojedynczej komórce tabeli użyj `\ocenElement{text}`.
+- `\ocenTable{}` - Tworzy tabelę z podzadaniami.
+  Jako argument należy przekazać `\ocenRow{}{}`, dla każdego podzadania.
+  Opcjonalnie można podać ile punktów jest za zadanie `\ocenTable[100]{}`.
+  Automatycznie tworzy nagłówek (Nr & Ograniczenia & Punkty).
+- `\ocenRow{punkty}{ograniczenie}` - Tworzy pojedynczy wiersz tabeli opisujący podzadanie z podaną ilością punktów i danym ograniczeniem.
 
 ## **prog**
 

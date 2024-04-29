@@ -30,9 +30,8 @@
 %     % Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out
 % \ocen{text} % Lista wszystkich testów ocen.
 % \testOcen{text}{text2} % Pojedyńczy test ocen z opisem.
-% \ocenTable{text} % Tabela z podzadaniami.
-% \ocenRow{text} % Pojedyńczy wiersz tabeli: kolejne komórki powinne być rodzielone znakiem &.
-% \ocenElement{text} % Jeśli chcesz mieć 2 linie w pojedyńczej komórce tabeli.
+% \ocenTable[100]{text} % Tabela z podzadaniami. Opcjonalnie można podać ile punktów jest za zadanie.
+% \ocenRow{point}{text} % Tworzy pojedyńczy wiersz tabeli opisujący podzadanie, o danej ilości punktów i z danym ograniczeniem.
 
 \start{}
 
@@ -88,12 +87,10 @@ Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 Zestaw testów dzieli się na następujące podzadania.
 Testy do każdego podzadania składają się z jednej lub większej liczby osobnych grup testów.
 
-% Alternatywnie \customOcenTable{|c|c|c|}{\tc{Nr} & \tc{Ograniczenia} & \tc{Punkty}}{reszta tabeli}
-
 \ocenTable{
-  \ocenRow{1 & $\tc{n} \leq 100$ & 30}
-  \ocenRow{2 & \ocenElement{$\tc{n} \leq 1000$  Dwie\\ Linie} & 20}
-  \ocenRow{3 & Bez ograniczeń & 50}
+  \ocenRow{30}{$\tc{n} \leq 100$}
+  \ocenRow{20}{$\tc{n} \leq 1000$  Dwie\\ Linie}
+  \ocenRow{50}{Bez ograniczeń}
 }
 
 \finish{}

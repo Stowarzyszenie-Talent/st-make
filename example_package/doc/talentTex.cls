@@ -47,7 +47,7 @@
 % \definecolor{talentBlue}{RGB}{31, 73, 125} % Ciemny
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% zmienne logiczne
+% zmienne logiczne i liczniki
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newif\ifsinolshortages \sinolshortagesfalse % niedoprecyzowania
 \newif\ifsinolerrors  \sinolerrorsfalse % bledy
@@ -60,6 +60,9 @@
 \newif\ifgroupdefed \groupdefedfalse  % czy podano grupę
 \newif\ifMemorydefed \Memorydefedfalse  % czy podano dostępną pamięć
 \newif\iftimedefed \timedefedfalse % czy podano czas działania
+
+\newcounter{subtestsCounter} % licznik podzadań w tabelce
+\newcounter{sumPointCounter} % suma punktów do zdobycia w zadaniu
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Obsługa plików: inf, err
@@ -629,27 +632,23 @@
   \item[] \textbf{\color{talentBlue}\ID#1: \ }{#2}
 }
 
-\newcommand{\ocenTable}[1]{
-  \customOcenTable{|c|c|c|}{\tc{Nr}&\tc{Ograniczenia}&\tc{Punkty}}{#1}
-}
-
-\newcommand{\customOcenTable}[3]{
+\newcommand{\ocenTable}[2][100]{
+  \setcounter{subtestsCounter}{0}
+  \setcounter{sumPointCounter}{0}
   \begin{center}
-    \begin{tabular}{#1}
-    \hline
-    #2 \\
-    \hline
-    #3
+    \begin{tabular}
+      {|c|l|c|} \hline
+      \tc{Nr} & \tc{Ograniczenia} & \tc{Punkty} \\ \hline
+      #2
     \end{tabular}
   \end{center}
+  \ifneq{\arabic{sumPointCounter}}{#1}{%
+    Uwaga! W tyma zadaniu suma punktów do zdobycia wynosi \arabic{sumPointCounter} punktów.
+  }
 }
 
-\newcommand{\ocenRow}[1]{
-  #1 \\ \hline
-}
-
-\newcommand{\ocenElement}[1]{
-  \begin{tabular}{@{}c@{}}
-  #1
-  \end{tabular}
+\newcommand{\ocenRow}[2]{
+  \stepcounter{subtestsCounter}%
+  \addtocounter{sumPointCounter}{#1}%
+  \arabic{subtestsCounter} & \begin{tabular}{@{}l@{}} #2 \end{tabular} & #1 \\ \hline
 }
