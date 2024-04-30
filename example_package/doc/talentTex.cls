@@ -13,7 +13,7 @@
 % Formalności
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
-\def\sinolVersion{0.0.5}
+\def\sinolVersion{0.0.6}
 \ProvidesClass{talentTex}[Stowarzyszenie Talent \sinolVersion]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -31,11 +31,11 @@
 \RequirePackage{xparse}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Plików w paczce
+% Pliki w paczce
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\sinolTestInPath{../in}
 \def\sinolTestOutPath{../out}
-\def\sinolContestLogo{logo.jpg}
+\def\sinolContestLogoPath{logo.jpg}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Kolory
@@ -49,9 +49,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % zmienne logiczne i liczniki
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newif\ifsinolshortages \sinolshortagesfalse % niedoprecyzowania
 \newif\ifsinolerrors  \sinolerrorsfalse % bledy
-\newif\ifmetric  \metrictrue  % czy drukowac metryke
 \newif\ifsignaturedefed \signaturedefedfalse % czy zdefiniowano sygnature
 \newif\ifdatedefed \datedefedfalse  % czy podano date
 \newif\ifetapdefed \etapdefedfalse  % czy podano etap
@@ -62,7 +60,7 @@
 \newif\iftimedefed \timedefedfalse % czy podano czas działania
 
 \newcounter{subtestsCounter} % licznik podzadań w tabelce
-\newcounter{sumPointCounter} % suma punktów do zdobycia w zadaniu
+\newcounter{sumPointSubtask} % suma punktów do zdobycia w zadaniu
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Obsługa plików: inf, err
@@ -100,9 +98,6 @@
 \AtEndDocument{%
   \ifsinolerrors
     \immediate\write16{SINOL: znaleziono bledy (zob. \jobname.err) !}
-  \fi
-  \ifsinolshortages
-    \immediate\write16{SINOL: znaleziono niedoprecyzowania (wystepuje '[[[...]]]')}
   \fi
 }
 
@@ -173,7 +168,7 @@
     \vbox to 0pt{
       \vss
       \hbox{
-        \includegraphics[height=1.143cm,bb=0 0 900 300]{\sinolContestLogo}%
+        \includegraphics[height=1.143cm,bb=0 0 900 300]{\sinolContestLogoPath}%
       }
     }
   }
@@ -201,14 +196,10 @@
     \erroutput{brak 3-literowego identyfikatora (klauzula \string\id)}
     \def\ID{XXX}
   }{}
-  \def\infile{{\ttfamily \lcase{\ID}.in}}
-  \def\outfile{{\ttfamily \lcase{\ID}.out}}
   \ifundef{sinolTitle}{
     \erroutput{brak tytułu (klauzula \string\title)}
     \def\sinolTitle{\?{brak tytułu}}
   }{}
-  \def\sinolIdSignature{\ucase{\ID}}
-  \let\oldsection\section
 }
 
 % uruchamiane po przeczytaniu tekstu
@@ -270,14 +261,11 @@
   \global\timedefedtrue
 }
 
-\newcommand{\infile}{{\ttfamily XXX.IN}}
-\newcommand{\outfile}{{\ttfamily XXX.IN}}
-
 \newcommand{\iomode}[1]{
   \def\sinolIOmode{#1}
   \ifeq{#1}{files}{
-    \gdef\sinolExampleInputText{Dla pliku wejściowego \infile:}
-    \gdef\sinolExampleOutputText{poprawnym wynikiem jest plik wyjściowy \outfile{}:}    
+    \gdef\sinolExampleInputText{Dla pliku wejściowego {\ttfamily\ID.in}:}
+    \gdef\sinolExampleOutputText{poprawnym wynikiem jest plik wyjściowy {\ttfamily\ID.out}:}    
   }
   \ifeq{#1}{stdin}{
     \gdef\sinolExampleInputText{{\color{talentBlue}\bf Wejście:}}
@@ -305,7 +293,7 @@
 \def\sinolSNameRozwiazanieWzorcowe{Rozwiązanie wzorcowe}
 \def\sinolSNameTesty{Testy}
 \def\sinolSNameUwagi{Uwagi}
-\def\sinolSNameHistory{HISTORIA}
+\def\sinolSNameHistory{Historia}
 \def\sinolSNameOpis{Opis rozwiązania}
 \def\sinolSNameOpracowanie{Opracowanie}
 
@@ -371,7 +359,6 @@
       \end{minipage}
     }
   }
-
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -471,7 +458,7 @@
 % komendy do obsługi plików
 
 \newcommand{\includefile}[1]{
-\vspace{-0.7em}
+\vspace{-0.9em}
 \verbatiminput{#1}
 }
 
@@ -625,7 +612,7 @@
 
 \newcommand{\ocenTable}[2][100]{
   \setcounter{subtestsCounter}{0}
-  \setcounter{sumPointCounter}{0}
+  \setcounter{sumPointSubtask}{0}
   \begin{center}
     \begin{tabular}
       {|c|l|c|} \hline
@@ -633,13 +620,13 @@
       #2
     \end{tabular}
   \end{center}
-  \ifneq{\arabic{sumPointCounter}}{#1}{%
-    Uwaga! W tyma zadaniu suma punktów do zdobycia wynosi \arabic{sumPointCounter} punktów.
+  \ifneq{\arabic{sumPointSubtask}}{#1}{%
+    Uwaga! W tyma zadaniu suma punktów do zdobycia wynosi \arabic{sumPointSubtask} punktów.
   }
 }
 
 \newcommand{\ocenRow}[2]{
   \stepcounter{subtestsCounter}%
-  \addtocounter{sumPointCounter}{#1}%
+  \addtocounter{sumPointSubtask}{#1}%
   \arabic{subtestsCounter} & \begin{tabular}{@{}l@{}} #2 \end{tabular} & #1 \\ \hline
 }
