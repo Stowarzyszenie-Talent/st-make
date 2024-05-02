@@ -22,7 +22,6 @@
 \RequirePackage[T1]{fontenc}
 \RequirePackage{epsf}
 \RequirePackage{graphicx}
-\RequirePackage{ifpdf}
 \RequirePackage{fancyhdr}
 \RequirePackage[latin2,utf8]{inputenc}
 \RequirePackage{verbatim}
@@ -50,9 +49,6 @@
 % zmienne logiczne i liczniki
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newif\ifsinolerrors  \sinolerrorsfalse % bledy
-\newif\ifsignaturedefed \signaturedefedfalse % czy zdefiniowano sygnature
-\newif\ifdatedefed \datedefedfalse  % czy podano date
-\newif\ifetapdefed \etapdefedfalse  % czy podano etap
 \newif\ifkonkursdefed \konkursdefedfalse  % czy podano konkurs
 \newif\ifdaydefed \daydefedfalse  % czy podano dzień
 \newif\ifgroupdefed \groupdefedfalse  % czy podano grupę
@@ -78,12 +74,6 @@
 \newcommand{\erroutput}[1]{%
   \immediate\write\errfile{#1}
   \global\sinolerrorstrue
-}
-
-% \erroutputWrongSection{<jest>}{<winno byc>} --- 
-% wyprowadza informacje o blednej nazwie rodzialu
-\newcommand{\erroutputWrongSection}[2]{%
-  \erroutput{bledna nazwa lub lokalizacja rozdzialu '#1', spodziewane '#2'}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -112,52 +102,51 @@
   [[#1]]
 }
 
-\def\ifundef#1#2#3{
-  \expandafter
-  \ifx\csname#1\endcsname\relax
-    #2
-  \else
-    #3
-  \fi
+\def\ifundef#1#2#3{%
+  \expandafter%
+  \ifx\csname#1\endcsname\relax%
+    #2%
+  \else%
+    #3%
+  \fi%
 }
 
-\def\ifeq#1#2#3{
-  \edef\@tempeqa{#1}
-  \edef\@tempeqb{#2}
-  \ifx\@tempeqa\@tempeqb
-    #3
-  \fi
+\def\ifeq#1#2#3{%
+  \edef\@tempeqa{#1}%
+  \edef\@tempeqb{#2}%
+  \ifx\@tempeqa\@tempeqb%
+    #3%
+  \fi%
 }
 
-\def\ifneq#1#2#3{
-  \edef\@tempeqa{#1}
-  \edef\@tempeqb{#2}
-  \ifx\@tempeqa\@tempeqb\else
-    #3
-  \fi
+\def\ifneq#1#2#3{%
+  \edef\@tempeqa{#1}%
+  \edef\@tempeqb{#2}%
+  \ifx\@tempeqa\@tempeqb\else%
+    #3%
+  \fi%
 }
 
-\newcommand{\iffileexists}[3]{
-  \immediate\openin\tmpfile #1\par
-  \ifeof\tmpfile
-    \immediate\closein\tmpfile
-    #3
-  \else
-    \immediate\closein\tmpfile
-    #2
-  \fi
+\newcommand{\iffileexists}[3]{%
+  \immediate\openin\tmpfile #1\par%
+  \ifeof\tmpfile%
+    \immediate\closein\tmpfile%
+    #3%
+  \else%
+    \immediate\closein\tmpfile%
+    #2%
+  \fi%
 }
 
-\newcommand{\twocol}[2]{%
-  \begin{center}%
-    \noindent%
-    \begin{minipage}[t]{0.5\textwidth}%
-      {#1}%
-    \end{minipage}%
-    \begin{minipage}[t]{0.5\textwidth}%
-      {#2}%
-    \end{minipage}%
-  \end{center}%
+\NewDocumentCommand{\twocol}{ O{0.5} O{0} O{t} m m }{%
+  \noindent%
+  \begin{minipage}[#3]{#1\textwidth}%
+    #4%
+  \end{minipage}%
+  \hfill%
+  \begin{minipage}[#3]{\dimexpr\textwidth-#1\textwidth-#2\textwidth}%
+    #5%
+  \end{minipage}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,9 +163,8 @@
   }
 }
 
-\def\tophugetitle{
-  \begin{minipage}[t]{0.8\textwidth}
-    \setlength{\parindent}{-4pt}
+\def\tophugetitle{%
+  \begin{minipage}[t]{0.75\textwidth}
     \color{talentBlue}
     \fontfamily{ptm}
     \huge
@@ -185,9 +173,6 @@
 }
 
 \def\topinformationbar{}
-
-\def\sinolHistory{}
-\def\sinolSignature{}
 
 % uruchamiane po przeczytaniu deklaracji
 \newcommand{\concludedecls}{
@@ -217,23 +202,6 @@
 \renewcommand{\title}[1]{
   \def\sinolTitle{#1}
   \infoutput{[title][#1]}
-}
-
-\newcommand{\signature}[1]{
-  \def\sinolSignature{#1}
-  \infoutput{[signature][#1]}
-  \global\signaturedefedtrue
-}
-
-\newcommand{\history}[3]{
-  \edef\sinolHistory{\noindent $\bullet$\ v.\,#3: #1, #2\par\sinolHistory}
-  \infoutput{[history][#1][#2][#3]}
-  \DocVersiondefedtrue
-}
-
-\newcommand{\etap}[1]{
-  \def\sinolEtap{#1}
-  \global\etapdefedtrue
 }
 
 \newcommand{\konkurs}[1]{
@@ -286,23 +254,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Nazwy wyświetlane (zmiana języka, narazie tu ręcznie)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\sinolSNamePrzyklad{Przykład}
-\def\sinolSNameZadanie{Zadanie}
-\def\sinolSNameWejscie{Wejście}
-\def\sinolSNameWyjscie{Wyjście}
-\def\sinolSNameRozwiazanieWzorcowe{Rozwiązanie wzorcowe}
-\def\sinolSNameTesty{Testy}
-\def\sinolSNameUwagi{Uwagi}
-\def\sinolSNameHistory{Historia}
 \def\sinolSNameOpis{Opis rozwiązania}
 \def\sinolSNameOpracowanie{Opracowanie}
 
 \def\sinolTitleZadanie{Zadanie}
-\def\sinolEtapText{etap}
 \def\sinolGroupText{Grupa}
 \def\sinolDayText{}
 \def\sinolKonkursText{}
-\def\sinolSourceText{Plik źródłowy}
 \def\sinolMemoryText{Pamięć}
 \def\sinolTimeText{Czas}
 
@@ -310,53 +268,44 @@
 % Opcje talentTex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{zad}{
-  \renewcommand{\topinformationbar}{
-    \hbox to \hsize
-    {
-      \begin{minipage}[t]{1\textwidth}
-      \setlength{\parindent}{-2pt}
-      \def\@tempempty{}
-      \bf
-      \fontfamily{ptm}
-      \color{talentBlue}
+  \renewcommand{\topinformationbar}{%
+    \hbox{%
+      \bf%
+      \fontfamily{ptm}%
+      \color{talentBlue}%
+      \def\@tempempty{}%
       %
-      %% Konkurs pokazuje się tylko gdy jest niepusty
       \ifkonkursdefed
         \ifx\sinolKonkurs\@tempempty
         \else\sinolKonkursText\sinolKonkurs.\
         \fi
       \else\?{brak konkursu}\erroutput{brak konkursu}\fi
       %
-      %% Dzień pokazuje się tylko gdy jest niepusty
       \ifdaydefed
         \ifx\sinolDay\@tempempty
         \else\sinolDayText\sinolDay.\
         \fi
       \else\?{brak dnia}\erroutput{brak dnia}\fi
       %
-      % Grupa
       \ifgroupdefed
         \if\sinolGroup\@tempempty
         \else\sinolGroupText:\,\sinolGroup.\
         \fi
       \else\?{brak grupy}\erroutput{brak grupy}\fi
       %
-      % Dostępna pamięć -- pokazuje sie tylko gdy
-      % nie jest pusta i jest zdefiniowana
       \ifMemorydefed
         \ifx\sinolMemory\@tempempty
         \else\sinolMemoryText:\,\sinolMemory\,MB.\
         \fi
       \else\?{brak limitu pamięci}\erroutput{brak limitu pamięci}\fi
       % 
-      %% Limit czasu -- pokazuje się tylko gdy nie jest pusty i jest zdefiniowany.
       \iftimedefed
         \ifx\sinolTime\@tempempty
         \else\sinolTimeText:\,\sinolTime\,s.\
         \fi
       \else\?{brak limitu czasu}\erroutput{brak limitu czasu}\fi
+      %
       \hfill
-      \end{minipage}
     }
   }
 }
@@ -364,18 +313,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{opi}{
   \renewcommand{\topinformationbar}{
-    \hbox to \hsize
-    {
-      \begin{minipage}[t]{1\textwidth}
-      \setlength{\parindent}{-2pt}
-      \def\@tempempty{}
-      \bf
-      \fontfamily{ptm}
-      \color{talentBlue}
-      \Large
-      \sinolSNameOpis
-      \hfill
-      \end{minipage}
+    \hbox{%
+      \bf%
+      \fontfamily{ptm}%
+      \color{talentBlue}%
+      \Large%
+      \sinolSNameOpis%
+      \hfill%
     }
   }
 }
@@ -383,18 +327,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{opr}{
   \renewcommand{\topinformationbar}{
-    \hbox to \hsize
-    {
-      \begin{minipage}[t]{1\textwidth}
-      \setlength{\parindent}{-2pt}
-      \def\@tempempty{}
-      \bf
-      \fontfamily{ptm}
-      \color{talentBlue}
-      \Large
-      \sinolSNameOpracowanie
-      \hfill
-      \end{minipage}
+    \hbox{%
+      \bf%
+      \fontfamily{ptm}%
+      \color{talentBlue}%
+      \Large%
+      \sinolSNameOpracowanie%
+      \hfill%
     }
   }
 }
@@ -423,7 +362,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagestyle{fancy}
 \lfoot{Stowarzyszenie Talent (talent.edu.pl)}
-\rfoot{\sinolTitle\ - \ID}
+\rfoot{\begin{minipage}[t]{0.45\textwidth}\raggedleft\sinolTitle\ - \ID\end{minipage}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Definicja przestrzeni dokumentu: 'tasktext'
@@ -455,7 +394,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Komendy dostępne w klasie talentTex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% komendy do obsługi plików
+
+% Pokazywanie testów wstępnych
 
 \newcommand{\includefile}[1]{
 \vspace{-0.9em}
@@ -494,11 +434,12 @@
 
 \newcommand{\makecompactexample}[1]{%
   \vspace{-5pt}%
-  \twocol{\exampleinput{#1}}{\exampleoutput{#1}}%
+  \begin{center}%
+    \twocol{\exampleinput{#1}}{\exampleoutput{#1}}%
+  \end{center}%
 }
 
-% pozostałe komendy
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Początek i koniec dokumentu
 
 \newcommand{\start}{
   \begin{document}
@@ -509,6 +450,8 @@
   \end{tasktext}
   \end{document}
 }
+
+% obsługa zdjeć
 
 \newlength{\imgwidth}
 
@@ -546,6 +489,8 @@
 \newcommand{\bimg}[2]{\img{#1}{#2}{b}}
 \newcommand{\plainimg}[1]{$$\includegraphics{#1}$$}
 
+% Sekcje w dokumencie
+
 \newcommand{\tSection}[1]{
   \tCustomSection{#1}{15pt}
 }
@@ -559,14 +504,12 @@
     \setlength\parindent{0pt}
     \setlength\parskip{5pt}
     \par
-    {
-      \fontfamily{ptm}
-      \color{talentBlue}
-      \textbf{#1}
-    }
+    \fontfamily{ptm}
+    \color{talentBlue}
+    \textbf{#1}
+    \setlength\parskip{2pt}
+    \par
   }
-  \setlength\parskip{2pt}
-  \par
 }
 
 \newcommand{\tCustomSection}[2]{
@@ -574,16 +517,16 @@
     \setlength\parindent{0pt}
     \setlength\parskip{#2}
     \par
-    {
-      \fontfamily{ptm}
-      \color{talentBlue}
-      \Large
-      \textbf{#1}
-    }
+    \fontfamily{ptm}
+    \color{talentBlue}
+    \Large
+    \textbf{#1}
   }
   \setlength\parskip{2pt}
   \par
 }
+
+% Talentowy kolor do zaznaczania zmiennych
 
 \newcommand{\tc}[1]{%
   \ifmmode
@@ -598,6 +541,8 @@
   \fi
 }
 
+% Testy ocen 
+
 \newcommand{\ocen}[1]{
   \begin{enumerate}
   \setlength\itemindent{-13pt}
@@ -609,6 +554,8 @@
 \newcommand{\testOcen}[2]{
   \item[] \textbf{\color{talentBlue}\ID#1: \ }{#2}
 }
+
+% Tabelka z podzadaniami
 
 \newcommand{\ocenTable}[2][100]{
   \setcounter{subtestsCounter}{0}
