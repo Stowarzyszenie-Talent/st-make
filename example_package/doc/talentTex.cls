@@ -34,7 +34,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\sinolTestInPath{../in}
 \def\sinolTestOutPath{../out}
-\def\sinolContestLogoPath{logo.jpg}
+\def\sinolContestLogoPath{logo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Kolory
@@ -114,21 +114,17 @@
 \def\ifeq#1#2#3{%
   \edef\@tempeqa{#1}%
   \edef\@tempeqb{#2}%
-  \ifx\@tempeqa\@tempeqb%
-    #3%
-  \fi%
+  \ifx\@tempeqa\@tempeqb#3\fi%
 }
 
 \def\ifneq#1#2#3{%
   \edef\@tempeqa{#1}%
   \edef\@tempeqb{#2}%
-  \ifx\@tempeqa\@tempeqb\else%
-    #3%
-  \fi%
+  \ifx\@tempeqa\@tempeqb\else#3\fi%
 }
 
 \newcommand{\iffileexists}[3]{%
-  \immediate\openin\tmpfile #1\par%
+  \immediate\openin\tmpfile#1\par%
   \ifeof\tmpfile%
     \immediate\closein\tmpfile%
     #3%
@@ -196,12 +192,10 @@
 
 \newcommand{\id}[1]{
   \edef\ID{#1}
-  \infoutput{[id][#1]}
 }
 
 \renewcommand{\title}[1]{
   \def\sinolTitle{#1}
-  \infoutput{[title][#1]}
 }
 
 \newcommand{\konkurs}[1]{
@@ -230,24 +224,14 @@
 }
 
 \newcommand{\iomode}[1]{
-  \def\sinolIOmode{#1}
   \ifeq{#1}{files}{
     \gdef\sinolExampleInputText{Dla pliku wejściowego {\ttfamily\ID.in}:}
     \gdef\sinolExampleOutputText{poprawnym wynikiem jest plik wyjściowy {\ttfamily\ID.out}:}    
   }
   \ifeq{#1}{stdin}{
-    \gdef\sinolExampleInputText{{\color{talentBlue}\bf Wejście:}}
-    \gdef\sinolExampleOutputText{{\color{talentBlue}\bf Wyjście:}}    
-  }    
-  \ifeq{#1}{outputonly}{
-    \gdef\sinolExampleInputText{Wejście:}
-    \gdef\sinolExampleOutputText{Wyjście:}    
-  }    
-  \ifeq{#1}{interactive}{
-    % TODO: UPDATE THIS
-    \gdef\sinolExampleInputText{Wejście:}
-    \gdef\sinolExampleOutputText{Wyjście:}    
-  }    
+    \gdef\sinolExampleInputText{{\color{talentBlue}\bf \sinolInputText:}}
+    \gdef\sinolExampleOutputText{{\color{talentBlue}\bf \sinolOutputText:}}    
+  }
 }
 \iomode{stdin}
 
@@ -263,6 +247,8 @@
 \def\sinolKonkursText{}
 \def\sinolMemoryText{Pamięć}
 \def\sinolTimeText{Czas}
+\def\sinolInputText{Wejście}
+\def\sinolOutputText{Wyjście} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Opcje talentTex
@@ -273,38 +259,21 @@
       \bf%
       \fontfamily{ptm}%
       \color{talentBlue}%
-      \def\@tempempty{}%
-      %
       \ifkonkursdefed
-        \ifx\sinolKonkurs\@tempempty
-        \else\sinolKonkursText\sinolKonkurs.\
-        \fi
-      \else\?{brak konkursu}\erroutput{brak konkursu}\fi
-      %
+        \ifneq{\sinolKonkurs}{}{\sinolKonkursText\sinolKonkurs.\hspace{5pt}}%
+      \fi
       \ifdaydefed
-        \ifx\sinolDay\@tempempty
-        \else\sinolDayText\sinolDay.\
-        \fi
-      \else\?{brak dnia}\erroutput{brak dnia}\fi
-      %
+        \ifneq{\sinolDay}{}{\sinolDayText\sinolDay.\hspace{5pt}}%
+      \fi
       \ifgroupdefed
-        \if\sinolGroup\@tempempty
-        \else\sinolGroupText:\,\sinolGroup.\
-        \fi
-      \else\?{brak grupy}\erroutput{brak grupy}\fi
-      %
+        \ifneq{\sinolGroup}{}{\sinolGroupText:\,\sinolGroup.\hspace{5pt}}%
+      \fi
       \ifMemorydefed
-        \ifx\sinolMemory\@tempempty
-        \else\sinolMemoryText:\,\sinolMemory\,MB.\
-        \fi
-      \else\?{brak limitu pamięci}\erroutput{brak limitu pamięci}\fi
-      % 
+        \ifneq{\sinolMemory}{}{\sinolMemoryText:\,\sinolMemory\,MB.\hspace{5pt}}%
+      \fi
       \iftimedefed
-        \ifx\sinolTime\@tempempty
-        \else\sinolTimeText:\,\sinolTime\,s.\
-        \fi
-      \else\?{brak limitu czasu}\erroutput{brak limitu czasu}\fi
-      %
+        \ifneq{\sinolTime}{}{\sinolTimeText:\,\sinolTime\,s.\hspace{5pt}}%
+      \fi
       \hfill
     }
   }
@@ -353,7 +322,6 @@
 \setlength{\hoffset}{-4mm} % this means 1in-15mm
 \setlength{\voffset}{-30mm} % this means 1in-15mm
 \setlength{\topmargin}{0pt}
-\setlength{\parskip}{0pt}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
@@ -500,30 +468,26 @@
 }
 
 \newcommand{\tSmallSection}[1]{
+  \par\vspace{5pt}
   {
     \setlength\parindent{0pt}
-    \setlength\parskip{5pt}
-    \par
     \fontfamily{ptm}
     \color{talentBlue}
     \textbf{#1}
-    \setlength\parskip{2pt}
-    \par
   }
+  \par\vspace{2pt}
 }
 
 \newcommand{\tCustomSection}[2]{
+  \par\vspace{#2}
   {
     \setlength\parindent{0pt}
-    \setlength\parskip{#2}
-    \par
     \fontfamily{ptm}
     \color{talentBlue}
     \Large
     \textbf{#1}
   }
-  \setlength\parskip{2pt}
-  \par
+  \par\vspace{2pt}
 }
 
 % Talentowy kolor do zaznaczania zmiennych
@@ -568,7 +532,8 @@
     \end{tabular}
   \end{center}
   \ifneq{\arabic{sumPointSubtask}}{#1}{%
-    Uwaga! W tyma zadaniu suma punktów do zdobycia wynosi \arabic{sumPointSubtask} punktów.
+    Uwaga! W tyma zadaniu suma punktów do zdobycia wynosi \arabic{sumPointSubtask} punktów.%
+    \erroutput{Suma punktow jest niewlasciwa}%
   }
 }
 
