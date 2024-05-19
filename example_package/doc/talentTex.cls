@@ -13,8 +13,8 @@
 % Formalności
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
-\def\sinolVersion{0.0.6}
-\ProvidesClass{talentTex}[Stowarzyszenie Talent \sinolVersion]
+\def\codeVersion{0.0.6}
+\ProvidesClass{talentTex}[Stowarzyszenie Talent \codeVersion]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Include pakietów
@@ -28,13 +28,14 @@
 \RequirePackage{xcolor}
 \RequirePackage{xstring}
 \RequirePackage{xparse}
+\RequirePackage{environ}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Pliki w paczce
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\sinolTestInPath{../in}
-\def\sinolTestOutPath{../out}
-\def\sinolContestLogoPath{logo}
+\def\pathTestIn{../in}
+\def\pathTestOut{../out}
+\def\pathContestLogo{logo.jpg}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Kolory
@@ -48,66 +49,45 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % zmienne logiczne i liczniki
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newif\ifsinolerrors  \sinolerrorsfalse % bledy
-\newif\ifkonkursdefed \konkursdefedfalse  % czy podano konkurs
-\newif\ifdaydefed \daydefedfalse  % czy podano dzień
-\newif\ifgroupdefed \groupdefedfalse  % czy podano grupę
-\newif\ifMemorydefed \Memorydefedfalse  % czy podano dostępną pamięć
-\newif\iftimedefed \timedefedfalse % czy podano czas działania
+\newif\ifDocumentHasSet \DocumentHasSetfalse % czy samodzielnie użytp \begin{document}
+\newif\ifUseExample \UseExamplefalse % czy stworzono przykład
+\newif\ifContestDefed \ContestDefedfalse  % czy podano konkurs
+\newif\ifDayDefed \DayDefedfalse  % czy podano dzień
+\newif\ifRoundDefed \RoundDefedfalse  % czy podano runde
+\newif\ifGroupDefed \GroupDefedfalse  % czy podano grupę
+\newif\ifMemoryDefed \MemoryDefedfalse  % czy podano dostępną pamięć
+\newif\ifTimeDefed \TimeDefedfalse % czy podano czas działania
 
-\newcounter{subtestsCounter} % licznik podzadań w tabelce
-\newcounter{sumPointSubtask} % suma punktów do zdobycia w zadaniu
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Obsługa plików: inf, err
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chardef\inffile=15 % plik wejsciowy (np. testy)
-\chardef\errfile=14 % plik wyjsciowy
-\chardef\tmpfile=13 % plik tymczasowy
-
-% \infoutput{<tekst>} --- wyprowadza do pliku informacyjnego
-\newcommand{\infoutput}[1]{%
-  \immediate\write\inffile{#1}
-}
-
-% \erroutput{<tekst>} --- wyprowadza do pliku z bledami
-\newcommand{\erroutput}[1]{%
-  \immediate\write\errfile{#1}
-  \global\sinolerrorstrue
-}
+\newcounter{subtasksCounter} % licznik podzadań w tabelce
+\newcounter{subtasksPiontSum} % suma punktów do zdobycia w zadaniu
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Czynności przed i po - otwiera pliki inf err
+% Czynności przed i po dokumencie
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \AtBeginDocument{%
-  \immediate\openout\inffile \jobname.inf
-  \immediate\openout\errfile \jobname.err
+  \DocumentHasSettrue%
+  \ifundef{taskID}{%
+    \errmessage{brak id (\string\id{})}%
+  }{}
+  \ifundef{taskTitle}{%
+    \errmessage{brak title (\string\title{})}%
+  }{}
 }
 
-\AtEndDocument{%
-  \ifsinolerrors
-    \immediate\write16{SINOL: znaleziono bledy (zob. \jobname.err) !}
-  \fi
-}
+\AtEndDocument{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Definicje
+% Definicje techniczne
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\def\ucase#1{\expandafter\uppercase\expandafter{#1}}
-\def\lcase#1{\expandafter\lowercase\expandafter{#1}}
-
-\def\?#1{
-  [[#1]]
-}
+\def\?#1{[[#1]]}
 
 \def\ifundef#1#2#3{%
-  \expandafter%
-  \ifx\csname#1\endcsname\relax%
-    #2%
-  \else%
+  \ifcsname#1\endcsname%
     #3%
+  \else%
+    #2%
   \fi%
 }
 
@@ -124,25 +104,26 @@
 }
 
 \newcommand{\iffileexists}[3]{%
-  \immediate\openin\tmpfile#1\par%
-  \ifeof\tmpfile%
-    \immediate\closein\tmpfile%
+  \immediate\openin\@inputcheck=#1
+  \ifeof\@inputcheck%
+    \immediate\closein\@inputcheck%
     #3%
   \else%
-    \immediate\closein\tmpfile%
+    \immediate\closein\@inputcheck%
     #2%
-  \fi%
+  \fi
 }
 
 \NewDocumentCommand{\twocol}{ O{0.5} O{0} O{t} m m }{%
-  \noindent%
-  \begin{minipage}[#3]{#1\textwidth}%
-    #4%
-  \end{minipage}%
-  \hfill%
-  \begin{minipage}[#3]{\dimexpr\textwidth-#1\textwidth-#2\textwidth}%
-    #5%
-  \end{minipage}%
+  \begin{center}%
+    \begin{minipage}[#3]{#1\textwidth}%
+      #4%
+    \end{minipage}%
+    \hfill%
+    \begin{minipage}[#3]{\dimexpr\textwidth-#1\textwidth-#2\textwidth}%
+      #5%
+    \end{minipage}%
+  \end{center}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -153,84 +134,85 @@
     \vbox to 0pt{
       \vss
       \hbox{
-        \includegraphics[height=1.143cm,bb=0 0 900 300]{\sinolContestLogoPath}%
+        \includegraphics[height=1.143cm,bb=0 0 900 300]{\pathContestLogo}%
       }
     }
   }
 }
 
-\def\tophugetitle{%
-  \begin{minipage}[t]{0.75\textwidth}
-    \color{talentBlue}
-    \fontfamily{ptm}
-    \huge
-    \textbf{\sinolTitle}
-  \end{minipage}
+\def\topHugeTitle{%
+  \begin{minipage}[t]{0.75\textwidth}%
+    \huge%
+    \fontfamily{ptm}%
+    \color{talentBlue}%
+    \textbf{\taskTitle}%
+  \end{minipage}%
 }
 
-\def\topinformationbar{}
+\def\topInformationBarText{}
 
-% uruchamiane po przeczytaniu deklaracji
-\newcommand{\concludedecls}{
-  % Sprawdzanie istnienia definicji
-  \ifundef{ID}{
-    \erroutput{brak 3-literowego identyfikatora (klauzula \string\id)}
-    \def\ID{XXX}
-  }{}
-  \ifundef{sinolTitle}{
-    \erroutput{brak tytułu (klauzula \string\title)}
-    \def\sinolTitle{\?{brak tytułu}}
-  }{}
+\def\topInformationBar{
+  \hbox{%
+    \bf%
+    \fontfamily{ptm}%
+    \color{talentBlue}%
+    \topInformationBarText%
+    \hfill%
+  }
 }
-
-% uruchamiane po przeczytaniu tekstu
-\newcommand{\concludetext}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Przypisanie stałych przez użytkownika
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\id}[1]{
-  \edef\ID{#1}
+  \edef\taskID{#1}
 }
 
 \renewcommand{\title}[1]{
-  \def\sinolTitle{#1}
+  \edef\taskTitle{#1}
 }
 
-\newcommand{\konkurs}[1]{
-  \def\sinolKonkurs{#1}
-  \global\konkursdefedtrue
+\newcommand{\contest}[1]{
+  \def\taskContest{#1}
+  \global\ContestDefedtrue
 }
 
 \renewcommand{\day}[1]{
-  \def\sinolDay{#1}
-  \global\daydefedtrue
+  \def\taskDay{#1}
+  \global\DayDefedtrue
+}
+
+\newcommand{\round}[1]{
+  \def\taskRound{#1}
+  \global\RoundDefedtrue
 }
 
 \newcommand{\group}[1]{
-  \def\sinolGroup{#1}
-  \global\groupdefedtrue
+  \def\taskGroup{#1}
+  \global\GroupDefedtrue
 }
 
-\newcommand{\Memory}[1]{
-  \def\sinolMemory{#1}
-  \global\Memorydefedtrue
+\newcommand{\Memory}[2][MB]{
+  \def\taskMemory{#2}
+  \def\taskMemoryUnit{#2\,#1}
+  \global\MemoryDefedtrue
 }
 
-\newcommand{\Time}[1]{
-  \def\sinolTime{#1}
-  \global\timedefedtrue
+\newcommand{\Time}[2][s]{
+  \def\taskTime{#2}
+  \def\taskTimeUnit{#2\,#1}
+  \global\TimeDefedtrue
 }
 
 \newcommand{\iomode}[1]{
   \ifeq{#1}{files}{
-    \gdef\sinolExampleInputText{Dla pliku wejściowego {\ttfamily\ID.in}:}
-    \gdef\sinolExampleOutputText{poprawnym wynikiem jest plik wyjściowy {\ttfamily\ID.out}:}    
+    \gdef\exampleInputText{Dla pliku wejściowego {\ttfamily\taskID.in}:}
+    \gdef\exampleOutputText{poprawnym wynikiem jest plik wyjściowy {\ttfamily\taskID.out}:}    
   }
   \ifeq{#1}{stdin}{
-    \gdef\sinolExampleInputText{{\color{talentBlue}\bf \sinolInputText:}}
-    \gdef\sinolExampleOutputText{{\color{talentBlue}\bf \sinolOutputText:}}    
+    \gdef\exampleInputText{{\color{talentBlue}\bf\textInput:}}
+    \gdef\exampleOutputText{{\color{talentBlue}\bf\textOutput:}}    
   }
 }
 \iomode{stdin}
@@ -238,72 +220,58 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Nazwy wyświetlane (zmiana języka, narazie tu ręcznie)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\sinolSNameOpis{Opis rozwiązania}
-\def\sinolSNameOpracowanie{Opracowanie}
-
-\def\sinolTitleZadanie{Zadanie}
-\def\sinolGroupText{Grupa}
-\def\sinolDayText{}
-\def\sinolKonkursText{}
-\def\sinolMemoryText{Pamięć}
-\def\sinolTimeText{Czas}
-\def\sinolInputText{Wejście}
-\def\sinolOutputText{Wyjście} 
+\def\textSolutionDescription{Opis rozwiązania}
+\def\textDocumentation{Opracowanie}
+\def\textGroup{Grupa}
+\def\textDay{Dzień}
+\def\textRound{Runda}
+\def\textContest{Konkurs}
+\def\textMemory{Pamięć}
+\def\textTime{Czas}
+\def\textInput{Wejście}
+\def\textOutput{Wyjście}
+\def\textPoints{Punkty}
+\def\textTestCasess{Ograniczenia}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Opcje talentTex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{zad}{
-  \renewcommand{\topinformationbar}{%
-    \hbox{%
-      \bf%
-      \fontfamily{ptm}%
-      \color{talentBlue}%
-      \ifkonkursdefed
-        \ifneq{\sinolKonkurs}{}{\sinolKonkursText\sinolKonkurs.\hspace{5pt}}%
-      \fi
-      \ifdaydefed
-        \ifneq{\sinolDay}{}{\sinolDayText\sinolDay.\hspace{5pt}}%
-      \fi
-      \ifgroupdefed
-        \ifneq{\sinolGroup}{}{\sinolGroupText:\,\sinolGroup.\hspace{5pt}}%
-      \fi
-      \ifMemorydefed
-        \ifneq{\sinolMemory}{}{\sinolMemoryText:\,\sinolMemory\,MB.\hspace{5pt}}%
-      \fi
-      \iftimedefed
-        \ifneq{\sinolTime}{}{\sinolTimeText:\,\sinolTime\,s.\hspace{5pt}}%
-      \fi
-      \hfill
-    }
+  \renewcommand{\topInformationBarText}{%
+    \ifContestDefed
+      \ifneq{\taskContest}{}{\taskContest.\hspace{5pt}}%
+    \fi
+    \ifDayDefed
+      \ifneq{\taskDay}{}{\textDay:\,\taskDay.\hspace{5pt}}%
+    \fi
+    \ifRoundDefed
+      \ifneq{\taskRound}{}{\textRound:\,\taskRound.\hspace{5pt}}%
+    \fi
+    \ifGroupDefed
+      \ifneq{\taskGroup}{}{\textGroup:\,\taskGroup.\hspace{5pt}}%
+    \fi
+    \ifMemoryDefed
+      \ifneq{\taskMemory}{}{\textMemory:\,\taskMemoryUnit.\hspace{5pt}}%
+    \fi
+    \ifTimeDefed
+      \ifneq{\taskTime}{}{\textTime:\,\taskTimeUnit.\hspace{5pt}}%
+    \fi
   }
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{opi}{
-  \renewcommand{\topinformationbar}{
-    \hbox{%
-      \bf%
-      \fontfamily{ptm}%
-      \color{talentBlue}%
-      \Large%
-      \sinolSNameOpis%
-      \hfill%
-    }
+  \renewcommand{\topInformationBarText}{
+    \Large%
+    \textSolutionDescription%
   }
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{opr}{
-  \renewcommand{\topinformationbar}{
-    \hbox{%
-      \bf%
-      \fontfamily{ptm}%
-      \color{talentBlue}%
-      \Large%
-      \sinolSNameOpracowanie%
-      \hfill%
-    }
+  \renewcommand{\topInformationBarText}{
+    \Large%
+    \textDocumentation%
   }
 }
 
@@ -326,19 +294,18 @@
 \renewcommand{\footrulewidth}{0.4pt}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Wygląd dokumentu
+% Wygląd stopki dokumentu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagestyle{fancy}
 \lfoot{Stowarzyszenie Talent (talent.edu.pl)}
-\rfoot{\begin{minipage}[t]{0.45\textwidth}\raggedleft\sinolTitle\ - \ID\end{minipage}}
+\rfoot{\begin{minipage}[t]{0.45\textwidth}\raggedleft\taskTitle\ - \taskID\end{minipage}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Definicja przestrzeni dokumentu: 'tasktext'
 \newenvironment{tasktext}{
-  \concludedecls
   % Tytuł
   \leftline{%
-    \tophugetitle%
+    \topHugeTitle%
   }
   % Logo
   \rightline{
@@ -351,13 +318,9 @@
     \hrule height 2pt \relax
   }
   \smallskip
-  \topinformationbar
+  \topInformationBar
   \bigskip
-}{
-  \concludetext
-  \closeout\inffile
-  \closeout\errfile
-}
+}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Komendy dostępne w klasie talentTex
@@ -371,52 +334,52 @@
 }
 
 \newcommand{\exampleinput}[1]{
-  \noindent\sinolExampleInputText
-  \iffileexists{\sinolTestInPath/\ID0#1.in}{
-    \includefile{\sinolTestInPath/\ID0#1.in}
+  \noindent\exampleInputText\par
+  \iffileexists{\pathTestIn/\taskID0#1.in}{
+    \includefile{\pathTestIn/\taskID0#1.in}
   }{
-    \smallskip
-    \?{brak pliku {\ttfamily\ID0#1.in}}\par
-    \erroutput{brak pliku '\ID0#1.in' w scieżce '\sinolTestInPath'}
-    \smallskip
-  }
+    \?{brak pliku {\ttfamily\pathTestIn/\taskID0#1.in}}
+  }\par
 }
 
 \newcommand{\exampleoutput}[1]{
-  \noindent\sinolExampleOutputText
-  \iffileexists{\sinolTestOutPath/\ID0#1.out}{
-    \includefile{\sinolTestOutPath/\ID0#1.out}
+  \noindent\exampleOutputText\par
+  \iffileexists{\pathTestOut/\taskID0#1.out}{
+    \includefile{\pathTestOut/\taskID0#1.out}
   }{
-    \smallskip
-    \?{brak pliku {\ttfamily\ID0#1.out}}\par
-    \erroutput{brak pliku '\ID0#1.out' w scieżce '\sinolTestOutPath'}
-    \smallskip
-  }
+    \?{brak pliku {\ttfamily\pathTestOut/\taskID0#1.out}}
+  }\par
 }
 
-\newcommand{\makestandardexample}[1]{%
-  \vspace{5pt}
-  \exampleinput{#1}%
-  \exampleoutput{#1}%
+\newcommand{\makeVExample}[1]{%
+  \noindent%
+  \begin{minipage}{\textwidth}%
+    \exampleinput{#1}%
+    \exampleoutput{#1}%
+  \end{minipage}%
 }
 
-\newcommand{\makecompactexample}[1]{%
-  \vspace{-5pt}%
-  \begin{center}%
-    \twocol{\exampleinput{#1}}{\exampleoutput{#1}}%
-  \end{center}%
+\newcommand{\makeHExample}[1]{%
+  \twocol{\exampleinput{#1}}{\exampleoutput{#1}}%
+}
+
+\newcommand{\example}[2][h]{%
+  \ifUseExample\vspace{5pt}\else\UseExampletrue\fi
+  \vspace{2pt}
+  \ifeq{#1}{h}{\makeHExample{#2}}%
+  \ifeq{#1}{v}{\makeVExample{#2}}%
 }
 
 % Początek i koniec dokumentu
 
-\newcommand{\start}{
-  \begin{document}
-  \begin{tasktext}
+\newcommand{\start}{%
+  \ifDocumentHasSet\else\begin{document}\DocumentHasSetfalse\fi%
+  \begin{tasktext}%
 }
 
-\newcommand{\finish}{
-  \end{tasktext}
-  \end{document}
+\newcommand{\finish}{%
+  \end{tasktext}%
+  \ifDocumentHasSet\else\end{document}\fi%
 }
 
 % obsługa zdjeć
@@ -459,86 +422,74 @@
 
 % Sekcje w dokumencie
 
-\newcommand{\tSection}[1]{
-  \tCustomSection{#1}{15pt}
+\newcommand{\tSection}[1]{%
+  \tCustomSection{#1}{15pt}%
 }
 
-\newcommand{\tsection}[1]{
-  \tSection{#1}
+\newcommand{\tsection}[1]{%
+  \tSection{#1}%
 }
 
 \newcommand{\tSmallSection}[1]{
-  \par\vspace{5pt}
-  {
-    \setlength\parindent{0pt}
-    \fontfamily{ptm}
-    \color{talentBlue}
-    \textbf{#1}
-  }
-  \par\vspace{2pt}
+  \par\vspace{5pt}%
+  \noindent%
+  \tc{#1}%
+  \par\vspace{2pt}%
 }
 
-\newcommand{\tCustomSection}[2]{
-  \par\vspace{#2}
-  {
-    \setlength\parindent{0pt}
-    \fontfamily{ptm}
-    \color{talentBlue}
-    \Large
-    \textbf{#1}
-  }
-  \par\vspace{2pt}
+\newcommand{\tCustomSection}[2]{%
+  \par\vspace{#2}%
+  \noindent%
+  {\Large\tc{#1}}%
+  \par\vspace{2pt}%
 }
 
 % Talentowy kolor do zaznaczania zmiennych
 
 \newcommand{\tc}[1]{%
-  \ifmmode
-    \StrLen{#1}[\textLength]
-    \ifnum\textLength=1
-      \textcolor{talentBlue}{\textbf{\fontfamily{ptm}\selectfont #1}}%
-    \else
-      \textcolor{talentBlue}{\mathbf{{\fontfamily{ptm}\selectfont #1}}}%
-    \fi
-  \else
-    \textcolor{talentBlue}{\textbf{\fontfamily{ptm}\selectfont #1}}%
-  \fi
+  \ifmmode%
+    \StrLen{#1}[\@tmpStrLen]%
+    \ifnum\@tmpStrLen=1%
+      {\fontfamily{ptm}\textcolor{talentBlue}{\textbf{#1}}}%
+    \else%
+      \textcolor{talentBlue}{\mathbf{#1}}%
+    \fi%
+  \else%
+    {\fontfamily{ptm}\textcolor{talentBlue}{\textbf{#1}}}%
+  \fi%
 }
 
 % Testy ocen 
 
-\newcommand{\ocen}[1]{
-  \begin{enumerate}
-  \setlength\itemindent{-13pt}
-  \fontfamily{ptm}
-  #1
-  \end{enumerate}
+\newcommand{\ocen}[1]{%
+  \begin{description}%
+    \setlength{\itemsep}{2pt}%
+    #1%
+  \end{description}%
 }
 
-\newcommand{\testOcen}[2]{
-  \item[] \textbf{\color{talentBlue}\ID#1: \ }{#2}
+\newcommand{\testOcen}[2]{%
+  \item[]\tc{\taskID#1:}\hspace{5pt}#2%
 }
 
 % Tabelka z podzadaniami
 
-\newcommand{\ocenTable}[2][100]{
-  \setcounter{subtestsCounter}{0}
-  \setcounter{sumPointSubtask}{0}
+\newcommand{\subtaskTable}[2][100]{
+  \setcounter{subtasksCounter}{0}
+  \setcounter{subtasksPiontSum}{0}
   \begin{center}
-    \begin{tabular}
-      {|c|l|c|} \hline
-      \tc{Nr} & \tc{Ograniczenia} & \tc{Punkty} \\ \hline
+    \begin{tabular}{|c|l|c|} \hline
+      \tc{Nr} & \tc{\textTestCasess} & \tc{\textPoints} \\ \hline
       #2
     \end{tabular}
   \end{center}
-  \ifneq{\arabic{sumPointSubtask}}{#1}{%
-    Uwaga! W tyma zadaniu suma punktów do zdobycia wynosi \arabic{sumPointSubtask} punktów.%
-    \erroutput{Suma punktow jest niewlasciwa}%
+  \ifneq{\arabic{subtasksPiontSum}}{#1}{%
+    \errmessage{Wrong total points (\string\subtaskTable[point]{...})}%
   }
 }
 
-\newcommand{\ocenRow}[2]{
-  \stepcounter{subtestsCounter}%
-  \addtocounter{sumPointSubtask}{#1}%
-  \arabic{subtestsCounter} & \begin{tabular}{@{}l@{}} #2 \end{tabular} & #1 \\ \hline
+\newcommand{\subtask}[2]{
+  \stepcounter{subtasksCounter}%
+  \addtocounter{subtasksPiontSum}{#1}%
+  \arabic{subtasksCounter} & \begin{tabular}{@{}l@{}} #2 \end{tabular} & #1 \\ \hline
 }

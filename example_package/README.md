@@ -77,20 +77,19 @@ Można też `\timg{img1.jpg}{opis}`, `\bimg{img1.jpg}{opis}`.
 - `\tSection{text}` - Nagłówek w stylu talentu.
 - `\tCustomSection{text}{0pt}` - Nagłówek w stylu talentu, z możliwością ustawienia odstępu od poprzedniego akapitu.
 - `\tSmallSection{text}` - Mały nagłówek w stylu talentu.
-- `\makecompactexample{id}` - dodaje automatycznie test "abc0{id}" z paczki, wejście i wyjście będą obok siebie.
-- `\makestandardexample{id}` - dodaje automatycznie test "abc0{id}" z paczki, wejście i wyjście będą pod sobą.
-
-Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out.
-Należy się upewnić, że są one wygenerowane w momencie kompilacji treści.
-Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
+- `\example[h/v]{id}` - Wstawia test przykłądowy "zad0{id}" z paczki.
+  Opcjonalnie można dodać położenie testów, h - horyzontalnie, v - pionowo, domyślnie jest h.
+  Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out.
+  Należy się upewnić, że są one wygenerowane w momencie kompilacji treści.
+  Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
 
 - `\ocen{\testOcen{}{} ...}` - Lista wszystkich testów ocen.
 - `\testOcen{nazwa_testu}{opis_testu}` - Pojedynczy test ocen z opisem.
-- `\ocenTable{}` - Tworzy tabelę z podzadaniami.
-  Jako argument należy przekazać `\ocenRow{}{}`, dla każdego podzadania.
-  Opcjonalnie można podać ile punktów jest za zadanie `\ocenTable[100]{}`.
+- `\subtaskTable{}` - Tworzy tabelę z podzadaniami.
+  Jako argument należy przekazać `\subtask{}{}`, dla każdego podzadania.
+  Opcjonalnie można podać ile punktów jest za zadanie `\subtaskTable[100]{}`.
   Automatycznie tworzy nagłówek (Nr & Ograniczenia & Punkty).
-- `\ocenRow{punkty}{ograniczenie}` - Tworzy pojedynczy wiersz tabeli opisujący podzadanie z podaną ilością punktów i danym ograniczeniem.
+- `\subtask{punkty}{ograniczenie}` - Tworzy pojedynczy wiersz tabeli opisujący podzadanie z podaną ilością punktów i danym ograniczeniem.
 
 ## **prog**
 
