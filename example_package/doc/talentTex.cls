@@ -126,28 +126,21 @@
   \end{center}%
 }
 
+\NewDocumentCommand{\tworow}{ O{10} m m }{%
+  \begin{center}%
+    \begin{minipage}{\textwidth}%
+      #2%
+    \end{minipage}%
+    \par\vspace{#1pt}\par%
+    \begin{minipage}{\textwidth}%
+      #3%
+    \end{minipage}%
+  \end{center}%
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\def\LOGO{
-  \leavevmode
-  \hbox{
-    \vbox to 0pt{
-      \vss
-      \hbox{
-        \includegraphics[height=1.143cm,bb=0 0 900 300]{\pathContestLogo}%
-      }
-    }
-  }
-}
-
-\def\topHugeTitle{%
-  \begin{minipage}[t]{0.75\textwidth}%
-    \huge%
-    \fontfamily{ptm}%
-    \color{talentBlue}%
-    \textbf{\taskTitle}%
-  \end{minipage}%
-}
+% Definicje nagłówka
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \def\topInformationBarText{}
 
@@ -159,6 +152,22 @@
     \topInformationBarText%
     \hfill%
   }
+}
+
+\newcommand{\Header}{%
+  \noindent%
+  \begin{minipage}[b]{0.75\textwidth}%
+    \huge\tc{\taskTitle}%
+  \end{minipage}%
+  \hfill%
+  \begin{minipage}[b]{0.22\textwidth}%
+    \hfill\raisebox{-4pt}{\includegraphics[width=\textwidth]{\pathContestLogo}}%
+  \end{minipage}%
+  \smallskip%
+  {\color{talentBrown}\hrule height 1.75pt}%
+  \smallskip%
+  \topInformationBar%
+  \bigskip%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -206,10 +215,6 @@
 }
 
 \newcommand{\iomode}[1]{
-  \ifeq{#1}{files}{
-    \gdef\exampleInputText{Dla pliku wejściowego {\ttfamily\taskID.in}:}
-    \gdef\exampleOutputText{poprawnym wynikiem jest plik wyjściowy {\ttfamily\taskID.out}:}    
-  }
   \ifeq{#1}{stdin}{
     \gdef\exampleInputText{{\color{talentBlue}\bf\textInput:}}
     \gdef\exampleOutputText{{\color{talentBlue}\bf\textOutput:}}    
@@ -259,7 +264,7 @@
   }
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{opi}{
   \renewcommand{\topInformationBarText}{
     \Large%
@@ -267,7 +272,7 @@
   }
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption{opr}{
   \renewcommand{\topInformationBarText}{
     \Large%
@@ -275,15 +280,17 @@
   }
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
 \PassOptionsToClass{a4paper}{article}
 \LoadClass{article}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% rozmiar papieru
+% Wygląd  dokumentu (papier, stopka, tasktext)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% rozmiar papieru
+
 \setlength{\textwidth}{168mm} % {180mm}
 \setlength{\textheight}{265mm} % {257mm}
 \setlength{\oddsidemargin}{0pt}
@@ -293,38 +300,31 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Wygląd stopki dokumentu
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% stopka
+
 \pagestyle{fancy}
 \lfoot{Stowarzyszenie Talent (talent.edu.pl)}
 \rfoot{\begin{minipage}[t]{0.45\textwidth}\raggedleft\taskTitle\ - \taskID\end{minipage}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Definicja przestrzeni dokumentu: 'tasktext'
-\newenvironment{tasktext}{
-  % Tytuł
-  \leftline{%
-    \topHugeTitle%
-  }
-  % Logo
-  \rightline{
-    \hbox to\hsize{\hfil\LOGO}
-  }
-  \smallskip
-  % Linia
-  {
-    \color{talentBrown}
-    \hrule height 2pt \relax
-  }
-  \smallskip
-  \topInformationBar
-  \bigskip
-}{}
+% Przestrzeń tasktext
+
+\newenvironment{tasktext}{\Header}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Komendy dostępne w klasie talentTex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Początek i koniec tasktext
+
+\newcommand{\start}{%
+  \ifDocumentHasSet\else\begin{document}\DocumentHasSetfalse\fi%
+  \begin{tasktext}%
+}
+
+\newcommand{\finish}{%
+  \end{tasktext}%
+  \ifDocumentHasSet\else\end{document}\fi%
+}
 
 % Pokazywanie testów wstępnych
 
@@ -351,74 +351,27 @@
   }\par
 }
 
-\newcommand{\makeVExample}[1]{%
-  \noindent%
-  \begin{minipage}{\textwidth}%
-    \exampleinput{#1}%
-    \exampleoutput{#1}%
-  \end{minipage}%
-}
-
-\newcommand{\makeHExample}[1]{%
-  \twocol{\exampleinput{#1}}{\exampleoutput{#1}}%
-}
-
 \newcommand{\example}[2][h]{%
-  \ifUseExample\vspace{5pt}\else\UseExampletrue\fi
-  \vspace{2pt}
-  \ifeq{#1}{h}{\makeHExample{#2}}%
-  \ifeq{#1}{v}{\makeVExample{#2}}%
-}
-
-% Początek i koniec dokumentu
-
-\newcommand{\start}{%
-  \ifDocumentHasSet\else\begin{document}\DocumentHasSetfalse\fi%
-  \begin{tasktext}%
-}
-
-\newcommand{\finish}{%
-  \end{tasktext}%
-  \ifDocumentHasSet\else\end{document}\fi%
+  \ifUseExample\vspace{3pt}\else\vspace{-8pt}\UseExampletrue\fi
+  \ifeq{#1}{h}{\twocol{\exampleinput{#2}}{\exampleoutput{#2}}}%
+  \ifeq{#1}{v}{\tworow[10]{\exampleinput{#2}}{\exampleoutput{#2}}}%
 }
 
 % obsługa zdjeć
 
-\newlength{\imgwidth}
-
-% podpis pod/nad obrazkiem
-\newcommand{\imgcaption}[1]{
-  \def\capwidth{\textwidth}
-  \addtolength\capwidth{-1cm}
-  \centerline{\begin{minipage}{\capwidth}\footnotesize #1\end{minipage}}
+% \img[szerokosć][opis][t/b]{plik} (t-na gorze, b-na dole)
+\NewDocumentCommand{\img}{ O{0.8} o O{b} m }{%
+  \begin{center}%
+    \begin{minipage}{#1\textwidth}%
+      \IfValueT{#2}{\ifeq{#3}{t}{\footnotesize#2\smallskip\hrule\smallskip}}%
+      \includegraphics[width=\textwidth]{#4}%
+      \IfValueT{#2}{\ifeq{#3}{b}{\smallskip\hrule\smallskip\footnotesize#2}}%
+    \end{minipage}%
+  \end{center}%
 }
 
-% rysunek #1-plik, #2-podpis, #3-gdzie podpis (t-na gorze, b-na dole)
-\newcommand{\img}[3]{
-  \def\tmpargthree{#3}
-  \def\tmpb{b}
-  \setlength\imgwidth{\textwidth}
-  \addtolength\imgwidth{-2cm}
-  \begin{center}
-  \begin{minipage}{\imgwidth}
-  \ifx\tmpargthree\tmpb
-    $$\includegraphics[width=1\imgwidth]{#1}$$
-    \hrule
-    \smallskip
-    \imgcaption{#2}
-  \else
-    \imgcaption{#2}
-    \smallskip
-    \hrule
-    \smallskip
-    $$\includegraphics[width=1\imgwidth]{#1}$$
-  \fi
-  \end{minipage}\end{center}
-}
-
-\newcommand{\timg}[2]{\img{#1}{#2}{t}}
-\newcommand{\bimg}[2]{\img{#1}{#2}{b}}
-\newcommand{\plainimg}[1]{$$\includegraphics{#1}$$}
+\newcommand{\imgt}[3][0.8]{\img[#1][#3][t]{#2}}
+\newcommand{\imgb}[3][0.8]{\img[#1][#3][b]{#2}}
 
 % Sekcje w dokumencie
 

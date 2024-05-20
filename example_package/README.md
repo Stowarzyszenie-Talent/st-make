@@ -82,7 +82,6 @@ Można też `\timg{img1.jpg}{opis}`, `\bimg{img1.jpg}{opis}`.
   Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out.
   Należy się upewnić, że są one wygenerowane w momencie kompilacji treści.
   Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
-
 - `\ocen{\testOcen{}{} ...}` - Lista wszystkich testów ocen.
 - `\testOcen{nazwa_testu}{opis_testu}` - Pojedynczy test ocen z opisem.
 - `\subtaskTable{}` - Tworzy tabelę z podzadaniami.
@@ -90,6 +89,11 @@ Można też `\timg{img1.jpg}{opis}`, `\bimg{img1.jpg}{opis}`.
   Opcjonalnie można podać ile punktów jest za zadanie `\subtaskTable[100]{}`.
   Automatycznie tworzy nagłówek (Nr & Ograniczenia & Punkty).
 - `\subtask{punkty}{ograniczenie}` - Tworzy pojedynczy wiersz tabeli opisujący podzadanie z podaną ilością punktów i danym ograniczeniem.
+- `\twocol[szerokość1][przerwa][t/b/c]{kolumna1}{kolumna2}` - Tworzy 2 kolumny z zawartością o szerokościach 0.5 0.5.
+  Można opcjonalnie podać ułamek szerokości pierwszej kolumny (0.5), ułamek szerokości przerwy (0), wybrać linię bazową połączenia (t).
+- `\imgt[szerokość]{plik}{opis}` - Wstawia zdjęcie z opisem u góry. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
+- `\imgb[szerokość]{plik}{opis}` - Wstawia zdjęcie z opisem na dole. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
+- `\img{plik}` % `\img[szerokość][opis][t/b]{plik}` - Wstawia zdjęcie. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
 
 ## **prog**
 
