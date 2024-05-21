@@ -4,7 +4,7 @@
 % Copyright (c) Jakub Rożek 2024
 % Provided under MIT licence 
 %
-% Inspired on sinol.cls made by OI:
+% Inspired by sinol.cls made by OI
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Formalności
@@ -262,7 +262,6 @@
 % Wygląd  dokumentu (papier, stopka, tasktext)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % rozmiar papieru
-
 \setlength{\textwidth}{168mm} % {180mm}
 \setlength{\textheight}{265mm} % {257mm}
 \setlength{\oddsidemargin}{0pt}
@@ -273,13 +272,11 @@
 \renewcommand{\footrulewidth}{0.4pt}
 
 % stopka
-
 \pagestyle{fancy}
 \lfoot{Stowarzyszenie Talent (talent.edu.pl)}
 \rfoot{\begin{minipage}[t]{0.45\textwidth}\raggedleft\taskTitle\ - \taskID\end{minipage}}
 
 % Przestrzeń tasktext
-
 \newenvironment{tasktext}{\Header}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -301,7 +298,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Komendy dostępne w klasie talentTex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % Początek i koniec tasktext
 
 \newcommand{\start}{%
@@ -314,6 +310,7 @@
   \ifDocumentHasSet\else\end{document}\fi%
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Talentowy kolor do zaznaczania zmiennych
 
 \newcommand{\tc}[1]{%
@@ -329,6 +326,7 @@
   \fi%
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Pokazywanie testów wstępnych
 
 \newcommand{\includefile}[1]{
@@ -360,6 +358,7 @@
   \ifeq{#1}{v}{\tworow[10]{\exampleinput{#2}}{\exampleoutput{#2}}}%
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % obsługa zdjeć
 
 % \img[szerokosć][opis][t/b]{plik} (t-na gorze, b-na dole)
@@ -376,6 +375,7 @@
 \newcommand{\imgt}[3][0.8]{\img[#1][#3][t]{#2}}
 \newcommand{\imgb}[3][0.8]{\img[#1][#3][b]{#2}}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Sekcje w dokumencie
 
 \newcommand{\tSection}[1]{%
@@ -397,6 +397,7 @@
   \par\vspace{2pt}%
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Testy ocen 
 
 \newcommand{\ocen}[1]{%
@@ -410,6 +411,7 @@
   \item[]\tc{\taskID#1:}\hspace{5pt}#2%
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Tabelka z podzadaniami
 
 \newcommand{\subtaskTable}[2][100]{
