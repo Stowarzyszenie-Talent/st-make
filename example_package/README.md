@@ -66,34 +66,38 @@ Jest to klasa używana w plikach `.tex`.
 Nadaje ona odpowiedni wygląd dokumentom.
 Automatycznie tworzy ona nagłówki i stopki.
 Wystarczy że stworzymy treść dokumentu pomiędzy znacznikami `\start` i `\finish`.
-Dodatkowo udostępnia następujące funkcje:
+Dodatkowo udostępnia następujące funkcje.
+Zmienne podane w `{}` są obowiązkowe a `[]` można nie podawać.
 
 - `\tc{n}` - Stylizuje podany tekst na talentowy kolor.
-- `\plainimg{img1.jpg}` - Wstawia obrazek o podanej ścieżce.
-- `\img{img1.jpg}{opis}{t/b}` - Wstawia obrazek o podanej ścieżce z opisem u góry lub na dole.
-Można też `\timg{img1.jpg}{opis}`, `\bimg{img1.jpg}{opis}`.
-- `\start{}` - Rozpoczyna treść, musi być na samym początku treści dokumentu.
-- `\finish{}` - Kończy treść, musi być na samym końcu treści dokumentu.
+- `\start` - Rozpoczyna treść, musi być na samym początku treści dokumentu.
+- `\finish` - Kończy treść, musi być na samym końcu treści dokumentu.
 - `\tSection{text}` - Nagłówek w stylu talentu.
 - `\tCustomSection{text}{0pt}` - Nagłówek w stylu talentu, z możliwością ustawienia odstępu od poprzedniego akapitu.
 - `\tSmallSection{text}` - Mały nagłówek w stylu talentu.
-- `\example[h/v]{id}` - Wstawia test przykłądowy "zad0{id}" z paczki.
-  Opcjonalnie można dodać położenie testów, h - horyzontalnie, v - pionowo, domyślnie jest h.
-  Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out.
-  Należy się upewnić, że są one wygenerowane w momencie kompilacji treści.
+- `\example[h/v]{id}` - Wstawia test przykłądowy "zad0id" z paczki.
+  abc0.in -> example{}, abc0xy.in -> example{xy}, abc0x.in -> example[v]{x}.
+  Opcjonalnie można dodać położenie testów, 'h' - horyzontalnie, 'v' - pionowo, domyślnie jak się nie poda jest h.  
+  Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out, więc upewnij się że się tam znajdują.
   Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
-- `\ocen{\testOcen{}{} ...}` - Lista wszystkich testów ocen.
+- `\ocen{ \testOcen{}{}...}` - Lista wszystkich testów ocen.
 - `\testOcen{nazwa_testu}{opis_testu}` - Pojedynczy test ocen z opisem.
-- `\subtaskTable{}` - Tworzy tabelę z podzadaniami.
-  Jako argument należy przekazać `\subtask{}{}`, dla każdego podzadania.
+- `\subtaskTable{ \subtask{}{}... }` - Tworzy tabelę z podzadaniami.
+  Jako argumenty należy przekazać `\subtask{}{}`, dla każdego podzadania.
+  Komenda sama sprawdzi czy suma punktów się zgadza.
   Opcjonalnie można podać ile punktów jest za zadanie `\subtaskTable[100]{}`.
   Automatycznie tworzy nagłówek (Nr & Ograniczenia & Punkty).
 - `\subtask{punkty}{ograniczenie}` - Tworzy pojedynczy wiersz tabeli opisujący podzadanie z podaną ilością punktów i danym ograniczeniem.
-- `\twocol[szerokość1][przerwa][t/b/c]{kolumna1}{kolumna2}` - Tworzy 2 kolumny z zawartością o szerokościach 0.5 0.5.
-  Można opcjonalnie podać ułamek szerokości pierwszej kolumny (0.5), ułamek szerokości przerwy (0), wybrać linię bazową połączenia (t).
+- `\twocol{}{}` `\twocol[szerokość1][przerwa][t/b/c]{kolumna1}{kolumna2}` - Tworzy 2 kolumny z podaną zawartością.
+  Opcjonalnie można podać ułamek szerokości pierwszej kolumny (domyślnie 0.5), ułamek szerokości przerwy ( domyślnie0).
+  Szerokość 2 kolumny dopełni się do całości. Oraz opcjonalnie wybrać łączenie lini bazowej (domyślnie t).
 - `\imgt[szerokość]{plik}{opis}` - Wstawia zdjęcie z opisem u góry. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
 - `\imgb[szerokość]{plik}{opis}` - Wstawia zdjęcie z opisem na dole. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
 - `\img{plik}` % `\img[szerokość][opis][t/b]{plik}` - Wstawia zdjęcie. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
+- `\title{} \id{}` - Ustawiają tytuł i id. Są obowiązkowe.
+- `\contest{}` - Wyświetlany w nagłówku nazwe konkursu.
+- `\day{} \round{} \group{}` - Wyświetla się w nagłówku. Automatycznie dodaje przed nazwe (np \day{2} -> Dzień: 2)
+- `\Memory[]{} \Time[]{}` - Też się wyświetla z nazwą. Dodatkowo dodaje jednostkę którą opcjonalnie można zmienić.
 
 ## **prog**
 

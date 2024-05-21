@@ -4,17 +4,14 @@
 % Copyright (c) Jakub Rożek 2024
 % Provided under MIT licence 
 %
-% Based on sinol.cls made by:
-% Grzegorz Jakacki, Tomasz Waleń, Marcin Kubica, Jakub Pawlewicz
-% Adam Iwanicki, Szymon Acedanski, Tomasz Idziaszek, Jakub Radoszewski
-
+% Inspired on sinol.cls made by OI:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Formalności
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
 \def\codeVersion{0.0.6}
-\ProvidesClass{talentTex}[Stowarzyszenie Talent \codeVersion]
+\ProvidesClass{talentTex}[2024/05/21 Stowarzyszenie Talent \codeVersion]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Include pakietów
@@ -62,26 +59,8 @@
 \newcounter{subtasksPiontSum} % suma punktów do zdobycia w zadaniu
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Czynności przed i po dokumencie
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\AtBeginDocument{%
-  \DocumentHasSettrue%
-  \ifundef{taskID}{%
-    \errmessage{brak id (\string\id{})}%
-  }{}
-  \ifundef{taskTitle}{%
-    \errmessage{brak title (\string\title{})}%
-  }{}
-}
-
-\AtEndDocument{}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Definicje techniczne
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\def\?#1{[[#1]]}
 
 \def\ifundef#1#2#3{%
   \ifcsname#1\endcsname%
@@ -214,14 +193,6 @@
   \global\TimeDefedtrue
 }
 
-\newcommand{\iomode}[1]{
-  \ifeq{#1}{stdin}{
-    \gdef\exampleInputText{{\color{talentBlue}\bf\textInput:}}
-    \gdef\exampleOutputText{{\color{talentBlue}\bf\textOutput:}}    
-  }
-}
-\iomode{stdin}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Nazwy wyświetlane (zmiana języka, narazie tu ręcznie)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -237,6 +208,7 @@
 \def\textOutput{Wyjście}
 \def\textPoints{Punkty}
 \def\textTestCasess{Ograniczenia}
+\def\textNr{Nr}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Opcje talentTex
@@ -311,6 +283,22 @@
 \newenvironment{tasktext}{\Header}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Czynności przed i po dokumencie
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\AtBeginDocument{%
+  \DocumentHasSettrue%
+  \ifundef{taskID}{%
+    \errmessage{brak id (\string\id{})}%
+  }{}
+  \ifundef{taskTitle}{%
+    \errmessage{brak title (\string\title{})}%
+  }{}
+}
+
+\AtEndDocument{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Komendy dostępne w klasie talentTex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -326,6 +314,21 @@
   \ifDocumentHasSet\else\end{document}\fi%
 }
 
+% Talentowy kolor do zaznaczania zmiennych
+
+\newcommand{\tc}[1]{%
+  \ifmmode%
+    \StrLen{#1}[\@tmpStrLen]%
+    \ifnum\@tmpStrLen=1%
+      {\fontfamily{ptm}\textcolor{talentBlue}{\textbf{#1}}}%
+    \else%
+      \textcolor{talentBlue}{\mathbf{#1}}%
+    \fi%
+  \else%
+    {\fontfamily{ptm}\textcolor{talentBlue}{\textbf{#1}}}%
+  \fi%
+}
+
 % Pokazywanie testów wstępnych
 
 \newcommand{\includefile}[1]{
@@ -334,20 +337,20 @@
 }
 
 \newcommand{\exampleinput}[1]{
-  \noindent\exampleInputText\par
+  \noindent{\color{talentBlue}\bf\textInput:}\par
   \iffileexists{\pathTestIn/\taskID0#1.in}{
     \includefile{\pathTestIn/\taskID0#1.in}
   }{
-    \?{brak pliku {\ttfamily\pathTestIn/\taskID0#1.in}}
+    \color{red}{No file {\ttfamily\pathTestIn/\taskID0#1.in}}
   }\par
 }
 
 \newcommand{\exampleoutput}[1]{
-  \noindent\exampleOutputText\par
+  \noindent{\color{talentBlue}\bf\textOutput:}\par
   \iffileexists{\pathTestOut/\taskID0#1.out}{
     \includefile{\pathTestOut/\taskID0#1.out}
   }{
-    \?{brak pliku {\ttfamily\pathTestOut/\taskID0#1.out}}
+    \color{red}{No file {\ttfamily\pathTestOut/\taskID0#1.out}}
   }\par
 }
 
@@ -378,10 +381,7 @@
 \newcommand{\tSection}[1]{%
   \tCustomSection{#1}{15pt}%
 }
-
-\newcommand{\tsection}[1]{%
-  \tSection{#1}%
-}
+\let\tsection\tSection
 
 \newcommand{\tSmallSection}[1]{
   \par\vspace{5pt}%
@@ -395,21 +395,6 @@
   \noindent%
   {\Large\tc{#1}}%
   \par\vspace{2pt}%
-}
-
-% Talentowy kolor do zaznaczania zmiennych
-
-\newcommand{\tc}[1]{%
-  \ifmmode%
-    \StrLen{#1}[\@tmpStrLen]%
-    \ifnum\@tmpStrLen=1%
-      {\fontfamily{ptm}\textcolor{talentBlue}{\textbf{#1}}}%
-    \else%
-      \textcolor{talentBlue}{\mathbf{#1}}%
-    \fi%
-  \else%
-    {\fontfamily{ptm}\textcolor{talentBlue}{\textbf{#1}}}%
-  \fi%
 }
 
 % Testy ocen 
@@ -432,7 +417,7 @@
   \setcounter{subtasksPiontSum}{0}
   \begin{center}
     \begin{tabular}{|c|l|c|} \hline
-      \tc{Nr} & \tc{\textTestCasess} & \tc{\textPoints} \\ \hline
+      \tc{\textNr} & \tc{\textTestCasess} & \tc{\textPoints} \\ \hline
       #2
     \end{tabular}
   \end{center}
