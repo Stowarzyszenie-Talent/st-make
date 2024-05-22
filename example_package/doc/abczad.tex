@@ -91,13 +91,13 @@ Testy do każdego podzadania składają się z jednej lub większej liczby osobn
 % \tSmallSection{text} % Mały nagłówek w stylu talentu.
 % \tc{text} % Styl używany do oznaczania zmiennych.
 % \example[h/v]{id} % Wstawia test przykłądowy "zad0id" z paczki.
-%   abc0.in -> example{}, abc0xy.in -> example{xy}, abc0x.in -> example[v]{x}.
+%   abc0.in -> \example{}, abc0xy.in -> \example{xy}, abc0x.in -> \example[v]{x}.
 %   Opcjonalnie można dodać położenie testów, 'h' - horyzontalnie, 'v' - pionowo, domyślnie jak się nie poda jest h.  
 %   Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out, więc upewnij się że się tam znajdują.
 % \ocen{ \testOcen{}{}... } % Lista wszystkich testów ocen, podajemy do niej komendy \testOcen{}{}.
 % \testOcen{test}{text} % Pojedyńczy test ocen z opisem. Podajesz nazwe testu (1ocen, 0c, 2ocen) i opis
 % \subtaskTable[point]{ \subtask{}{}... } % Tworzy tabelę z podzadaniami, podajemy do niej komendy \subtask{}{}.
-%   Automatycznie sprawdzi czy punkty sumują się do 100. Opcjonalnie można podać inną ilość punktów za zadanie.
+%   Sprawdzi czy punkty sumują się do podanej opcjonalnie ilości punktów (domyślnie 100) a jak nie to wyświetli błąd.
 % \subtask{point}{text} % Tworzy pojedyńczy wiersz tabeli opisujący podzadanie, o danej ilości punktów i z danym ograniczeniem.
 % \twocol{}{} % \twocol[szerokość1][przerwa][t/b/c]{kolumna1}{kolumna2} % Tworzy 2 kolumny z podaną zawartością.
 %   Opcjonalnie można podać ułamek szerokości pierwszej kolumny (domyślnie 0.5), ułamek szerokości przerwy ( domyślnie0).
@@ -105,6 +105,7 @@ Testy do każdego podzadania składają się z jednej lub większej liczby osobn
 % \imgt[szerokość]{plik}{opis} % Wstawia zdjęcie z opisem u góry. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
 % \imgb[szerokość]{plik}{opis} % Wstawia zdjęcie z opisem na dole. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
 % \img{plik} % \img[szerokość][opis][t/b]{plik} % Wstawia zdjęcie. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
+%   Pozostałe 2 parametry tworzą opis jak polecenia \imgb i \imgt gdzie t i b to góra lub dół.
 % \title{} \id{} % Ustawiają tytuł i id. Są obowiązkowe.
 % \contest{} % Informuje jaki nazywa się kontest i jest wyświetlany w nagłówku.
 % \day{} \round{} \group{} % Wyświetla się w nagłówku. Automatycznie dodaje przed nazwe (np \day{2} -> Dzień: 2)

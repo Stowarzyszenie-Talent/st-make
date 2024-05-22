@@ -67,7 +67,8 @@ Nadaje ona odpowiedni wygląd dokumentom.
 Automatycznie tworzy ona nagłówki i stopki.
 Wystarczy że stworzymy treść dokumentu pomiędzy znacznikami `\start` i `\finish`.
 Dodatkowo udostępnia następujące funkcje.
-Zmienne podane w `{}` są obowiązkowe a `[]` można nie podawać.
+Zmienne podane w `{}` są obowiązkowe a w `[]` są opcjonalne, można ich nie podawać wcale lub tylko jakiś prefiks.
+Czyli na przykład `\img{a}` lub `\img[0.5]{a}` lub `\img[0.5][obrazek 1]{a}`.
 
 - `\tc{n}` - Stylizuje podany tekst na talentowy kolor.
 - `\start` - Rozpoczyna treść, musi być na samym początku treści dokumentu.
@@ -76,7 +77,7 @@ Zmienne podane w `{}` są obowiązkowe a `[]` można nie podawać.
 - `\tCustomSection{text}{0pt}` - Nagłówek w stylu talentu, z możliwością ustawienia odstępu od poprzedniego akapitu.
 - `\tSmallSection{text}` - Mały nagłówek w stylu talentu.
 - `\example[h/v]{id}` - Wstawia test przykłądowy "zad0id" z paczki.
-  abc0.in -> example{}, abc0xy.in -> example{xy}, abc0x.in -> example[v]{x}.
+  abc0.in -> \example{}, abc0xy.in -> \example{xy}, abc0x.in -> \example[v]{x}.
   Opcjonalnie można dodać położenie testów, 'h' - horyzontalnie, 'v' - pionowo, domyślnie jak się nie poda jest h.  
   Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out, więc upewnij się że się tam znajdują.
   Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
@@ -84,8 +85,7 @@ Zmienne podane w `{}` są obowiązkowe a `[]` można nie podawać.
 - `\testOcen{nazwa_testu}{opis_testu}` - Pojedynczy test ocen z opisem.
 - `\subtaskTable{ \subtask{}{}... }` - Tworzy tabelę z podzadaniami.
   Jako argumenty należy przekazać `\subtask{}{}`, dla każdego podzadania.
-  Komenda sama sprawdzi czy suma punktów się zgadza.
-  Opcjonalnie można podać ile punktów jest za zadanie `\subtaskTable[100]{}`.
+  Komenda sprawdzi czy punkty sumują się do podanej opcjonalnie ilości punktów (domyślnie 100) a jak nie to wyświetli błąd.
   Automatycznie tworzy nagłówek (Nr & Ograniczenia & Punkty).
 - `\subtask{punkty}{ograniczenie}` - Tworzy pojedynczy wiersz tabeli opisujący podzadanie z podaną ilością punktów i danym ograniczeniem.
 - `\twocol{}{}` `\twocol[szerokość1][przerwa][t/b/c]{kolumna1}{kolumna2}` - Tworzy 2 kolumny z podaną zawartością.
@@ -94,6 +94,7 @@ Zmienne podane w `{}` są obowiązkowe a `[]` można nie podawać.
 - `\imgt[szerokość]{plik}{opis}` - Wstawia zdjęcie z opisem u góry. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
 - `\imgb[szerokość]{plik}{opis}` - Wstawia zdjęcie z opisem na dole. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
 - `\img{plik}` % `\img[szerokość][opis][t/b]{plik}` - Wstawia zdjęcie. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
+  Pozostałe 2 parametry tworzą opis jak polecenia \imgb i \imgt gdzie t i b to góra lub dół.
 - `\title{} \id{}` - Ustawiają tytuł i id. Są obowiązkowe.
 - `\contest{}` - Wyświetlany w nagłówku nazwe konkursu.
 - `\day{} \round{} \group{}` - Wyświetla się w nagłówku. Automatycznie dodaje przed nazwe (np \day{2} -> Dzień: 2)
