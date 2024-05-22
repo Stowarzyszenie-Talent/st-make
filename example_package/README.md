@@ -68,7 +68,7 @@ Automatycznie tworzy ona nagłówki i stopki.
 Wystarczy że stworzymy treść dokumentu pomiędzy znacznikami `\start` i `\finish`.
 Dodatkowo udostępnia następujące funkcje.
 Zmienne podane w `{}` są obowiązkowe a w `[]` są opcjonalne, można ich nie podawać wcale lub tylko jakiś prefiks.
-Czyli na przykład `\img{a}` lub `\img[0.5]{a}` lub `\img[0.5][obrazek 1]{a}`.
+Przykładowo `\img{a}`, `\img[0.5]{a}` lub `\img[0.5][obrazek 1]{a}`.
 
 - `\tc{n}` - Stylizuje podany tekst na talentowy kolor.
 - `\start` - Rozpoczyna treść, musi być na samym początku treści dokumentu.
@@ -85,7 +85,7 @@ Czyli na przykład `\img{a}` lub `\img[0.5]{a}` lub `\img[0.5][obrazek 1]{a}`.
 - `\testOcen{nazwa_testu}{opis_testu}` - Pojedynczy test ocen z opisem.
 - `\subtaskTable{ \subtask{}{}... }` - Tworzy tabelę z podzadaniami.
   Jako argumenty należy przekazać `\subtask{}{}`, dla każdego podzadania.
-  Komenda sprawdzi czy punkty sumują się do podanej opcjonalnie ilości punktów (domyślnie 100) a jak nie to wyświetli błąd.
+  Komenda sprawdzi czy punkty sumują się do podanej opcjonalnie ilości punktów (domyślnie 100) a jak nie to spowoduje błąd kompilacji z podaną przyczyną.
   Automatycznie tworzy nagłówek (Nr & Ograniczenia & Punkty).
 - `\subtask{punkty}{ograniczenie}` - Tworzy pojedynczy wiersz tabeli opisujący podzadanie z podaną ilością punktów i danym ograniczeniem.
 - `\twocol{}{}` `\twocol[szerokość1][przerwa][t/b/c]{kolumna1}{kolumna2}` - Tworzy 2 kolumny z podaną zawartością.
