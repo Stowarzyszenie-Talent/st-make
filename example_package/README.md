@@ -78,7 +78,7 @@ Przykładowo `\img{a}`, `\img[0.5]{a}` lub `\img[0.5][obrazek 1]{a}`.
 - `\tSmallSection{text}` - Mały nagłówek w stylu talentu.
 - `\example[h/v]{id}` - Wstawia test przykłądowy "zad0id" z paczki.
   abc0.in -> \example{}, abc0xy.in -> \example{xy}, abc0x.in -> \example[v]{x}.
-  Opcjonalnie można dodać położenie testów, 'h' - horyzontalnie, 'v' - pionowo, domyślnie jak się nie poda jest h.  
+  Opcjonalnie można dodać położenie testów, 'h' - horyzontalnie, 'v' - pionowo, domyślną wartością jest h.  
   Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out, więc upewnij się że się tam znajdują.
   Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
 - `\ocen{ \testOcen{}{}...}` - Lista wszystkich testów ocen.
