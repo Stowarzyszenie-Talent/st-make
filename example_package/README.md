@@ -70,8 +70,8 @@ Dodatkowo udostępnia następujące funkcje.
 Zmienne podane w `{}` są obowiązkowe a w `[]` są opcjonalne, można ich nie podawać wcale lub tylko jakiś prefiks.
 Przykładowo `\img{a}`, `\img[0.5]{a}` lub `\img[0.5][obrazek 1]{a}`.
 
-- `\tc{n}` - Stylizuje podany tekst na talentowy kolor.
-- `\start` - Rozpoczyna treść, musi być na samym początku treści dokumentu.
+- `\tc{text}` - Stylizuje podany tekst na talentowy kolor.
+- `\start` - Rozpoczyna treść, musi być na samym początku treści dokumentu i po deklaracjach.
 - `\finish` - Kończy treść, musi być na samym końcu treści dokumentu.
 - `\tSection{text}` - Nagłówek w stylu talentu.
 - `\tCustomSection{text}{0pt}` - Nagłówek w stylu talentu, z możliwością ustawienia odstępu od poprzedniego akapitu.
