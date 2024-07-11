@@ -3,39 +3,38 @@
 
 # **Szablon paczki**
 
-- [**Szablon paczki**](#szablon-paczki)
-  - [**Ogólne informacje**](#ogólne-informacje)
-  - [**doc**](#doc)
-    - [**talentTex.cls**](#talenttexcls)
-  - [**prog**](#prog)
-    - [**Rozwiązania**](#rozwiązania)
-    - [**ingen**](#ingen)
-    - [**inwer**](#inwer)
-    - [**checkerka**](#checkerka)
-    - [**oi.h**](#oih)
-      - [**Scanner (Wczytywanie)**](#scanner-wczytywanie)
-        - [Są 3 tryby wczytywania danych](#są-3-tryby-wczytywania-danych)
-        - [**Najważniejszą funkcją jest wczytywanie** i realizuje ją w następujący sposób](#najważniejszą-funkcją-jest-wczytywanie-i-realizuje-ją-w-następujący-sposób)
-      - [**CheckerVerdict**](#checkerverdict)
-      - [**checker\_test**](#checker_test)
-      - [**InwerVerdict**](#inwerverdict)
-      - [**bug**](#bug)
-      - [**oi\_assert**](#oi_assert)
-      - [**Random**](#random)
-  - [in i out](#in-i-out)
-    - [Testy ocen](#testy-ocen)
-    - [Generowanie](#generowanie)
-  - [dlazaw](#dlazaw)
-  - [attachment](#attachment)
-  - [**config.yml**](#configyml)
-    - [Interactive tasks](#interactive-tasks)
-    - [Time](#time)
-    - [Memory](#memory)
-    - [Title](#title)
-    - [Scores](#scores)
-    - [Task ID](#task-id)
-    - [Contest type](#contest-type)
-    - [Expected scores](#expected-scores)
+- [**Ogólne informacje**](#ogólne-informacje)
+- [**doc**](#doc)
+  - [**talentTex.cls**](#talenttexcls)
+- [**prog**](#prog)
+  - [**Rozwiązania**](#rozwiązania)
+  - [**ingen**](#ingen)
+  - [**inwer**](#inwer)
+  - [**checkerka**](#checkerka)
+  - [**oi.h**](#oih)
+    - [**Scanner (Wczytywanie)**](#scanner-wczytywanie)
+      - [Są 3 tryby wczytywania danych](#są-3-tryby-wczytywania-danych)
+      - [**Najważniejszą funkcją jest wczytywanie** i realizuje ją w następujący sposób](#najważniejszą-funkcją-jest-wczytywanie-i-realizuje-ją-w-następujący-sposób)
+    - [**CheckerVerdict**](#checkerverdict)
+    - [**checker\_test**](#checker_test)
+    - [**InwerVerdict**](#inwerverdict)
+    - [**bug**](#bug)
+    - [**oi\_assert**](#oi_assert)
+    - [**Random**](#random)
+- [in i out](#in-i-out)
+  - [Testy ocen](#testy-ocen)
+  - [Generowanie](#generowanie)
+- [dlazaw](#dlazaw)
+- [attachment](#attachment)
+- [**config.yml**](#configyml)
+  - [Interactive tasks](#interactive-tasks)
+  - [Time](#time)
+  - [Memory](#memory)
+  - [Title](#title)
+  - [Scores](#scores)
+  - [Task ID](#task-id)
+  - [Contest type](#contest-type)
+  - [Expected scores](#expected-scores)
 
 ## **Ogólne informacje**
 
@@ -66,8 +65,8 @@ Jest to klasa używana w plikach `.tex`.
 Nadaje ona odpowiedni wygląd dokumentom.
 Automatycznie tworzy ona nagłówki i stopki.
 Wystarczy że stworzymy treść dokumentu pomiędzy znacznikami `\start` i `\finish`.
-Dodatkowo udostępnia następujące funkcje.
-Zmienne podane w `{}` są obowiązkowe a w `[]` są opcjonalne, można ich nie podawać wcale lub tylko jakiś prefiks.
+Dodatkowo udostępnia następujące funkcje, przy czym zmienne podane w `{}` są
+obowiązkowe a w `[]` są opcjonalne, można ich nie podawać wcale lub tylko jakiś prefiks.
 Przykładowo `\img{a}`, `\img[0.5]{a}` lub `\img[0.5][obrazek 1]{a}`.
 
 - `\tc{text}` - Stylizuje podany tekst na talentowy kolor.
@@ -89,14 +88,14 @@ Przykładowo `\img{a}`, `\img[0.5]{a}` lub `\img[0.5][obrazek 1]{a}`.
   Automatycznie tworzy nagłówek (Nr & Ograniczenia & Punkty).
 - `\subtask{punkty}{ograniczenie}` - Tworzy pojedynczy wiersz tabeli opisujący podzadanie z podaną ilością punktów i danym ograniczeniem.
 - `\twocol{}{}` `\twocol[szerokość1][przerwa][t/b/c]{kolumna1}{kolumna2}` - Tworzy 2 kolumny z podaną zawartością.
-  Opcjonalnie można podać ułamek szerokości pierwszej kolumny (domyślnie 0.5), ułamek szerokości przerwy ( domyślnie0).
-  Szerokość 2 kolumny dopełni się do całości. Oraz opcjonalnie wybrać łączenie lini bazowej (domyślnie t).
+  Opcjonalnie można podać ułamek szerokości pierwszej kolumny (domyślnie 0.5), ułamek szerokości przerwy (domyślnie 0).
+  Szerokość drugiej kolumny dopełni się do całości. Oraz opcjonalnie wybrać łączenie lini bazowej (domyślnie t).
 - `\imgt[szerokość]{plik}{opis}` - Wstawia zdjęcie z opisem u góry. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
 - `\imgb[szerokość]{plik}{opis}` - Wstawia zdjęcie z opisem na dole. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
 - `\img{plik}` % `\img[szerokość][opis][t/b]{plik}` - Wstawia zdjęcie. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
   Pozostałe 2 parametry tworzą opis jak polecenia \imgb i \imgt gdzie t i b to góra lub dół.
 - `\title{} \id{}` - Ustawiają tytuł i id. Są obowiązkowe.
-- `\contest{}` - Wyświetlany w nagłówku nazwe konkursu.
+- `\contest{}` - Ustawia wyświetlaną w nagłówku nazwę konkursu.
 - `\day{} \round{} \group{}` - Wyświetla się w nagłówku. Automatycznie dodaje przed nazwe (np \day{2} -> Dzień: 2)
 - `\Memory[]{} \Time[]{}` - Też się wyświetla z nazwą. Dodatkowo dodaje jednostkę którą opcjonalnie można zmienić.
 
