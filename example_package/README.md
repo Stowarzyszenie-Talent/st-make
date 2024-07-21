@@ -65,29 +65,39 @@ Jest to klasa używana w plikach `.tex`.
 Nadaje ona odpowiedni wygląd dokumentom.
 Automatycznie tworzy ona nagłówki i stopki.
 Wystarczy że stworzymy treść dokumentu pomiędzy znacznikami `\start` i `\finish`.
-Dodatkowo udostępnia następujące funkcje:
+Dodatkowo udostępnia następujące funkcje, przy czym zmienne podane w `{}` są
+obowiązkowe a w `[]` są opcjonalne, można ich nie podawać wcale lub tylko jakiś prefiks.
+Przykładowo `\img{a}`, `\img[0.5]{a}` lub `\img[0.5][obrazek 1]{a}`.
 
-- `\tc{n}` - Stylizuje podany tekst na talentowy kolor.
-- `\plainimg{img1.jpg}` - Wstawia obrazek o podanej ścieżce.
-- `\img{img1.jpg}{opis}{t/b}` - Wstawia obrazek o podanej ścieżce z opisem u góry lub na dole.
-Można też `\timg{img1.jpg}{opis}`, `\bimg{img1.jpg}{opis}`.
-- `\start{}` - Rozpoczyna treść, musi być na samym początku treści dokumentu.
-- `\finish{}` - Kończy treść, musi być na samym końcu treści dokumentu.
+- `\tc{text}` - Stylizuje podany tekst na talentowy kolor.
+- `\start` - Rozpoczyna treść, musi być na samym początku treści dokumentu i po deklaracjach.
+- `\finish` - Kończy treść, musi być na samym końcu treści dokumentu.
 - `\tSection{text}` - Nagłówek w stylu talentu.
 - `\tCustomSection{text}{0pt}` - Nagłówek w stylu talentu, z możliwością ustawienia odstępu od poprzedniego akapitu.
 - `\tSmallSection{text}` - Mały nagłówek w stylu talentu.
-- `\makecompactexample{id}` - dodaje automatycznie test "abc0{id}" z paczki, wejście i wyjście będą obok siebie.
-- `\makestandardexample{id}` - dodaje automatycznie test "abc0{id}" z paczki, wejście i wyjście będą pod sobą.
-
-Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out.
-Należy się upewnić, że są one wygenerowane w momencie kompilacji treści.
-Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
-
-- `\ocen{\testOcen{}{} ...}` - Lista wszystkich testów ocen.
+- `\example[h/v]{id}` - Wstawia test przykłądowy "zad0id" z paczki.
+  abc0.in -> \example{}, abc0xy.in -> \example{xy}, abc0x.in -> \example[v]{x}.
+  Opcjonalnie można dodać położenie testów, 'h' - horyzontalnie, 'v' - pionowo, domyślną wartością jest h.  
+  Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out, więc upewnij się że się tam znajdują.
+  Te polecenia również tworzą nagłówek "Wejście" i "Wyjście".
+- `\ocen{ \testOcen{}{}...}` - Lista wszystkich testów ocen.
 - `\testOcen{nazwa_testu}{opis_testu}` - Pojedynczy test ocen z opisem.
-- `\ocenTable{}` - Tworzy tabelę z podzadaniami. Automatycznie tworzy nagłówek (Nr & Ograniczenia & Punkty).
-- `\ocenRow{nr & opis & punkty}` - Pojedynczy wiersz tabeli: kolejne komórki powinny być rozdzielone znakiem &.
-  Jeśli chcesz mieć 2 linie w pojedynczej komórce tabeli użyj `\ocenElement{text}`.
+- `\subtaskTable{ \subtask{}{}... }` - Tworzy tabelę z podzadaniami.
+  Jako argumenty należy przekazać `\subtask{}{}`, dla każdego podzadania.
+  Komenda sprawdzi czy punkty sumują się do podanej opcjonalnie ilości punktów (domyślnie 100) a jak nie to spowoduje błąd kompilacji z podaną przyczyną.
+  Automatycznie tworzy nagłówek (Nr & Ograniczenia & Punkty).
+- `\subtask{punkty}{ograniczenie}` - Tworzy pojedynczy wiersz tabeli opisujący podzadanie z podaną ilością punktów i danym ograniczeniem.
+- `\twocol{}{}` `\twocol[szerokość1][przerwa][t/b/c]{kolumna1}{kolumna2}` - Tworzy 2 kolumny z podaną zawartością.
+  Opcjonalnie można podać ułamek szerokości pierwszej kolumny (domyślnie 0.5), ułamek szerokości przerwy (domyślnie 0).
+  Szerokość drugiej kolumny dopełni się do całości. Oraz opcjonalnie wybrać łączenie lini bazowej (domyślnie t).
+- `\imgt[szerokość]{plik}{opis}` - Wstawia zdjęcie z opisem u góry. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
+- `\imgb[szerokość]{plik}{opis}` - Wstawia zdjęcie z opisem na dole. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
+- `\img{plik}` % `\img[szerokość][opis][t/b]{plik}` - Wstawia zdjęcie. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
+  Pozostałe 2 parametry tworzą opis jak polecenia \imgb i \imgt gdzie t i b to góra lub dół.
+- `\title{} \id{}` - Ustawiają tytuł i id. Są obowiązkowe.
+- `\contest{}` - Ustawia wyświetlaną w nagłówku nazwę konkursu.
+- `\day{} \round{} \group{}` - Wyświetla się w nagłówku. Automatycznie dodaje przed nazwe (np \day{2} -> Dzień: 2)
+- `\Memory[]{} \Time[]{}` - Też się wyświetla z nazwą. Dodatkowo dodaje jednostkę którą opcjonalnie można zmienić.
 
 ## **prog**
 

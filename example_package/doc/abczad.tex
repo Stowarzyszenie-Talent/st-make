@@ -2,52 +2,28 @@
 
 \title{Przykładowy tytuł zadania}
 \id{abc}
-\iomode{stdin} % stdin
-\Memory{256} % w MB
-\Time{2,4} % w sekundach
-\group{A} 
-\konkurs{SKN 2023/24}
-\day{Runda 17}
+\contest{SKN 2023/24}
+\day{}
+\round{17}
+\group{A}
+\Memory[MB]{256}
+\Time[s]{2,4}
 
-%%%%%%%%%%%%%%%%%%
-% Przydatne komendy:
-% \pagebreak % komenda zaczynająca nową stronę pdfa
-% ~ % słowa oddzielone '~' zamiast ' ' w~taki sposób będą zawsze koło siebie
-% $text_mat$ % pozwala na pisanie wyrażeń matematycznych
-% Dokumentacja:
-%   https://www.overleaf.com/learn
-
-%%%%%%%%%%%%%%%%%%
-% Komendy talentowe
-% \start{}  % Rozpoczyna treść, musi być na samym początku treści zadania.
-% \finish{} % Kończy treść, musi być na samym końcu treści zadania.
-% \tSection{text} % Nagłówek w stylu talentu.
-% \tCustomSection{text}{xpt} % Nagłówek w stylu talentu, z możliwością ustawienia odstępu 'x' od poprzedniego akapitu.
-% \tSmallSection{text} % Mały nagłówek w stylu talentu.
-% \tc{text} % Styl używany do oznaczania zmiennych.
-% \makecompactexample{id}   % 2 style dodawania automatycznie testów "zad0{id}" z paczki.
-% \makestandardexample{id}  % compact - obok siebie, standard - pod sobą.
-%     % Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out
-% \ocen{text} % Lista wszystkich testów ocen.
-% \testOcen{text}{text2} % Pojedyńczy test ocen z opisem.
-% \ocenTable{text} % Tabela z podzadaniami.
-% \ocenRow{text} % Pojedyńczy wiersz tabeli: kolejne komórki powinne być rodzielone znakiem &.
-% \ocenElement{text} % Jeśli chcesz mieć 2 linie w pojedyńczej komórce tabeli.
-
-\start{}
+\start
 
 Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 Donec rhoncus torstor vitae lorem luctus maximus.
 Donec bibendum, dui eget diganissim viverra, lectus leo scelerisque metus, ut sagittis ligula nisl ut purus.
-Etiam imperdiet luctus leo, et molestie diam congue auctor. Sed sapien eros, imperdiet in fermentum $\tc{a}$, faucibus ut ex cośtam. 
-% pusta linijka, by zacząć akapit od wcięcia
+Etiam imperdiet luctus leo, et molestie diam congue auctor.
+Sed sapien eros, imperdiet in fermentum \tc{a}, faucibus ut ex cośtam cośtam.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Donec rhoncus tortor vitae lorem luctus maximus.
 
 \tSection{Wejście}
 
-W pierwszym wierszu standardowego wejścia znajduje się jedna liczba $\tc{n}$ ($1\leq \tc{n}\leq 1\ 000\ 000$), oznaczająca parametr z~wejścia.
+W pierwszym wierszu standardowego wejścia znajduje się jedna liczba \tc{n} ($1 \leq \tc{n} \leq 10^6$), oznaczająca parametr z~wejścia.
+W drugim wierszu znajduje się \tc{n} liczb $\tc{a_i}$ $(1 \leq \tc{n} \leq 10^6)$.
 
 \tSection{Wyjście}
 
@@ -55,18 +31,18 @@ Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 Donec rhoncus torstor vitae lorem luctus maximus.
 Donec bibendum, dui eget diganissim viverra, lectus leo scelerisque metus, ut sagittis ligula nisl ut purus.
 
-W pierwszym wierszu wyjścia powinna znajdować się jedna liczba $\tc{z}$, wynik z zadania.
+W pierwszym wierszu wyjścia powinna znajdować się jedna liczba, wynik z zadania.
 
 \tSection{Przykład}
 
-\makestandardexample{a}  % abc0.in -> {}, abc0x.in -> {x}
-\makecompactexample{a}  % testy muszą być wygenerowane więc użyj st-make ingen outgen
+\example[v]{a}
+\example[h]{a}
+\example{a}
 
-\tCustomSection{Wyjaśnienie przykładów}{5pt}
+\tSection{Wyjaśnienie przykładów}
 
 \tSmallSection{Przykład 1}
 
-Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 Donec rhoncus torstor vitae lorem luctus maximus.
 Donec bibendum, dui eget diganissim viverra, lectus leo scelerisque metus, ut sagittis ligula nisl ut purus.
@@ -74,13 +50,12 @@ Donec bibendum, dui eget diganissim viverra, lectus leo scelerisque metus, ut sa
 \tSmallSection{Przykład 2}
 
 Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
-Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 
+\tSection{Testy ocen}
 
-\tSection{Testy ocen:}
 \ocen{
   \testOcen{1ocen}{$\tc{n} = 69$, Założenie jakieś}
-  \testOcen{2ocen}{$\tc{n} = 420$, założenie jakieś 2}
+  \testOcen{0b}{$\tc{n} = 420$, założenie jakieś 2}
 }
 
 \tSection{Ocenianie}
@@ -88,12 +63,50 @@ Lorem ipsum dolor ssist amdet, consectetur adipiscing elit.
 Zestaw testów dzieli się na następujące podzadania.
 Testy do każdego podzadania składają się z jednej lub większej liczby osobnych grup testów.
 
-% Alternatywnie \customOcenTable{|c|c|c|}{\tc{Nr} & \tc{Ograniczenia} & \tc{Punkty}}{reszta tabeli}
-
-\ocenTable{
-  \ocenRow{1 & $\tc{n} \leq 100$ & 30}
-  \ocenRow{2 & \ocenElement{$\tc{n} \leq 1000$  Dwie\\ Linie} & 20}
-  \ocenRow{3 & Bez ograniczeń & 50}
+\subtaskTable{
+  \subtask{30}{$\tc{n} \leq 100$}
+  \subtask{20}{$\tc{n} \leq 1000$  Dwie\\ Linie}
+  \subtask{50}{Bez ograniczeń}
 }
 
-\finish{}
+\finish
+
+%%%%%%%%%%%%%%%%%%
+% Przydatne komendy:
+% \pagebreak % komenda zaczynająca nową stronę pdfa
+% ~ % słowa oddzielone '~' zamiast ' ' w~taki sposób będą zawsze koło siebie
+% pusta linijka (lub \par) rozpoczyna nowy akapit.
+% \footnote{text} tworzy adnotację na dole strony do miejsca w którym użyto.
+% \color{color}{text} koloruje tekst
+% \vspace{5pt} tworzy odstęp.
+% $text_mat$ % pozwala na pisanie wyrażeń matematycznych
+% Dokumentacja:
+%   https://www.overleaf.com/learn
+
+%%%%%%%%%%%%%%%%%%
+% Komendy talentowe:
+% \start  % Rozpoczyna treść, musi być na samym początku treści zadania i po deklaracjach.
+% \finish % Kończy treść, musi być na samym końcu treści zadania.
+% \tSection{text} % Nagłówek w stylu talentu.
+% \tSmallSection{text} % Mały nagłówek w stylu talentu.
+% \tc{text} % Styl używany do oznaczania zmiennych.
+% \example[h/v]{id} % Wstawia test przykłądowy "zad0id" z paczki.
+%   abc0.in -> \example{}, abc0xy.in -> \example{xy}, abc0x.in -> \example[v]{x}.
+%   Opcjonalnie można dodać położenie testów, 'h' - horyzontalnie, 'v' - pionowo, domyślną wartością jest h.  
+%   Przy kompilacji testy są automatycznie czytane z folderów ./in i ./out, więc upewnij się że się tam znajdują.
+% \ocen{ \testOcen{}{}... } % Lista wszystkich testów ocen, podajemy do niej komendy \testOcen{}{}.
+% \testOcen{test}{text} % Pojedyńczy test ocen z opisem. Podajesz nazwe testu (1ocen, 0c, 2ocen) i opis
+% \subtaskTable[point]{ \subtask{}{}... } % Tworzy tabelę z podzadaniami, podajemy do niej komendy \subtask{}{}.
+%   Sprawdzi czy punkty sumują się do podanej opcjonalnie ilości punktów (domyślnie 100) a jak nie to spowoduje błąd kompilacji z podaną przyczyną.
+% \subtask{point}{text} % Tworzy pojedyńczy wiersz tabeli opisujący podzadanie, o danej ilości punktów i z danym ograniczeniem.
+% \twocol{}{} % \twocol[szerokość1][przerwa][t/b/c]{kolumna1}{kolumna2} % Tworzy 2 kolumny z podaną zawartością.
+%   Opcjonalnie można podać ułamek szerokości pierwszej kolumny (domyślnie 0.5), ułamek szerokości przerwy ( domyślnie0).
+%   Szerokość 2 kolumny dopełni się do całości. Oraz opcjonalnie wybrać łączenie lini bazowej (domyślnie t). 
+% \imgt[szerokość]{plik}{opis} % Wstawia zdjęcie z opisem u góry. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
+% \imgb[szerokość]{plik}{opis} % Wstawia zdjęcie z opisem na dole. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
+% \img{plik} % \img[szerokość][opis][t/b]{plik} % Wstawia zdjęcie. Można opcjonalnie zmienić szerokość zdjęcia (0.8).
+%   Pozostałe 2 parametry tworzą opis jak polecenia \imgb i \imgt gdzie t i b to góra lub dół.
+% \title{} \id{} % Ustawiają tytuł i id. Są obowiązkowe.
+% \contest{} % Informuje jaki nazywa się kontest i jest wyświetlany w nagłówku.
+% \day{} \round{} \group{} % Wyświetla się w nagłówku. Automatycznie dodaje przed nazwe (np \day{2} -> Dzień: 2)
+% \Memory[]{} \Time[]{} % Też się wyświetla z nazwą. Dodatkowo dodaje jednostkę którą opcjonalnie można zmienić.
