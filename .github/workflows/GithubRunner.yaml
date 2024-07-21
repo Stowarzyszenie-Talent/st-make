@@ -18,6 +18,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install .[tests]
+          sudo apt update
           sudo apt install texlive-latex-recommended -y
           sudo apt install ghostscript -y
       - name: Run github runner pytest
