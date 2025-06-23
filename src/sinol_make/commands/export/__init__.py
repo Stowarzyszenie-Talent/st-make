@@ -23,6 +23,9 @@ class Command(BaseCommand):
     def get_name(self):
         return "export"
 
+    def get_short_name(self):
+        return "e"
+
     def configure_subparser(self, subparser: argparse.ArgumentParser):
         parser = subparser.add_parser(
             self.get_name(),
@@ -180,7 +183,8 @@ class Command(BaseCommand):
                 shutil.copy(test[1], os.path.join(target_dir, test[0], os.path.basename(test[1])))
                 shutil.copy(test[1], os.path.join(cache_test_dir, test[0], os.path.basename(test[1])))
 
-        self.generate_output_files()
+        if self.task_type_cls.run_outgen():
+            self.generate_output_files()
         if self.args.export_ocen:
             self.create_ocen(target_dir)
 
@@ -209,24 +213,43 @@ class Command(BaseCommand):
                     return obj
                 return ' '.join(obj)
 
+            # Only use extra_compilation_args for compiling solution files.
+            # One usecase of this is "reverse-library" problem packages,
+            # that provide a main.cpp file to be compiled with submissions.
+            # If extra args need to be passed to chk/ingen/inwer in the future,
+            # support for a new separate config option will have to be added.
+            extra_cxx_args = ""
+            extra_c_args = ""
             if 'extra_compilation_args' in config:
                 if 'cpp' in config['extra_compilation_args']:
-                    cxx_flags += ' ' + format_multiple_arguments(config['extra_compilation_args']['cpp'])
+                    extra_cxx_args = format_multiple_arguments(config['extra_compilation_args']['cpp'])
                 if 'c' in config['extra_compilation_args']:
-                    c_flags += ' ' + format_multiple_arguments(config['extra_compilation_args']['c'])
+                    extra_c_args = format_multiple_arguments(config['extra_compilation_args']['c'])
 
+            tl = config.get('time_limit', None)
+            if not tl:
+                tl = config['time_limits'][0]
             f.write(f'MODE = wer\n'
                     f'ID = {self.task_id}\n'
                     f'SIG = sinolmake\n'
                     f'\n'
-                    f'TIMELIMIT = {config["time_limit"]}\n'
-                    f'SLOW_TIMELIMIT = {4 * config["time_limit"]}\n'
+                    f'TIMELIMIT = {tl}\n'
+                    f'SLOW_TIMELIMIT = {4 * tl}\n'
                     f'MEMLIMIT = {config["memory_limit"]}\n'
                     f'\n'
                     f'OI_TIME = oiejq\n'
                     f'\n'
                     f'CXXFLAGS += {cxx_flags}\n'
-                    f'CFLAGS += {c_flags}\n')
+                    f'{self.task_id}chk.e: CXXFLAGS := $(CXXFLAGS)\n'
+                    f'{self.task_id}ingen.e: CXXFLAGS := $(CXXFLAGS)\n'
+                    f'{self.task_id}inwer.e: CXXFLAGS := $(CXXFLAGS)\n'
+                    f'CXXFLAGS += {extra_cxx_args}\n'
+                    f'\n'
+                    f'CFLAGS += {c_flags}\n'
+                    f'{self.task_id}chk.e: CFLAGS := $(CFLAGS)\n'
+                    f'{self.task_id}ingen.e: CFLAGS := $(CFLAGS)\n'
+                    f'{self.task_id}inwer.e: CFLAGS := $(CFLAGS)\n'
+                    f'CFLAGS += {extra_c_args}\n')
 
     def compress(self, target_dir):
         """
@@ -245,6 +268,7 @@ class Command(BaseCommand):
         self.args = args
         self.task_id = package_util.get_task_id()
         self.export_name = self.task_id
+        self.task_type_cls = package_util.get_task_type_cls()
         package_util.validate_test_names(self.task_id)
         try:
             self.contest = contest_types.get_contest_type()

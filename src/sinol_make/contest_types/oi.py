@@ -29,6 +29,8 @@ class OIContest(DefaultContest):
         """
         if result.Status != 'OK':
             return 0
+        if result.Points == 0:
+            return 0
         elif result.Time <= time_limit / 2.0:
             return result.Points
         else:
@@ -44,3 +46,9 @@ class OIContest(DefaultContest):
         total_score = sum(config['scores'].values())
         if total_score != 100:
             util.exit_with_error(f"Total score in config is {total_score}, but should be 100.")
+
+    def allow_per_test_limits(self):
+        return False
+
+    def verify_tests_order(self):
+        return True

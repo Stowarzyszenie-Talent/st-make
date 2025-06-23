@@ -10,6 +10,7 @@ from sinol_make.structs.status_structs import ExecutionResult, Status
 def test_compilation_caching():
     with tempfile.TemporaryDirectory() as tmpdir:
         os.chdir(tmpdir)
+        cache.create_cache_dirs()
         program = os.path.join(tmpdir, 'program.cpp')
         open(program, 'w').write('int main() { return 0; }')
 
@@ -45,6 +46,7 @@ def test_compilation_caching():
 def test_cache():
     with tempfile.TemporaryDirectory() as tmpdir:
         os.chdir(tmpdir)
+        cache.create_cache_dirs()
         assert cache.get_cache_file("abc.cpp") == CacheFile()
 
         cache_file = CacheFile(
@@ -81,7 +83,7 @@ def test_cache():
         cache_file.save("abc.cpp")
         assert cache.get_cache_file("abc.cpp") == cache_file
         cache.save_compiled("abc.cpp", "abc.e", "default", False,
-                            is_checker=True)
+                            clear_cache=True)
         assert cache.get_cache_file("abc.cpp").tests == {}
 
         # Test that cache is cleared when extra compilation files change

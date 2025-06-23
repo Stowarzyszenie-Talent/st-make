@@ -4,9 +4,14 @@ import argparse
 import traceback
 import argcomplete
 
-from sinol_make import util, oiejq
+from sinol_make import util, sio2jail
+from sinol_make.helpers import cache, oicompare
 
-__version__ = "0.0.3"
+# Required for side effects
+from sinol_make.task_type.normal import NormalTaskType # noqa
+from sinol_make.task_type.interactive import InteractiveTaskType # noqa
+
+__version__ = "0.0.4"
 
 
 def configure_parsers():
@@ -31,19 +36,19 @@ def configure_parsers():
     return parser
 
 
-def check_oiejq():
-    if util.is_linux() and not oiejq.check_oiejq():
-        print(util.warning('Up to date `oiejq` in `~/.local/bin/` not found, installing new version...'))
+def check_sio2jail():
+    if sio2jail.sio2jail_supported() and not sio2jail.check_sio2jail():
+        print(util.warning('Up to date `sio2jail` in `~/.local/bin/` not found, installing new version...'))
         try:
-            if oiejq.install_oiejq():
-                print(util.info('`oiejq` was successfully installed.'))
+            if sio2jail.install_sio2jail():
+                print(util.info('Newest `sio2jail` was successfully installed.'))
             else:
-                util.exit_with_error('`oiejq` could not be installed.\n'
-                                     'You can download it from https://oij.edu.pl/zawodnik/srodowisko/oiejq.tar.gz, '
-                                     'unpack it to `~/.local/bin/` and rename oiejq.sh to oiejq.\n'
-                                     'You can also use --oiejq-path to specify path to your oiejq.')
+                util.exit_with_error('`sio2jail` could not be installed.\n'
+                                     'You can download it from https://oij.edu.pl/zawodnik/srodowisko/oiejq.tar.gz '
+                                     'and unpack it to `~/.local/bin/`.\n'
+                                     'You can also use --sio2jail-path to specify path to your sio2jail.')
         except Exception as err:
-            util.exit_with_error('`oiejq` could not be installed.\n' + str(err))
+            util.exit_with_error('`sio2jail` could not be installed.\n' + str(err))
 
 
 def main_exn():
@@ -52,11 +57,16 @@ def main_exn():
     curr_args = []
     commands = util.get_commands()
     commands_dict = {command.get_name(): command for command in commands}
+    commands_short_dict = {command.get_short_name(): command for command in commands if command.get_short_name()}
     for arg in sys.argv[1:]:
         if arg in commands_dict.keys() and not (len(curr_args) > 0 and curr_args[0] == 'init'):
             if curr_args:
                 arguments.append(curr_args)
             curr_args = [arg]
+        elif arg in commands_short_dict.keys() and not (len(curr_args) > 0 and curr_args[0] == 'init'):
+            if curr_args:
+                arguments.append(curr_args)
+            curr_args = [commands_short_dict[arg].get_name()]
         else:
             curr_args.append(arg)
     if curr_args:
@@ -64,7 +74,8 @@ def main_exn():
     if not arguments:
         parser.print_help()
         exit(1)
-    check_oiejq()
+    check_sio2jail()
+    oicompare.check_and_download()
 
     for curr_args in arguments:
         args = parser.parse_args(curr_args)
@@ -100,9 +111,9 @@ def main():
             if not util.is_dev(new_version):
                 print(util.warning(
                     f'New version of st-make is available (your version: {__version__}, available version: '
-                    f'{new_version}).\nYou can update it by running `pip3 install st-make --upgrade`.'))
+                    f'{new_version}).\nYou can update it by running `pip install st-make --upgrade`.'))
             elif util.is_dev(new_version):
                 print(util.warning(
                     f'New development version of st-make is available (your version: {__version__}, available '
-                    f'version: {new_version}).\nYou can update it by running `pip3 install st-make --pre --upgrade`.'
+                    f'version: {new_version}).\nYou can update it by running `pip install st-make --pre --upgrade`.'
                 ))

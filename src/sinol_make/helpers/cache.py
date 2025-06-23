@@ -13,7 +13,6 @@ def get_cache_file(solution_path: str) -> CacheFile:
     :param solution_path: Path to solution
     :return: Content of cache file
     """
-    os.makedirs(paths.get_cache_path("md5sums"), exist_ok=True)
     cache_file_path = paths.get_cache_path("md5sums", os.path.basename(solution_path))
     try:
         with open(cache_file_path, 'r') as cache_file:
@@ -53,7 +52,7 @@ def check_compiled(file_path: str, compilation_flags: str, sanitizers: bool) -> 
         return None
 
 
-def save_compiled(file_path: str, exe_path: str, compilation_flags: str, sanitizers: bool, is_checker: bool = False):
+def save_compiled(file_path: str, exe_path: str, compilation_flags: str, sanitizers: bool, clear_cache: bool = False):
     """
     Save the compiled executable path to cache in `.cache/md5sums/<basename of file_path>`,
     which contains the md5sum of the file and the path to the executable.
@@ -61,11 +60,11 @@ def save_compiled(file_path: str, exe_path: str, compilation_flags: str, sanitiz
     :param exe_path: Path to the compiled executable
     :param compilation_flags: Compilation flags used
     :param sanitizers: Whether -fsanitize=undefined,address was used
-    :param is_checker: Whether the compiled file is a checker. If True, all cached tests are removed.
+    :param clear_cache: Set to True if you want to delete all cached test results.
     """
     info = CacheFile(util.get_file_md5(file_path), exe_path, compilation_flags, sanitizers)
     info.save(file_path)
-    if is_checker:
+    if clear_cache:
         remove_results_cache()
 
 
@@ -143,7 +142,6 @@ def check_can_access_cache():
     Checks if user can access cache.
     """
     try:
-        os.makedirs(paths.get_cache_path(), exist_ok=True)
         with open(paths.get_cache_path("test"), "w") as f:
             f.write("test")
         os.unlink(paths.get_cache_path("test"))
@@ -177,3 +175,19 @@ def check_correct_solution(task_id: str):
 
     if has_file_changed(solution) and os.path.exists(os.path.join(os.getcwd(), 'in', '.md5sums')):
         os.unlink(os.path.join(os.getcwd(), 'in', '.md5sums'))
+
+
+def create_cache_dirs():
+    """
+    Creates all required cache directories.
+    """
+    for dir in [
+        paths.get_cache_path(),
+        paths.get_executables_path(),
+        paths.get_compilation_log_path(),
+        paths.get_executions_path(),
+        paths.get_chkwer_path(),
+        paths.get_cache_path('md5sums'),
+        paths.get_cache_path('doc_logs'),
+    ]:
+        os.makedirs(dir, exist_ok=True)

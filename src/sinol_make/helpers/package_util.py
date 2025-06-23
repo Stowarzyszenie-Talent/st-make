@@ -5,11 +5,12 @@ import glob
 import fnmatch
 import multiprocessing as mp
 from enum import Enum
-from typing import List, Union, Dict, Any, Tuple
+from typing import List, Union, Dict, Any, Tuple, Type
 
 from sinol_make.helpers.func_cache import cache_result
-from sinol_make import util
+from sinol_make import util, contest_types
 from sinol_make.helpers import paths
+from sinol_make.task_type import BaseTaskType
 
 
 @cache_result(cwd=True)
@@ -54,7 +55,7 @@ def get_test_key(test, task_id):
 def get_config():
     try:
         with open(os.path.join(os.getcwd(), "config.yml"), "r") as config_file:
-            return yaml.load(config_file, Loader=yaml.FullLoader)
+            return yaml.load(config_file, Loader=yaml.FullLoader) or {}
     except FileNotFoundError:
         # Potentially redundant with util:exit_if_not_package
         util.exit_with_error("You are not in a package directory (couldn't find config.yml in current directory).")
@@ -228,7 +229,8 @@ def _get_limit_from_dict(dict: Dict[str, Any], limit_type: LimitTypes, test_id: 
 def _get_limit(limit_type: LimitTypes, test_path: str, config: Dict[str, Any], lang: str, task_id: str):
     test_id = extract_test_id(test_path, task_id)
     test_group = str(get_group(test_path, task_id))
-    allow_test_limit = config.get("sinol_undocumented_test_limits", False)
+    contest_type = contest_types.get_contest_type()
+    allow_test_limit = config.get("sinol_undocumented_test_limits", False) or contest_type.allow_per_test_limits()
     global_limit = _get_limit_from_dict(config, limit_type, test_id, test_group, test_path, allow_test_limit)
     override_limits_dict = config.get("override_limits", {}).get(lang, {})
     overriden_limit = _get_limit_from_dict(override_limits_dict, limit_type, test_id, test_group, test_path,
@@ -351,7 +353,6 @@ def save_contest_type_to_cache(contest_type):
     Saves contest type to cache.
     :param contest_type: Contest type.
     """
-    os.makedirs(paths.get_cache_path(), exist_ok=True)
     with open(paths.get_cache_path("contest_type"), "w") as contest_type_file:
         contest_type_file.write(contest_type)
 
@@ -418,3 +419,19 @@ def get_all_inputs(task_id):
         if in_test_re.match(os.path.basename(file)):
             inputs.append(file)
     return inputs
+
+
+def get_task_type_cls() -> Type[BaseTaskType]:
+    return BaseTaskType.get_task_type()
+
+
+def get_task_type(timetool_name, timetool_path) -> BaseTaskType:
+    task_type_cls = get_task_type_cls()
+    return task_type_cls(timetool_name, timetool_path)
+
+
+def get_out_from_in(test) -> str:
+    """
+    Returns path to output file corresponding to given input file.
+    """
+    return os.path.join("out", os.path.splitext(os.path.basename(test))[0] + ".out")

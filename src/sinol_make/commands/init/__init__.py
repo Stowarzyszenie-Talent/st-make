@@ -13,6 +13,10 @@ class Command(BaseCommand):
     Class for "init"
     """
 
+    TEMPLATE_ID='__ID__'
+    DEFAULT_TEMPLATE = 'https://github.com/Stowarzyszenie-Talent/st-make.git'
+    DEFAULT_SUBDIR = 'example_package'
+
     def get_name(self):
         return "init"
 
@@ -22,18 +26,36 @@ class Command(BaseCommand):
             help='Create package from the template',
             description='Create package from predefined template with given id.'
         )
-        parser.add_argument('task_id', type=str, help='Id of the task to create')
+        parser.add_argument('task_id', type=str, help='id of the task to create')
+        parser.add_argument('-o', '--output', type=str,
+            help='destination directory to copy the template into, defaults to task_id')
+        parser.add_argument('-f', '--force', action='store_true',
+            help='overwrite files in destination directory if they already exist')
+        parser.add_argument('-t', '--template', nargs='+', default=[self.DEFAULT_TEMPLATE, self.DEFAULT_SUBDIR],
+            help='specify template repository or directory, optionally subdirectory after space'
+                f' (default: {self.DEFAULT_TEMPLATE} {self.DEFAULT_SUBDIR})')
+        parser.add_argument('-v', '--verbose', action='store_true')
         return parser
 
-    def download_template(self):
-        repo = 'https://github.com/Stowarzyszenie-Talent/st-make.git'
-        package_dir = 'st-make/example_package'
-        self.used_tmpdir = tempfile.TemporaryDirectory()
-        tmp_dir = self.used_tmpdir.name
-        ret = subprocess.run(['git', 'clone', '-q', '--depth', '1', repo], cwd=tmp_dir)
-        if ret.returncode != 0:
-            util.exit_with_error("Could not access repository. Please try again.")
-        return os.path.join(tmp_dir, package_dir)
+    def download_template(self, tmpdir, template_paths = [DEFAULT_TEMPLATE, DEFAULT_SUBDIR], verbose = False):
+        template = template_paths[0]
+        subdir = template_paths[1] if len(template_paths) > 1 else ''
+
+        is_url = template.startswith(('http://', 'https://', 'ssh://', 'git@', 'file://'))
+        print(('Cloning' if is_url else 'Copying') + ' template ' +
+            (f'{subdir} from {template}' if subdir else f'{template}'))
+        if is_url:
+            ret = subprocess.run(['git', 'clone', '-v' if verbose else '-q', '--depth', '1', template, tmpdir])
+            if ret.returncode != 0:
+                util.exit_with_error("Could not access repository. Please try again.")
+            path = os.path.join(tmpdir, subdir)
+        else:
+            path = os.path.join(tmpdir, 'template')
+            shutil.copytree(os.path.join(template, subdir), path)
+
+        if os.path.exists(os.path.join(path, '.git')):
+            shutil.rmtree(os.path.join(path, '.git'))
+        return path
 
     def move_folder(self):
         mapping = {}
@@ -41,36 +63,55 @@ class Command(BaseCommand):
         for root, dirs, files in os.walk(self.template_dir):
             for directory in dirs:
                 mapping[os.path.join(root, directory)] = os.path.join(mapping[root], directory)
-                os.mkdir(os.path.join(mapping[root], directory))
+                try:
+                    os.mkdir(os.path.join(mapping[root], directory))
+                except FileExistsError:
+                    if not self.force:
+                        raise
             for file in files:
                 dest_filename = file
-                if file[:3] == 'abc':
-                    dest_filename = self.task_id + file[3:]
+                if file[:len(self.TEMPLATE_ID)] == self.TEMPLATE_ID:
+                    dest_filename = self.task_id + file[len(self.TEMPLATE_ID):]
                 shutil.move(os.path.join(root, file), os.path.join(mapping[root], dest_filename))
 
-    def update_config(self):
-        with open(os.path.join(os.getcwd(), 'config.yml')) as config:
-            config_data = config.read()
-        config_data = config_data.replace('sinol_task_id: abc', f'sinol_task_id: {self.task_id}')
+    def update_task_id(self):
+        for root, dirs, files in os.walk(os.getcwd()):
+            for file in files:
+                path = os.path.join(os.getcwd(), root, file)
+                with open(path) as file:
+                    try:
+                        file_data = file.read()
+                    except UnicodeDecodeError:
+                        # ignore non-text files
+                        continue
+                file_data = file_data.replace(self.TEMPLATE_ID, self.task_id)
 
-        with open(os.path.join(os.getcwd(), 'config.yml'), 'w') as config:
-            config.write(config_data)
+                with open(path, 'w') as file:
+                    file.write(file_data)
 
     def run(self, args: argparse.Namespace):
         self.task_id = args.task_id
-        destination = os.path.join(os.getcwd(), args.task_id)
-        if os.path.isdir(destination) or os.path.isfile(destination):
-            util.exit_with_error(f"Cannot create task {args.task_id}, this name is already used in current directory. "
-                                 f"Remove the file/folder with this name or choose another id.")
+        self.force = args.force
+        destination = args.output or self.task_id
+        if not os.path.isabs(destination):
+            destination = os.path.join(os.getcwd(), destination)
+        try:
+            os.mkdir(destination)
+        except FileExistsError:
+            if not args.force:
+                util.exit_with_error(f"Destination {destination} already exists. "
+                                     f"Provide a different task id or directory name, "
+                                     f"or use the --force flag to overwrite.")
+        with tempfile.TemporaryDirectory() as tmpdir:
+            try:
+                self.template_dir = self.download_template(tmpdir, args.template, args.verbose)
 
-        self.template_dir = self.download_template()
+                os.chdir(destination)
 
-        os.mkdir(os.path.join(os.getcwd(), self.task_id))
-        os.chdir(os.path.join(os.getcwd(), self.task_id))
+                self.move_folder()
+                self.update_task_id()
 
-        self.move_folder()
-        self.update_config()
-
-        self.used_tmpdir.cleanup()
-
-        print(util.info(f'Successfully created task "{self.task_id}"'))
+                print(util.info(f'Successfully created task "{self.task_id}"'))
+            except:
+                shutil.rmtree(destination)
+                raise

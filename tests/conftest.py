@@ -7,8 +7,8 @@ import pytest
 import fnmatch
 import multiprocessing as mp
 
-from sinol_make import util
-from sinol_make.helpers import compile, paths
+from sinol_make import sio2jail, util
+from sinol_make.helpers import compile, paths, cache, oicompare
 from sinol_make.interfaces.Errors import CompilationError
 
 
@@ -31,7 +31,7 @@ def pytest_addoption(parser):
     parser.addoption("--github-runner", action="store_true", help="if set, will run tests specified for GitHub runner")
     parser.addoption(
         '--time-tool',
-        choices=['oiejq', 'time'],
+        choices=['sio2jail', 'time'],
         action='append',
         default=[],
         help='Time tool to use. Default: if linux - both, otherwise time'
@@ -48,6 +48,11 @@ def pytest_configure(config):
 
         files_to_compile = []
         for package in packages:
+            cwd = os.getcwd()
+            os.chdir(package)
+            cache.create_cache_dirs()
+            os.chdir(cwd)
+
             if os.path.exists(os.path.join(package, "no-precompile")):
                 print(f'Skipping precompilation for {package} due to no-precompile file')
                 continue
@@ -86,14 +91,16 @@ def pytest_configure(config):
             except FileNotFoundError:
                 pass
 
+    oicompare.check_and_download()
+
 
 def pytest_generate_tests(metafunc):
     if "time_tool" in metafunc.fixturenames:
         time_tools = []
         if metafunc.config.getoption("time_tool") != []:
             time_tools = metafunc.config.getoption("time_tool")
-        elif util.is_linux():
-            time_tools = ["oiejq", "time"]
+        elif sio2jail.sio2jail_supported():
+            time_tools = ["sio2jail", "time"]
         else:
             time_tools = ["time"]
         metafunc.parametrize("time_tool", time_tools)
@@ -110,7 +117,7 @@ def pytest_collection_modifyitems(config, items: List[pytest.Item]):
                 item.add_marker(pytest.mark.skip(reason="only for GitHub runner"))
 
     for item in items:
-        if "oiejq" in item.keywords:
-            if not util.is_linux() or config.getoption("--time-tool") == ["time"] or \
+        if "sio2jail" in item.keywords:
+            if not sio2jail.sio2jail_supported() or config.getoption("--time-tool") == ["time"] or \
                     config.getoption("--github-runner"):
-                item.add_marker(pytest.mark.skip(reason="oiejq required"))
+                item.add_marker(pytest.mark.skip(reason="sio2jail required"))

@@ -36,7 +36,7 @@ def compile_inwer(inwer_path: str, args: argparse.Namespace, compilation_flags='
     compilers = compiler.verify_compilers(args, [inwer_path])
     inwer_exe, compile_log_path = compile.compile_file(inwer_path, package_util.get_executable(inwer_path), compilers,
                                                        compilation_flags, use_fsanitize=use_fsanitize,
-                                                       additional_flags='-D_INWER')
+                                                       additional_flags='-D_INWER', use_extras=False)
 
     if inwer_exe is None:
         compile.print_compile_log(compile_log_path)
@@ -86,8 +86,12 @@ def print_view(term_width, term_height, table_data: TableData):
           " | " + "Output")
     print_line_separator()
 
+    last_group = None
     for test_path in tests:
         result = results[test_path]
+        if last_group is not None and last_group != result.test_group:
+            print_line_separator()
+        last_group = result.test_group
         print(margin + result.test_name.ljust(column_lengths[0]) + " | ", end='')
         print(result.test_group.ljust(column_lengths[1] - 1) + " | ", end='')
 

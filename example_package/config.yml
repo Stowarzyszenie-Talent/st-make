@@ -92,7 +92,7 @@ scores:
 
 # st-make can behave differently depending on the value of `sinol_contest_type` key.
 # Mainly, it affects how points are calculated.
-# If the key is not specified, then (in st-make) `talent` is used. In st-make (OI version) is used 'default'.
+# If the key is not specified, then (in st-make) `talent` is used. In sinol-make (OI version) is used 'default'.
 
 
 ### handwritten tests
@@ -100,7 +100,7 @@ scores:
 # You can specify which tests are static (handwritten). This allows st-make to differentiate between
 # old and handwritten tests. If this key is not present old tests won't be removed.
 # This key is optional and should be a list of tests.
-sinol_static_tests: ["abc0.in", "abc0a.in"]
+sinol_static_tests: ["__ID__0.in", "__ID__0a.in"]
 
 
 ### expected scores

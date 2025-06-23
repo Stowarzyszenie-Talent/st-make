@@ -6,7 +6,7 @@ jobs:
     runs-on: self-hosted
     strategy:
         matrix:
-            python-version: ["3.8", "3.12"]
+            python-version: ["3.9", "3.13"]
     name: pytest-ubuntu-python-${{ matrix.python-version }}
     container:
       image: ubuntu:latest
@@ -38,4 +38,4 @@ jobs:
         env:
           PYTEST_ADDOPTS: "--color=yes"
         run: |
-          python3 -m pytest -v
+          python3 -m pytest -v -n $((`nproc` / 2))

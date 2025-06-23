@@ -3,10 +3,12 @@ from sinol_make.contest_types.icpc import ICPCContest
 from sinol_make.contest_types.oi import OIContest
 from sinol_make.contest_types.talent import TalentContest
 from sinol_make.contest_types.oij import OIJContest
+from sinol_make.helpers.func_cache import cache_result
 from sinol_make.helpers.package_util import get_config
 from sinol_make.interfaces.Errors import UnknownContestType
 
 
+@cache_result(cwd=True)
 def get_contest_type():
     config = get_config()
     contest_type = config.get("sinol_contest_type", "talent").lower()

@@ -58,7 +58,7 @@ def compile_ingen(ingen_path: str, args: argparse.Namespace, compilation_flags='
     compilers = compiler.verify_compilers(args, [ingen_path])
     ingen_exe, compile_log_path = compile.compile_file(ingen_path, package_util.get_executable(ingen_path),
                                                        compilers, compilation_flags, use_fsanitize=use_fsanitize,
-                                                       additional_flags='-D_INGEN')
+                                                       additional_flags='-D_INGEN', use_extras=False)
 
     if ingen_exe is None:
         compile.print_compile_log(compile_log_path)
@@ -100,7 +100,7 @@ def run_ingen(ingen_exe, working_dir=None):
 
     if util.has_sanitizer_error(whole_output, exit_code):
         print(util.warning('Warning: if ingen failed due to sanitizer errors, you can either run '
-                           '`sudo sysctl vm.mmap_rnd_bits = 28` to fix this or disable sanitizers with the '
+                           '`sudo sysctl vm.mmap_rnd_bits=28` to fix this or disable sanitizers with the '
                            '--no-fsanitize flag.'))
 
     return exit_code == 0

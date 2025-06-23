@@ -17,6 +17,7 @@ This tool is a fork of [sinol-make](https://github.com/sio2project/sinol-make), 
 - [Why?](#why)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Contest types](#contest-types)
 - [Reporting bugs and contributing code](#reporting-bugs-and-contributing-code)
 
 ### Why?
@@ -29,7 +30,7 @@ they lack some built-in mechanisms for verifying packages and finding mistakes
 before uploading the package to the judge system.
 As st-make was created specifically for the sio2 problem packages,
 by default it downloads and uses sio2's deterministic mechanism of measuring
-solutions' runtime, called `oiejq`.
+solutions' runtime, called `sio2jail`.
 
 ### Installation
 
@@ -44,7 +45,7 @@ pip3 install st-make
 so make sure this directory is in your `PATH`.
 [Here's](https://gist.github.com/nex3/c395b2f8fd4b02068be37c961301caa7) how to add a directory to `PATH`.
 
-As `oiejq` works only on Linux-based operating systems,
+As `sio2jail` works only on Linux-based operating systems,
 *we do not recommend* using operating systems such as Windows or macOS.
 Nevertheless `st-make` supports those operating systems,
 though there are additional installation steps required to use
@@ -68,8 +69,8 @@ activate-global-python-argcomplete
 The available commands (see `st-make --help`) are:
 
 - `st-make run` -- Runs selected solutions (by default all solutions) on selected tests (by default all tests) with a given number
-of CPUs. Measures the solutions' time with oiejq, unless specified otherwise. After running the solutions, it
-compares the solutions' scores with the ones saved in config.yml. If you're using oiejq, make sure you are not running on efficiency
+of CPUs. Measures the solutions' time with sio2jail, unless specified otherwise. After running the solutions, it
+compares the solutions' scores with the ones saved in config.yml. If you're using sio2jail, make sure you are not running on efficiency
 cpu cores. You can check if you have them [like this](https://stackoverflow.com/a/71282744). To run on normal cpu cores, use
 `taskset -c 8-15 st-make ...`, assuming that cpu cores 8-15 are not efficiency cores.
 Run `st-make run --help` to see available flags.
@@ -88,6 +89,8 @@ program to use, what tests to check and how many CPUs to use. Run `st-make inwer
 - `st-make verify` -- Verifies the package. This command runs stress tests (if available), verifies the config,
 generates tests, generates problem statements, runs inwer and run all solutions. Ingen and inwer are compiled with
 address and UB sanitizers. Run `st-make verify --help` to see all available flags.
+- `st-make chkwer` -- Run checker with model solution and print results. Prints a table with points and checker's comments.
+This command fails if the model solution didn't score maximum points. Run `st-make chkwer --help` to see all available flags.
 - `st-make init [id]` -- Creates package from template [on github](https://github.com/Stowarzyszenie-Talent/st-make/tree/main/example_package) and sets task id to provided `[id]`. Requires an internet connection to run.
 
 You can also run multiple commands at once, for example:
@@ -95,6 +98,32 @@ You can also run multiple commands at once, for example:
 ```shell
 st-make gen prog/abcingen2.cpp inwer --cpus 4 run --tests abc1*.in doc export --no-statement
 ```
+
+There are also available short aliases for the commands:
+- `sinol-make r` for `sinol-make run`
+- `sinol-make g` for `sinol-make gen`
+- `sinol-make i` for `sinol-make inwer`
+- `sinol-make e` for `sinol-make export`
+- `sinol-make d` for `sinol-make doc`
+- `sinol-make v` for `sinol-make verify`
+- `sinol-make c` for `sinol-make chkwer`
+- `sm` for `sinol-make`
+
+### Contest types
+
+`sinol-make` changes its behavior depending on the contest type specified in `config.yml`. You can specify
+the contest type with the `sinol_contest_type` key in config. Here is the table of available contest types and their
+features:
+
+| Feature                                                                                             | `default` | `oi`     | `oij`    | `icpc` |
+|-----------------------------------------------------------------------------------------------------|-----------|----------|----------|--------|
+| Max score                                                                                           | 100       | 100      | 100      | 1      |
+| Default time tool                                                                                   | sio2jail  | sio2jail | sio2jail | time   |
+| Full score if took less than half of the time limit, <br/>otherwise linearly decreasing to 1.       | ❌         | ✔️       | ❌        | ❌      |
+| Full score if took less than the time limit                                                         | ✔️        | ❌        | ✔️       | ✔️     |
+| Scores must sum up to 100                                                                           | ❌         | ✔️       | ✔️       | ❌      |
+| Limits can be set for individual tests                                                              | ✔️        | ❌        | ✔️       | ✔️     |
+| Verifies if tests are named correctly<br/> (letters within groups increase, group numbers increase) | ❌         | ✔️       | ✔️       | ✔️     |
 
 ### Reporting bugs and contributing code
 

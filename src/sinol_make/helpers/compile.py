@@ -14,7 +14,7 @@ from sinol_make.structs.compiler_structs import Compilers
 
 
 def compile(program, output, compilers: Compilers = None, compile_log=None, compilation_flags='default',
-            extra_compilation_args=None, extra_compilation_files=None, is_checker=False, use_fsanitize=False):
+            extra_compilation_args=None, extra_compilation_files=None, clear_cache=False, use_fsanitize=False):
     """
     Compile a program.
     :param program: Path to the program to compile
@@ -24,7 +24,7 @@ def compile(program, output, compilers: Compilers = None, compile_log=None, comp
     :param compilation_flags: Group of compilation flags to use
     :param extra_compilation_args: Extra compilation arguments
     :param extra_compilation_files: Extra compilation files
-    :param is_checker: Set to True if compiling a checker. This will remove all cached test results.
+    :param clear_cache: Set to True if you want to delete all cached test results.
     :param use_fsanitize: Whether to use fsanitize when compiling C/C++ programs. Sanitizes address and undefined behavior.
     """
     if extra_compilation_args is None:
@@ -114,12 +114,12 @@ def compile(program, output, compilers: Compilers = None, compile_log=None, comp
     if process.returncode != 0:
         raise CompilationError('Compilation failed')
     else:
-        save_compiled(program, output, compilation_flags, use_fsanitize, is_checker)
+        save_compiled(program, output, compilation_flags, use_fsanitize, clear_cache)
         return True
 
 
 def compile_file(file_path: str, name: str, compilers: Compilers, compilation_flags='default',
-                 use_fsanitize=False, additional_flags=None) \
+                 use_fsanitize=False, additional_flags=None, use_extras=True) \
         -> Tuple[Union[str, None], str]:
     """
     Compile a file
@@ -129,20 +129,27 @@ def compile_file(file_path: str, name: str, compilers: Compilers, compilation_fl
     :param compilation_flags: Group of compilation flags to use
     :param use_fsanitize: Whether to use fsanitize when compiling C/C++ programs. Sanitizes address and undefined behavior.
     :param additional_flags: Additional flags for c / c++ compiler.
+    :param use_extras: Whether to use extra compilation files and arguments from config
     :return: Tuple of (executable path or None if compilation failed, log path)
     """
-    os.makedirs(paths.get_executables_path(), exist_ok=True)
-    os.makedirs(paths.get_compilation_log_path(), exist_ok=True)
-
     config = package_util.get_config()
 
-    extra_compilation_files = [os.path.join(os.getcwd(), "prog", file)
-                               for file in config.get("extra_compilation_files", [])]
-    lang = os.path.splitext(file_path)[1][1:]
-    args = config.get('extra_compilation_args', {}).get(lang, [])
-    if isinstance(args, str):
-        args = [args]
-    extra_compilation_args = [os.path.join(os.getcwd(), "prog", file) for file in args]
+    extra_compilation_args = []
+    extra_compilation_files = []
+    if use_extras:
+        lang = os.path.splitext(file_path)[1][1:]
+        args = config.get("extra_compilation_args", {}).get(lang, [])
+        if isinstance(args, str):
+            args = [args]
+        for arg in args:
+            path = os.path.join(os.getcwd(), "prog", arg)
+            if os.path.exists(path):
+                extra_compilation_args.append(path)
+            else:
+                extra_compilation_args.append(arg)
+
+        for file in config.get("extra_compilation_files", []):
+            extra_compilation_files.append(os.path.join(os.getcwd(), "prog", file))
     if additional_flags is not None:
         extra_compilation_args.append(additional_flags)
 

@@ -74,6 +74,7 @@ def exit_if_not_package():
     """
     if not find_and_chdir_package():
         exit_with_error('You are not in a package directory (couldn\'t find config.yml in current directory).')
+    cache.create_cache_dirs()
     cache.check_can_access_cache()
 
 
@@ -90,9 +91,11 @@ def save_config(config):
         "title_en",
         "sinol_task_id",
         "sinol_contest_type",
+        "sinol_latex_compiler",
         "sinol_static_tests",
         "sinol_undocumented_time_tool",
         "sinol_undocumented_test_limits",
+        "num_processes",
         "memory_limit",
         "memory_limits",
         "time_limit",
@@ -105,6 +108,10 @@ def save_config(config):
         },
         {
             "key": "extra_compilation_args",
+            "default_flow_style": None
+        },
+        {
+            "key": "extra_execution_files",
             "default_flow_style": None
         },
         {
@@ -219,7 +226,6 @@ def check_version():
     except PermissionError:
         if find_and_chdir_package():
             try:
-                os.makedirs(paths.get_cache_path(), exist_ok=True)
                 with open(paths.get_cache_path("st_make_version"), "w") as f:
                     f.write(latest_version)
             except PermissionError:
@@ -239,15 +245,6 @@ def lines_diff(lines1, lines2):
             return False
 
     return True
-
-
-def file_diff(file1_path, file2_path):
-    """
-    Function to compare two files.
-    Returns True if they are the same, False otherwise.
-    """
-    with open(file1_path) as file1, open(file2_path) as file2:
-        return lines_diff(file1.readlines(), file2.readlines())
 
 
 def get_terminal_size():
@@ -316,9 +313,9 @@ def is_wsl():
 
 def is_linux():
     """
-    Function to check if the program is running on Linux and not WSL.
+    Function to check if the program is running on Linux (including WSL).
     """
-    return sys.platform == "linux" and not is_wsl()
+    return sys.platform == "linux"
 
 
 def is_macos():

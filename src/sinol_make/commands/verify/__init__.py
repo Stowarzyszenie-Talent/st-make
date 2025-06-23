@@ -5,7 +5,7 @@ import argparse
 import subprocess
 
 from sinol_make import util, contest_types
-from sinol_make.helpers import parsers, package_util, paths
+from sinol_make.helpers import parsers, package_util, paths, cache
 from sinol_make.interfaces.BaseCommand import BaseCommand
 from sinol_make.commands.gen import Command as GenCommand
 from sinol_make.commands.doc import Command as DocCommand
@@ -20,6 +20,9 @@ class Command(BaseCommand):
 
     def get_name(self):
         return "verify"
+
+    def get_short_name(self):
+        return "v"
 
     def configure_subparser(self, subparser):
         parser = subparser.add_parser(
@@ -38,11 +41,14 @@ class Command(BaseCommand):
                             help='expected contest type. Fails if the actual contest type is different.')
         parser.add_argument('-f', '--no-fsanitize', action='store_true', default=False,
                              help='do not use sanitizers for ingen and inwer programs')
+        parser.add_argument('-n', '--no-validate', default=False, action='store_true',
+                            help='do not validate test contents')
         parsers.add_cpus_argument(parser, 'number of cpus that st-make will use')
         parser.add_argument('--ignore-expected', dest='ignore_expected', action='store_true',
                             help='ignore expected scores from config.yml. When this flag is set, '
                                  'the expected scores are not compared with the actual scores. '
                                  'This flag will be passed to the run command.')
+        parsers.add_time_tool_argument(parser)
         parsers.add_compilation_arguments(parser)
 
     def correct_contest_type(self):
@@ -53,11 +59,12 @@ class Command(BaseCommand):
 
     def remove_cache(self):
         """
-        Remove whole cache dir
+        Remove whole cache dir, but keep the directories.
         """
         cache_dir = paths.get_cache_path()
         if os.path.exists(cache_dir):
             shutil.rmtree(cache_dir)
+        cache.create_cache_dirs()
 
     def check_extra_files(self):
         """
