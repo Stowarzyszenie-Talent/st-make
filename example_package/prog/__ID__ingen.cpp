@@ -16,7 +16,7 @@ oi::Random rng;
 
 // Set task id!
 const string get_task_id() {
-    return "abc";
+    return "__ID__";
 }
 
 struct TestName {
