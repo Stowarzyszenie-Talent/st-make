@@ -1,6 +1,6 @@
 title: Przykładowy tytuł zadania
 
-sinol_task_id: abc
+sinol_task_id: __ID__
 
 sinol_contest_type: talent
 
@@ -27,9 +27,9 @@ scores:
 # All languages have the same additional files.
 
 # extra_compilation_args:
-#   cpp: ['abclib.cpp']
+#   cpp: ['__ID__lib.cpp']
 
-# extra_compilation_files: ['abclib.cpp', 'abclib.h']
+# extra_compilation_files: ['__ID__lib.cpp', '__ID__lib.h']
 
 
 ### Time
@@ -78,7 +78,7 @@ scores:
 
 ### Task ID
 
-# sinol_task_id: abc
+# sinol_task_id: __ID__
 
 # This key represents the short name (consisting of 3 letters) of the task.
 # The names of files in `prog/`, `doc/`, `in/` and `out/` directories have to start with this task id.
