@@ -100,18 +100,18 @@ st-make gen prog/abcingen2.cpp inwer --cpus 4 run --tests abc1*.in doc export --
 ```
 
 There are also available short aliases for the commands:
-- `sinol-make r` for `sinol-make run`
-- `sinol-make g` for `sinol-make gen`
-- `sinol-make i` for `sinol-make inwer`
-- `sinol-make e` for `sinol-make export`
-- `sinol-make d` for `sinol-make doc`
-- `sinol-make v` for `sinol-make verify`
-- `sinol-make c` for `sinol-make chkwer`
-- `sm` for `sinol-make`
+- `st-make r` for `st-make run`
+- `st-make g` for `st-make gen`
+- `st-make i` for `st-make inwer`
+- `st-make e` for `st-make export`
+- `st-make d` for `st-make doc`
+- `st-make v` for `st-make verify`
+- `st-make c` for `st-make chkwer`
+- `stm` for `st-make`
 
 ### Contest types
 
-`sinol-make` changes its behavior depending on the contest type specified in `config.yml`. You can specify
+`st-make` changes its behavior depending on the contest type specified in `config.yml`. You can specify
 the contest type with the `sinol_contest_type` key in config. Here is the table of available contest types and their
 features:
 

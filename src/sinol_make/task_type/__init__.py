@@ -174,7 +174,7 @@ class BaseTaskType(RegisteredSubclassesBase):
             return False, Fraction(0, 1), output.decode('utf-8').strip()
         else:
             raise CheckerException(f"!!! oicompare failed with code {proc.returncode}. This is a huge bug, please report"
-                                   f" it here https://github.com/sio2project/sinol-make/issues/new/choose and provide "
+                                   f" it here https://github.com/Stowarzyszenie-Talent/st-make/issues/new/choose and provide "
                                    f"these files: {output_file_path}, {answer_file_path}.\n"
                                    f"Output: {output.decode('utf-8').strip()}\n"
                                    f"Stderr: {stderr.decode('utf-8').strip()}")
