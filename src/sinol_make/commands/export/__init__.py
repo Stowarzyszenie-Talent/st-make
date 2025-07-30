@@ -36,6 +36,8 @@ class Command(BaseCommand):
                             help='allow export without statement')
         parser.add_argument('--export-ocen', dest='export_ocen', action='store_true',
                             help='Create ocen archive')
+        parser.add_argument('--no-ocen', dest='no_ocen', action='store_true',
+                            help="Don't create ocen archive")
         parsers.add_compilation_arguments(parser)
         return parser
 
@@ -185,7 +187,7 @@ class Command(BaseCommand):
 
         if self.task_type_cls.run_outgen():
             self.generate_output_files()
-        if self.args.export_ocen:
+        if self.args.export_ocen and not getattr(self.args, 'no_ocen', False):
             self.create_ocen(target_dir)
 
     def clear_files(self, target_dir: str):
