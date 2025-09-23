@@ -26,6 +26,7 @@
 \RequirePackage{xstring}
 \RequirePackage{xparse}
 \RequirePackage{environ}
+\RequirePackage{lmodern}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Pliki w paczce
