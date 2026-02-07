@@ -26,7 +26,8 @@
 \RequirePackage{xstring}
 \RequirePackage{xparse}
 \RequirePackage{environ}
-\RequirePackage{lmodern}
+%\RequirePackage{lmodern}
+\RequirePackage{newtxtext,newtxmath}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Pliki w paczce
