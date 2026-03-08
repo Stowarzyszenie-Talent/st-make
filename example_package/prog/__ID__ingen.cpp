@@ -4,11 +4,11 @@
 #undef cout
 #undef printf
 #define GEN_TEST(seed, code) gen_test(current_test++, seed, [&]() -> void { code; });
-#define GEN_TEST_RESEED(code) gen_test_reseed(current_test++, []() -> void { code; });
+#define GEN_TEST_RESEED(code) gen_test_reseed(current_test++, [&]() -> void { code; });
 #define GEN_TEST_GROUP(group, seed, code) \
 current_test.set_group(group); gen_test(current_test++, seed, [&]() -> void { code; });
 #define GEN_TEST_RESEED_GROUP(group, code) \
-current_test.set_group(group); gen_test_reseed(current_test++, []() -> void { code; });
+current_test.set_group(group); gen_test_reseed(current_test++, [&]() -> void { code; });
 #define ocen -1
 
 using namespace std;
